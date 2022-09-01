@@ -52,7 +52,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL :  '/api/users'
+  * URL :  '/api/session'
   * Body: none
 
 * Successful Response
@@ -384,7 +384,7 @@ Creates and returns a new spot.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL :  '/api/spots/new'
+  * URL :  '/api/spots'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -632,7 +632,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL :  '/api/users/:userId/reviews'
+  * URL :  '/api/reviews/:userId'
   * Body: none
 
 * Successful Response
@@ -990,7 +990,7 @@ Return all the bookings that the current user has made.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL :  '/api/users/:userId/bookings'
+  * URL :  '/api/bookings/current'
   * Body: none
 
 * Successful Response
@@ -1104,7 +1104,7 @@ Create and return a new booking from a spot specified by id.
 * Require proper authorization: Spot must NOT belong to the current user
 * Request
   * Method: POST
-  * URL :  '/api/spots/:spotId/bookings/new'
+  * URL :  '/api/spots/:spotId/bookings'
   * Body:
 
     ```json
@@ -1186,7 +1186,7 @@ Update and return an existing booking.
 * Require proper authorization: Booking must belong to the current user
 * Request
   * Method: PUT
-  * URL :  '/api/users/bookings/:bookingId'
+  * URL :  '/api/bookings/:bookingId/current'
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1284,7 +1284,7 @@ Delete an existing booking.
   Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL :  '/api/users/bookings/:bookingId'
+  * URL :  '/api/bookings/:bookingId/current'
   * Body: none
 
 * Successful Response
