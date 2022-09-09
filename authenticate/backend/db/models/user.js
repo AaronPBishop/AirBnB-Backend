@@ -5,7 +5,6 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-
     toSafeObject() {
       const { id, username, email } = this;
       return { id, username, email };
