@@ -146,7 +146,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL :  '/api/users/new'
+  * URL :  '/api/users'
   * Headers:
     * Content-Type: application/json
   * Body:

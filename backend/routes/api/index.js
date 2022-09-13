@@ -4,7 +4,6 @@ const usersRouter = require('./users.js');
 
 const { restoreUser } = require("../../utils/auth.js");
 
-
 router.use(restoreUser);
 
 router.use('/session', sessionRouter);
