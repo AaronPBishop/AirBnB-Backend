@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
-      Spot.hasMany(models.Image, { foreignKey: 'spotId' });
-      Spot.hasMany(models.Review, { foreignKey: 'spotId' });
-      Spot.belongsTo(models.User);
+      Spot.hasMany(models.Booking, { foreignKey: 'spotId', onDelete: 'CASCADE' });
+      Spot.hasMany(models.Image, { as: 'SpotImages', foreignKey: 'spotId', onDelete: 'CASCADE' });
+      Spot.hasMany(models.Review, { as: 'Reviews', foreignKey: 'spotId', onDelete: 'CASCADE' });
+      Spot.belongsTo(models.User, { as: 'Owner', foreignKey: 'ownerId', constraints: false });
     }
   }
   Spot.init({
@@ -24,19 +24,39 @@ module.exports = (sequelize, DataTypes) => {
     address: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        notEmpty: {
+          msg: 'Street address is required'
+        },
+      },
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'City is required'
+        },
+      },
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'State is required'
+        },
+      },
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Country is required'
+        },
+      },
     },
     lat: {
       type: DataTypes.DECIMAL,
@@ -54,18 +74,41 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [2, 49],
+        notEmpty: {
+          msg: 'Name cannot be empty'
+        },
+        validLength(name) {
+          if (name.length > 49) throw new Error('Name must be less than 50 characters');
+        },
+      },
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Description is required'
+        },
+      }
     },
     price: {
       type: DataTypes.DECIMAL,
       allowNull: false,
       validate: {
-        isDecimal: true
+        isDecimal: true,
+        notEmpty: {
+          msg: 'Price per day is required'
+        },
       }
+    },
+    avgRating: {
+      type: DataTypes.DECIMAL
+    },
+    previewImage: {
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
