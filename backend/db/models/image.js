@@ -4,38 +4,29 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Image extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      Image.belongsTo(models.User)
-      Image.belongsTo(models.Spot)
-      Image.belongsTo(models.Review)
+      Image.belongsTo(models.User, { foreignKey: 'userId', constraints: false })
+      Image.belongsTo(models.Spot, { foreignKey: 'spotId', constraints: false })
+      Image.belongsTo(models.Review, { foreignKey: 'reviewId', constraints: false })
     }
   }
   Image.init({
     userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
     },
     spotId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
     },
     reviewId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    preview: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
+      type: DataTypes.INTEGER
     },
     url: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    preview: {
+      type: DataTypes.BOOLEAN,
+    },
   }, {
     sequelize,
     modelName: 'Image',
