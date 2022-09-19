@@ -28,7 +28,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len:[2, 1000]
+        len:[2, 1000],
+        notEmpty: {
+          msg: 'Review text is required'
+        },
       }
     },
     stars: {

@@ -3,7 +3,6 @@ const express = require('express');
 const { Spot, Image, User, Review, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth.js');
 const { Op, json } = require('sequelize');
-const image = require('../../db/models/image');
 
 const router = express.Router();
 
@@ -34,7 +33,7 @@ router.post('/', requireAuth, async (req, res, next) => {
             price
         });
 
-        return res.json(newSpot);
+        return res.status(201).json(newSpot);
     } catch (e) {
         e.status = 400;
         next(e);
@@ -218,7 +217,9 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 
 // Create a review for a spot based on spotId
 router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+    const { review, stars } = req.body;
     const spotId = await Spot.findByPk(req.params.spotId);
+
     const spotReviews = await Review.findAll({
         where: { spotId: req.params.spotId }
     });
@@ -230,16 +231,27 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
         if (review.userId === req.user.id) return res.status(403).json({"message": "You can only post one review per spot", "statusCode": 403});
     });
 
-    const spotAssociation = req.params.spotId;
-    const userAssociation = req.user.id;
-    const newReview = await Review.create({
-        userId: userAssociation,
-        spotId: spotAssociation,
-        review: req.body.review,
-        stars: req.body.stars
-    });
+    if (stars === null || typeof stars !== 'number' || stars < 1 || stars > 5) {
+        const err = new Error('Validation error');
+        err.status = 400;
+        err.title = 'Validation error';
+        err.errors = ['Stars must be an integer from 1 to 5'];
+        return next(err);
+    };
 
-    return res.json(newReview);
+    try {
+        const newReview = await Review.create({
+            userId: req.user.id,
+            spotId: req.params.spotId,
+            review,
+            stars
+        });
+
+        return res.json(newReview);
+    } catch (e) {
+        e.status = 400;
+        next(e);
+    };
 });
 
 // Add an image to a spot based on spotId
@@ -249,9 +261,12 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
     "statusCode": 404});
 
-    const spotAssociation = req.params.spotId;
+    if (req.user.id !== spotId.ownerId) return res.status(403).json({"message": "You must own this spot to post an image",
+    "statusCode": 403});
+
     const newImage = await Image.create({
-        spotId: spotAssociation,
+        userId: req.user.id,
+        spotId: req.params.spotId,
         url: req.body.url,
         preview: req.body.previewImage
     });
@@ -272,16 +287,17 @@ router.delete('/:spotId/images/:imageId', requireAuth, async (req, res) => {
         }
     });
 
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
+    "statusCode": 404});
+
     if (!imageToDelete) return res.status(404).json({"message": "Spot Image couldn't be found",
     "statusCode": 404});
 
     if (req.user.id !== spotId.ownerId) return res.status(200).json({"message": "Spot must belong to the current user in order to delete an image", "statuscode": 403});
 
-    if (req.user.id === spotId.ownerId) {
-        await imageToDelete.destroy();
+    await imageToDelete.destroy();
 
-        return res.status(200).json({"message": "Successfully deleted", "statuscode": 200});
-    };
+    return res.status(200).json({"message": "Successfully deleted", "statuscode": 200});
 });
 
 module.exports = router;

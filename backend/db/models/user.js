@@ -65,20 +65,29 @@ module.exports = (sequelize, DataTypes) => {
         isNotEmail(str) {
           if (Validator.isEmail(str)) throw new Error("Username cannot be an email.");
         },
+        notEmpty: {
+          msg: 'Username is required'
+        },
       },
     },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [2, 20]
+        len: [2, 20],
+        notEmpty: {
+          msg: 'First name is required'
+        },
       }
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [2, 30]
+        len: [2, 30],
+        notEmpty: {
+          msg: 'Last name is required'
+        },
       }
     },
     email: {
@@ -88,7 +97,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         min: 3,
         max: 256,
-        isEmail: true
+        isEmail: true,
+        notEmpty: {
+          msg: 'Email is required'
+        },
       }
     },
     hashedPassword: {

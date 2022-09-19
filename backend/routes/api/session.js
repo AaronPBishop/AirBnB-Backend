@@ -39,6 +39,22 @@ router.post('/', validateLogin, async (req, res, next) => {
       return next(err);
     };
 
+    if (!credential.length) {
+      const err = new Error('Validation error');
+      err.status = 400;
+      err.title = 'Login failed';
+      err.errors = ['Email or username is required'];
+      return next(err);
+    };
+
+    if (!password.length) {
+      const err = new Error('Validation error');
+      err.status = 400;
+      err.title = 'Login failed';
+      err.errors = ['Password is required'];
+      return next(err);
+    }
+
     await setTokenCookie(res, user);
 
     return res.json({ user });
