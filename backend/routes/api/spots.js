@@ -7,8 +7,29 @@ const router = express.Router();
 
 // Get All Spots
 router.get('/', async (req, res) => {
+    let { page, size } = req.query;
+
+    let queryParams = ['minLat', 'maxLat', 'minLng', 'maxLng', 'minPrice', 'maxPrice']
+
+    if (!page || isNaN(page) || page <= 0) page = 0;
+    if (!size || isNaN(size) || size <= 0) size = 20;
+
+    if (size > 20) size = 20;
+
+    page = Number(page);
+    size = Number(size);
+
+    const where = {};
+
+    for (let query in req.query) {
+        if (queryParams.includes(query)) where[query] = query;
+    };
+
     const returnSpots = await Spot.findAll({
-        attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage']
+        where,
+        attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage'],
+        limit: size,
+        offset: size * (page - 1)
     });
 
     for (let spot of returnSpots) {
@@ -25,7 +46,7 @@ router.get('/', async (req, res) => {
         spot.avgRating = Number(avgRating.toFixed(1));
     };
 
-    return res.json({ Spots: returnSpots });
+    return res.json({ Spots: returnSpots, page, size });
 });
 
 // Create a spot
