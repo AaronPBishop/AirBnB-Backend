@@ -53,7 +53,7 @@ router.post('/', validateLogin, async (req, res, next) => {
       err.title = 'Login failed';
       err.errors = ['Password is required'];
       return next(err);
-    }
+    };
 
     await setTokenCookie(res, user);
 

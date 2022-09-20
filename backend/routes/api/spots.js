@@ -2,13 +2,28 @@ const express = require('express');
 
 const { Spot, Image, User, Review, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth.js');
-const { Op, json } = require('sequelize');
 
 const router = express.Router();
 
 // Get All Spots
 router.get('/', async (req, res) => {
-    const returnSpots = await Spot.findAll();
+    const returnSpots = await Spot.findAll({
+        attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage']
+    });
+
+    for (let spot of returnSpots) {
+        const reviews = await Review.findAll({
+            where: { spotId: spot.id }
+        });
+
+        let avgRating = 0;
+
+        reviews.forEach(review => avgRating += review.stars);
+
+        avgRating = (avgRating / reviews.length);
+
+        spot.avgRating = Number(avgRating.toFixed(1));
+    };
 
     return res.json({ Spots: returnSpots });
 });
@@ -40,12 +55,46 @@ router.post('/', requireAuth, async (req, res, next) => {
     };
 });
 
+// Get all spots owned by the current user
+router.get('/current', requireAuth, async (req, res) => {
+    const userSpots = await Spot.findAll({
+        where: { ownerId: req.user.id },
+        attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage']
+    });
+
+    for (let spot of userSpots) {
+        const reviews = await Review.findAll({
+            where: { spotId: spot.id }
+        });
+
+        let avgRating = 0;
+
+        reviews.forEach(review => avgRating += review.stars);
+
+        avgRating = (avgRating / reviews.length);
+
+        spot.avgRating = Number(avgRating.toFixed(1));
+    };
+
+    return res.json({ Spots: userSpots });
+});
+
 // Get a spot based on spotId
 router.get('/:spotId', async (req, res) => {
     const spotId = await Spot.findByPk(req.params.spotId);
 
     if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
     "statusCode": 404});
+
+    const reviews = await Review.findAll({
+        where: { spotId: req.params.spotId }
+    });
+
+    let avgRating = 0;
+
+    reviews.forEach(review => avgRating += review.stars);
+
+    avgRating = (avgRating / reviews.length);
     
     const specifiedSpot = await Spot.findOne({
         where: { id: req.params.spotId },
@@ -63,6 +112,9 @@ router.get('/:spotId', async (req, res) => {
             }
         ],
     });
+
+    specifiedSpot.numReviews = reviews.length;
+    specifiedSpot.avgRating = Number(avgRating.toFixed(1));
 
     return res.json(specifiedSpot);
 });
@@ -110,17 +162,6 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     await spotId.destroy();
 
     return res.status(200).json({"message": "Successfully deleted", "statusCode": 200});
-});
-
-// Get all spots owned by the current user
-router.get('/current/:userId', requireAuth, async (req, res) => {
-    const userId = req.params.userId;
-
-    const userSpots = await Spot.findAll({
-        where: { ownerId: {[Op.in]: [userId]} }
-    });
-
-    return res.json({ Spots: userSpots });
 });
 
 // Get all bookings for a spot based on spotId
@@ -199,13 +240,13 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
             endDate
         });
     
-        spotBookings.forEach(booking => {
+        for (let booking of spotBookings) {
             if (newBooking.startDate === booking.startDate && newBooking.endDate === booking.endDate) return res.status(403).json({"message": "Sorry, this spot is already booked for the specified dates", "statusCode": 403});
 
             if (newBooking.startDate === booking.startDate || newBooking.startDate >= booking.startDate && newBooking.startDate <= booking.endDate) return res.status(403).json({"message": "Start date conflicts with an existing booking", "statusCode": 403});
     
             if (newBooking.endDate === booking.endDate || newBooking.endDate <= booking.endDate && newBooking.endDate >= booking.startDate) return res.status(403).json({"message": "End date conflicts with an existing booking", "statusCode": 403});
-        });
+        };
     
         await newBooking.save();
         return res.json(newBooking);
@@ -227,9 +268,9 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
     "statusCode": 404});
 
-    spotReviews.forEach(review => {
+    for (let review of spotReviews) {
         if (review.userId === req.user.id) return res.status(403).json({"message": "You can only post one review per spot", "statusCode": 403});
-    });
+    };
 
     if (stars === null || typeof stars !== 'number' || stars < 1 || stars > 5) {
         const err = new Error('Validation error');

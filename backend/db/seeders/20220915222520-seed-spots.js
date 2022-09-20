@@ -14,7 +14,6 @@ module.exports = {
         name: 'Denver Spot',
         description: 'A nice spot',
         price: 99.95,
-        avgRating: 3.2,
         previewImage: 'http://google.com/images/spot1'
       },
       {
@@ -28,7 +27,6 @@ module.exports = {
         name: 'Honolulu Spot',
         description: 'A great spot',
         price: 499.99,
-        avgRating: 5.0,
         previewImage: 'http://google.com/images/spot2'
       },
       {
@@ -42,7 +40,6 @@ module.exports = {
         name: 'Florida Spot',
         description: 'A good spot',
         price: 199.99,
-        avgRating: 4.3,
         previewImage: 'http://google.com/images/spot3'
       }
     ], {});

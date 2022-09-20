@@ -104,6 +104,9 @@ module.exports = (sequelize, DataTypes) => {
         },
       }
     },
+    numReviews: {
+      type: DataTypes.INTEGER
+    },
     avgRating: {
       type: DataTypes.DECIMAL
     },

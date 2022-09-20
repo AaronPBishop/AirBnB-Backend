@@ -11,6 +11,11 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const { startDate, endDate } = req.body;
 
     const bookingToUpdate = await Booking.findByPk(req.params.bookingId);
+    const savedStartDate = bookingToUpdate.startDate;
+    const savedEndDate = bookingToUpdate.endDate;
+
+    bookingToUpdate.startDate = startDate;
+    bookingToUpdate.endDate = endDate;
 
     if (!bookingToUpdate) return res.status(404).json({"message": "Booking couldn't be found", "statusCode": 404});
 
@@ -23,13 +28,28 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
         where: { spotId: relevantBookingsId }
     });
     
-    allBookings.forEach(booking => {
-        if (startDate === booking.startDate && endDate === booking.endDate) return res.status(403).json({"message": "Sorry, this spot is already booked for the specified dates", "statusCode": 403});
+    for (let booking of allBookings) {
+        if (startDate === booking.startDate && endDate === booking.endDate){
+            bookingToUpdate.startDate = savedStartDate;
+            bookingToUpdate.endDate = savedEndDate;
 
-        if (startDate === booking.startDate || startDate >= booking.startDate && startDate <= booking.endDate) return res.status(403).json({"message": "Start date conflicts with an existing booking", "statusCode": 403});
+            return res.status(403).json({"message": "Sorry, this spot is already booked for the specified dates", "statusCode": 403});
+        };
 
-        if (endDate === booking.endDate || endDate <= booking.endDate && endDate >= booking.startDate) return res.status(403).json({"message": "End date conflicts with an existing booking", "statusCode": 403});
-    });
+        if (startDate === booking.startDate || startDate >= booking.startDate && startDate <= booking.endDate) {
+            bookingToUpdate.startDate = savedStartDate;
+            bookingToUpdate.endDate = savedEndDate;
+
+            return res.status(403).json({"message": "Start date conflicts with an existing booking", "statusCode": 403});
+        };
+
+        if (endDate === booking.endDate || endDate <= booking.endDate && endDate >= booking.startDate) {
+            bookingToUpdate.startDate = savedStartDate;
+            bookingToUpdate.endDate = savedEndDate;
+            
+            return res.status(403).json({"message": "End date conflicts with an existing booking", "statusCode": 403});
+        };
+    };
 
     try {
         await bookingToUpdate.update({ startDate, endDate });
