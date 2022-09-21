@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
-    let queryParams = ['minLat', 'maxLat', 'minLng', 'maxLng', 'minPrice', 'maxPrice'];
+    let queryParams = [minLat, maxLat, minLng, maxLng, minPrice, maxPrice];
 
     page = Number(page);
     size = Number(size);
@@ -21,14 +21,13 @@ router.get('/', async (req, res) => {
 
     let offset;
     if (page > 0 && size > 0) offset = (size * (page - 1))
-    else offset = 1;
+    else offset = 0;
 
     const query = { where: {} };
 
     console.log(req.query)
-    for (let query in req.query) {
-        
-        if (queryParams.includes(query)) where[query] = query;
+    for (let param of queryParams) {
+        if (param) where[query] = query;
     };
 
     const returnSpots = await Spot.findAll({
@@ -246,7 +245,6 @@ router.get('/:spotId/reviews', async (req, res) => {
 });
 
 // Create a booking for a spot based on spotId 
-// ** Verify Dates Working **
 router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const spotId = await Spot.findByPk(req.params.spotId);
