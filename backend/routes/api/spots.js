@@ -7,29 +7,35 @@ const router = express.Router();
 
 // Get All Spots
 router.get('/', async (req, res) => {
-    let { page, size } = req.query;
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
-    let queryParams = ['minLat', 'maxLat', 'minLng', 'maxLng', 'minPrice', 'maxPrice']
+    let queryParams = ['minLat', 'maxLat', 'minLng', 'maxLng', 'minPrice', 'maxPrice'];
+
+    page = Number(page);
+    size = Number(size);
 
     if (!page || isNaN(page) || page <= 0) page = 0;
     if (!size || isNaN(size) || size <= 0) size = 20;
 
     if (size > 20) size = 20;
 
-    page = Number(page);
-    size = Number(size);
+    let offset;
+    if (page > 0 && size > 0) offset = (size * (page - 1))
+    else offset = 1;
 
-    const where = {};
+    const query = { where: {} };
 
+    console.log(req.query)
     for (let query in req.query) {
+        
         if (queryParams.includes(query)) where[query] = query;
     };
 
     const returnSpots = await Spot.findAll({
-        where,
+        query,
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage'],
         limit: size,
-        offset: size * (page - 1)
+        offset
     });
 
     for (let spot of returnSpots) {
@@ -262,11 +268,11 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         });
     
         for (let booking of spotBookings) {
-            if (newBooking.startDate === booking.startDate && newBooking.endDate === booking.endDate) return res.status(403).json({"message": "Sorry, this spot is already booked for the specified dates", "statusCode": 403});
+            if (newBooking.startDate.getTime() === booking.startDate.getTime() && newBooking.endDate.getTime() === booking.endDate.getTime()) return res.status(403).json({"message": "Sorry, this spot is already booked for the specified dates", "statusCode": 403});
 
-            if (newBooking.startDate === booking.startDate || newBooking.startDate >= booking.startDate && newBooking.startDate <= booking.endDate) return res.status(403).json({"message": "Start date conflicts with an existing booking", "statusCode": 403});
+            if (newBooking.startDate >= booking.startDate && newBooking.startDate <= booking.endDate) return res.status(403).json({"message": "Start date conflicts with an existing booking", "statusCode": 403});
     
-            if (newBooking.endDate === booking.endDate || newBooking.endDate <= booking.endDate && newBooking.endDate >= booking.startDate) return res.status(403).json({"message": "End date conflicts with an existing booking", "statusCode": 403});
+            if (newBooking.endDate <= booking.endDate && newBooking.endDate >= booking.startDate) return res.status(403).json({"message": "End date conflicts with an existing booking", "statusCode": 403});
         };
     
         await newBooking.save();

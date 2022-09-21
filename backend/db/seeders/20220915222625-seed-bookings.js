@@ -1,4 +1,9 @@
 'use strict';
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const tomorrow = new Date();
+tomorrow.setHours(24, 0, 0, 0);
 
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -6,20 +11,20 @@ module.exports = {
       {
         spotId: 1,
         userId: 1,
-        startDate: new Date(),
-        endDate: new Date()
+        startDate: today,
+        endDate: tomorrow
       },
       {
         spotId: 2,
         userId: 2,
-        startDate: new Date(),
-        endDate: new Date()
+        startDate: today,
+        endDate: tomorrow
       },
       {
         spotId: 3,
         userId: 3,
-        startDate: new Date(),
-        endDate: new Date()
+        startDate: today,
+        endDate: tomorrow
       }
     ], {});
   },
