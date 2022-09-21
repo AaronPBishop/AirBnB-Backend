@@ -23,15 +23,40 @@ router.get('/', async (req, res) => {
     if (page > 0 && size > 0) offset = (size * (page - 1))
     else offset = 0;
 
-    const query = { where: {} };
+    const where = {};
 
-    console.log(req.query)
-    for (let param of queryParams) {
-        if (param) where[query] = query;
+    queryParams.forEach(query => {
+        if (query !== null && where[query] === undefined) where[query] = query;
+    });
+
+    const whereValues = Object.values(where);
+
+    if (whereValues.length) {
+        const returnSpots = await Spot.findAll({
+            attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage'],
+            limit: size,
+            offset
+        });
+    
+        for (let spot of returnSpots) {
+            const reviews = await Review.findAll({
+                where: { spotId: spot.id }
+            });
+    
+            let avgRating = 0;
+    
+            reviews.forEach(review => avgRating += review.stars);
+    
+            avgRating = (avgRating / reviews.length);
+    
+            spot.avgRating = Number(avgRating.toFixed(1));
+        };
+    
+        return res.json({ Spots: returnSpots, page, size });
     };
 
     const returnSpots = await Spot.findAll({
-        query,
+        where,
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage'],
         limit: size,
         offset
