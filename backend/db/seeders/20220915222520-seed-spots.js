@@ -13,8 +13,7 @@ module.exports = {
         lng: 22.2222,
         name: 'Denver Spot',
         description: 'A nice spot',
-        price: 99.95,
-        previewImage: 'http://google.com/images/spot1'
+        price: 99.95
       },
       {
         ownerId: 2,
@@ -26,8 +25,7 @@ module.exports = {
         lng: 33.3333,
         name: 'Honolulu Spot',
         description: 'A great spot',
-        price: 499.99,
-        previewImage: 'http://google.com/images/spot2'
+        price: 499.99
       },
       {
         ownerId: 3,
@@ -39,8 +37,7 @@ module.exports = {
         lng: 44.4444,
         name: 'Florida Spot',
         description: 'A good spot',
-        price: 199.99,
-        previewImage: 'http://google.com/images/spot3'
+        price: 199.99
       }
     ], {});
   },

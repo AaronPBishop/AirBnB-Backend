@@ -1284,7 +1284,7 @@ Delete an existing booking.
   Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL :  '/api/bookings/:bookingId/current'
+  * URL :  '/api/bookings/:bookingId'
   * Body: none
 
 * Successful Response

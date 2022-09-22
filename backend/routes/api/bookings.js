@@ -19,9 +19,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     if (bookingToUpdate.endDate < new Date()) return res.status(403).json({"message": "Past bookings can't be modified", "statusCode": 403});
 
     const relevantBookingsId = bookingToUpdate.spotId;
-    const allBookings = await Booking.findAll({
-        where: { spotId: relevantBookingsId }
-    });
+    const allBookings = await Booking.findAll({ where: { spotId: relevantBookingsId } });
 
     const startDateObj = new Date(startDate);
     const endDateObj = new Date(endDate);
@@ -44,22 +42,7 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     };
 });
 
-// Get all of the user's current bookings
-router.get('/current', requireAuth, async (req, res) => {
-    const userBookings = await Booking.findAll({
-        where: { userId: req.user.id },
-        include: [
-            {
-                model: Spot,
-                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price', 'previewImage']
-            }
-        ]
-    });
-
-    res.json(userBookings);
-});
-
-router.delete('/:bookingId/current', requireAuth, async (req, res) => {
+router.delete('/:bookingId', requireAuth, async (req, res) => {
     const bookingId = await Booking.findByPk(req.params.bookingId);
 
     if (!bookingId) return res.status(404).json({"message": "Booking couldn't be found", "statusCode": 404});
@@ -71,6 +54,21 @@ router.delete('/:bookingId/current', requireAuth, async (req, res) => {
     await bookingId.destroy();
 
     return res.status(200).json({"message": "Successfully deleted", "statusCode": 200});
+});
+
+// Get all of the user's current bookings
+router.get('/current', requireAuth, async (req, res) => {
+    const userBookings = await Booking.findAll({
+        where: { userId: req.user.id },
+        include: [
+            {
+                model: Spot,
+                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price', 'previewImage']
+            },
+        ]
+    });
+
+    return res.json(userBookings);
 });
 
 module.exports = router;

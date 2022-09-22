@@ -207,8 +207,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         lng,
         name,
         description,
-        price,
-        updatedAt: new Date()
+        price
     });
 
     return res.json(spotToUpdate);
@@ -255,7 +254,6 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 });
 
 // Get all reviews based on spotId 
-// ** Multiple reviews being returned when new review posted **
 router.get('/:spotId/reviews', async (req, res) => {
     const spotId = await Spot.findByPk(req.params.spotId);
 
@@ -323,9 +321,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     const { review, stars } = req.body;
     const spotId = await Spot.findByPk(req.params.spotId);
 
-    const spotReviews = await Review.findAll({
-        where: { spotId: req.params.spotId }
-    });
+    const spotReviews = await Review.findAll({ where: { spotId: req.params.spotId } });
 
     if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
     "statusCode": 404});
@@ -361,11 +357,9 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 router.post('/:spotId/images', requireAuth, async (req, res) => {
     const spotId = await Spot.findByPk(req.params.spotId);
 
-    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
-    "statusCode": 404});
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
 
-    if (req.user.id !== spotId.ownerId) return res.status(403).json({"message": "You must own this spot to post an image",
-    "statusCode": 403});
+    if (req.user.id !== spotId.ownerId) return res.status(403).json({"message": "You must own this spot to post an image", "statusCode": 403});
 
     const newImage = await Image.create({
         userId: req.user.id,
@@ -373,6 +367,8 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         url: req.body.url,
         preview: req.body.previewImage
     });
+
+    if (newImage.preview === true) spotId.update({ previewImage: newImage.url });
 
     const { id, url, preview } = newImage; 
 
@@ -383,6 +379,8 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
 router.delete('/:spotId/images/:imageId', requireAuth, async (req, res) => {
     const spotId = await Spot.findByPk(req.params.spotId);
 
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
+
     const imageToDelete = await Image.findOne({
         where: {
             id: req.params.imageId,
@@ -390,11 +388,7 @@ router.delete('/:spotId/images/:imageId', requireAuth, async (req, res) => {
         }
     });
 
-    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
-    "statusCode": 404});
-
-    if (!imageToDelete) return res.status(404).json({"message": "Spot Image couldn't be found",
-    "statusCode": 404});
+    if (!imageToDelete) return res.status(404).json({"message": "Spot Image couldn't be found", "statusCode": 404});
 
     if (req.user.id !== spotId.ownerId) return res.status(200).json({"message": "Spot must belong to the current user in order to delete an image", "statuscode": 403});
 
