@@ -52,9 +52,7 @@ router.get('/', validateQueryParameters, async (req, res) => {
         });
     
         for (let spot of returnSpots) {
-            const reviews = await Review.findAll({
-                where: { spotId: spot.id }
-            });
+            const reviews = await Review.findAll({ where: { spotId: spot.id } });
     
             let avgRating = 0;
     
@@ -75,9 +73,7 @@ router.get('/', validateQueryParameters, async (req, res) => {
     });
 
     for (let spot of returnSpots) {
-        const reviews = await Review.findAll({
-            where: { spotId: spot.id }
-        });
+        const reviews = await Review.findAll({ where: { spotId: spot.id } });
 
         let avgRating = 0;
 
