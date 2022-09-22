@@ -2,14 +2,14 @@ const express = require('express');
 
 const { Spot, Image, User, Review, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth.js');
+const { validateQueryParameters } = require('../../utils/validation')
+const { Op } = require('sequelize');
 
 const router = express.Router();
 
 // Get All Spots
-router.get('/', async (req, res) => {
+router.get('/', validateQueryParameters, async (req, res) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-
-    let queryParams = [minLat, maxLat, minLng, maxLng, minPrice, maxPrice];
 
     page = Number(page);
     size = Number(size);
@@ -25,14 +25,27 @@ router.get('/', async (req, res) => {
 
     const where = {};
 
-    queryParams.forEach(query => {
-        if (query !== null && where[query] === undefined) where[query] = query;
-    });
+    if (minLat && maxLat) where['lat'] = {[Op.lt]: Number(req.query.maxLat), [Op.gt]: Number(req.query.minLat)}
+
+    if (minLat && !maxLat) where['lat'] = {[Op.gt]: Number(minLat)};
+    if (maxLat && !minLat) where['lat'] = {[Op.lt]: Number(maxLat)};
+
+    if (minLng && maxLng) where['lng'] = {[Op.lt]: Number(req.query.maxLng), [Op.gt]: Number(req.query.minLng)}
+
+    if (minLng && !maxLng) where['lng'] = {[Op.gt]: Number(minLng)};
+    if (maxLng && !minLng) where['lng'] = {[Op.lt]: Number(maxLng)};
+
+    if (minPrice && maxPrice) where['price'] = {[Op.lt]: Number(req.query.maxPrice), [Op.gt]: Number(req.query.minPrice)}
+
+    if (minPrice && !maxPrice) where['price'] = {[Op.gt]: Number(minPrice)};
+    if (maxPrice && !minPrice) where['price'] = {[Op.lt]: Number(maxPrice)};
+
 
     const whereValues = Object.values(where);
 
     if (whereValues.length) {
         const returnSpots = await Spot.findAll({
+            where,
             attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage'],
             limit: size,
             offset
@@ -56,7 +69,6 @@ router.get('/', async (req, res) => {
     };
 
     const returnSpots = await Spot.findAll({
-        where,
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage'],
         limit: size,
         offset
