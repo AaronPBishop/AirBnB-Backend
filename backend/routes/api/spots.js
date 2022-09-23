@@ -349,7 +349,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
         preview: req.body.previewImage
     });
 
-    if (newImage.preview === true) spotId.update({ previewImage: newImage.url });
+    if (newImage.preview === true) await spotId.update({ previewImage: newImage.url });
 
     const { id, url, preview } = newImage; 
 
