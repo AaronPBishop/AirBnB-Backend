@@ -6,7 +6,6 @@ const { requireAuth } = require('../../utils/auth.js');
 const router = express.Router();
 
 // Edit a booking
-// ** Check Constraints
 router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const { startDate, endDate } = req.body;
 

@@ -74,9 +74,7 @@ router.get('/current', requireAuth, async (req, res) => {
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const { url } = req.body;
     const reviewId = await Review.findByPk(req.params.reviewId);
-    const allImages = await Image.findAll({
-        where: { reviewId: req.params.reviewId }
-    });
+    const allImages = await Image.findAll({ where: { reviewId: req.params.reviewId } });
 
     if (!reviewId) return res.status(404).json({"message": "Review couldn't be found", "statusCode": 404});
 

@@ -10,10 +10,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     if (!imageToDelete) return res.status(404).json({"message": "Image couldn't be found", "statusCode": 404});
 
     const imageSpot = await Spot.findOne({ where: { id: imageToDelete.spotId } });
-    console.log(imageToDelete.spotId);
     const imageReview = await Review.findOne({ where: { id: imageToDelete.reviewId }});
-    console.log(imageReview.reviewId);
-    console.log(imageToDelete);
 
     if (imageSpot && req.user.id !== imageSpot.ownerId) return res.status(200).json({"message": "Spot must belong to the current user in order to delete an image", "statuscode": 403});
     if (imageReview && req.user.id !== imageReview.userId) return res.status(200).json({"message": "Review must belong to the current user in order to delete an image", "statuscode": 403});

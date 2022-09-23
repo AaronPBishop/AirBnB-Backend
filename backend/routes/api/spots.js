@@ -122,9 +122,7 @@ router.get('/current', requireAuth, async (req, res) => {
     });
 
     for (let spot of userSpots) {
-        const reviews = await Review.findAll({
-            where: { spotId: spot.id }
-        });
+        const reviews = await Review.findAll({ where: { spotId: spot.id } });
 
         let avgRating = 0;
 
@@ -142,12 +140,9 @@ router.get('/current', requireAuth, async (req, res) => {
 router.get('/:spotId', async (req, res) => {
     const spotId = await Spot.findByPk(req.params.spotId);
 
-    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
-    "statusCode": 404});
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
 
-    const reviews = await Review.findAll({
-        where: { spotId: req.params.spotId }
-    });
+    const reviews = await Review.findAll({ where: { spotId: req.params.spotId } });
 
     let avgRating = 0;
 
@@ -184,10 +179,8 @@ router.put('/:spotId', requireAuth, async (req, res) => {
 
     const spotId = await Spot.findByPk(req.params.spotId);
 
-    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
-    "statusCode": 404});
-    if (spotId.ownerId !== req.user.id) return res.status(403).json({"message": "Only the owner of the spot is authorized to edit",
-    "statusCode": 403});
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
+    if (spotId.ownerId !== req.user.id) return res.status(403).json({"message": "Only the owner of the spot is authorized to edit", "statusCode": 403});
 
     const spotToUpdate = await Spot.findOne({
         where: { id: req.params.spotId },
@@ -213,8 +206,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
 router.delete('/:spotId', requireAuth, async (req, res) => {
     const spotId = await Spot.findByPk(req.params.spotId);
 
-    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
-    "statusCode": 404});
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
     if (spotId.ownerId !== req.user.id) return res.status(403).json({"message": "Only the owner is authorized to delete this spot", "statusCode": 403});
 
     await spotId.destroy();
@@ -223,12 +215,10 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 });
 
 // Get all bookings for a spot based on spotId
-// ** Check owner order is valid **
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     const spotId = await Spot.findByPk(req.params.spotId);
 
-    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
-    "statusCode": 404});
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
     
     const nonOwnerBookingsData = await Booking.findAll({
         where: { spotId: req.params.spotId },
@@ -253,8 +243,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 router.get('/:spotId/reviews', async (req, res) => {
     const spotId = await Spot.findByPk(req.params.spotId);
 
-    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
-    "statusCode": 404});
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
     
     const reviews = await Review.findAll({
         where: { spotId: req.params.spotId },
@@ -280,14 +269,11 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const spotId = await Spot.findByPk(req.params.spotId);
 
-    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
-    "statusCode": 404});
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
     if (spotId.ownerId === req.user.id) return res.status(403).json({"message": "You cannot create a booking for a spot that you own", "statusCode": 403});
 
     try {
-        const spotBookings = await Booking.findAll({
-            where: { spotId: req.params.spotId }
-        });
+        const spotBookings = await Booking.findAll({ where: { spotId: req.params.spotId } });
     
         const newBooking = await Booking.build({
             spotId: req.params.spotId,
@@ -319,8 +305,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 
     const spotReviews = await Review.findAll({ where: { spotId: req.params.spotId } });
 
-    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found",
-    "statusCode": 404});
+    if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
 
     for (let review of spotReviews) {
         if (review.userId === req.user.id) return res.status(403).json({"message": "You can only post one review per spot", "statusCode": 403});
@@ -378,10 +363,7 @@ router.delete('/:spotId/images/:imageId', requireAuth, async (req, res) => {
     if (!spotId) return res.status(404).json({"message": "Spot couldn't be found", "statusCode": 404});
 
     const imageToDelete = await Image.findOne({
-        where: {
-            id: req.params.imageId,
-            spotId: req.params.spotId
-        }
+        where: { id: req.params.imageId, spotId: req.params.spotId }
     });
 
     if (!imageToDelete) return res.status(404).json({"message": "Spot Image couldn't be found", "statusCode": 404});
