@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/AaronPBishop/AirBnB-Backend/issues"
   },
-  "homepage": "https://github.com/AaronPBishop/AirBnB-Backend#readme"
+  "homepage": "https://github.com/AaronPBishop/AirBnB-Backend#readme",
+  "dependencies": {
+    "js-cookie": "^3.0.1"
+  }
 }
