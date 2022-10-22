@@ -5,6 +5,8 @@ const initialState = { user: null };
 const SET_USER = 'session/setUser';
 const DELETE_SESSION = 'session/deleteSession';
 
+// ACTION CREATORS
+
 const setUser = (user) => {
     return {
         type: SET_USER,
@@ -17,6 +19,8 @@ export const deleteSession = () => {
         type: DELETE_SESSION
     };
 };
+
+// THUNKS
 
 export const fetchUser = (user) => async (dispatch) => {
     const { credential, password } = user;
@@ -36,18 +40,18 @@ export const fetchUser = (user) => async (dispatch) => {
 };
 
 export const restoreUser = () => async (dispatch) => {
-    const response = await csrfFetch('/api/session');
-    const data = await response.json();
+    const res = await csrfFetch('/api/session');
+    const data = await res.json();
     
     dispatch(setUser(data.user));
 
-    return response;
+    return res;
 };
 
 export const signup = (user) => async (dispatch) => {
     const { username, email, password } = user;
 
-    const response = await csrfFetch("/api/users", {
+    const res = await csrfFetch("/api/users", {
       method: "POST",
       body: JSON.stringify({
         username,
@@ -56,11 +60,22 @@ export const signup = (user) => async (dispatch) => {
       }),
     });
 
-    const data = await response.json();
+    const data = await res.json();
     dispatch(setUser(data.user));
     
-    return response;
+    return res;
 };
+
+export const logout = () => async (dispatch) => {
+    const res = await csrfFetch('/api/session', {
+      method: 'DELETE',
+    });
+
+    dispatch(deleteSession());
+    return res;
+};
+
+// REDUCER
 
 const sessionReducer = (state = initialState, action) => {
     const currentState = { ...state };
