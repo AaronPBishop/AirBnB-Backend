@@ -1,6 +1,9 @@
-#navigation {
+#show-spot {
     display: flex;
     justify-content: center;
-    text-decoration: none;
+}
+
+#spot-list {
     list-style: none;
+    line-height: 30px;
 }

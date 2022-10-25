@@ -18,7 +18,7 @@ const LoginFormPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password }))
+    return dispatch(sessionActions.fetchUser({ credential, password }))
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
@@ -26,11 +26,11 @@ const LoginFormPage = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id='login-form'>
       <ul>
         {errors.map((error, i) => <li key={i}>{error}</li>)}
       </ul>
-      <label>
+      <label className='login-inputs'>
         Username or Email
         <input
           type="text"
@@ -39,7 +39,7 @@ const LoginFormPage = () => {
           required
         />
       </label>
-      <label>
+      <label className='login-inputs'>
         Password
         <input
           type="password"

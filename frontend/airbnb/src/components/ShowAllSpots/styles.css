@@ -1,0 +1,10 @@
+#all-spots {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    flex-wrap: wrap;
+    box-sizing: content-box;
+
+    min-width: 250px;
+    max-width: 250px;
+}
