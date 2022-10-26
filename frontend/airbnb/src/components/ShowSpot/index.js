@@ -1,41 +1,51 @@
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import './styles.css';
 
 const ShowSpot = () => {
     const spotId = useParams();
-    const allSpots = useSelector(state => state.spots);
-    const spotData = allSpots[spotId.spotId];
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const makeFetch = async () => {
+          const fetchReq = await fetch(`/api/spots/${spotId.spotId}`);
+          const fetchJSON = await fetchReq.json();
+  
+          setData(fetchJSON)
+        };
+  
+        makeFetch();
+    }, []);
 
     return (
         <div id='show-spot'>
             <ul id='spot-list'>
                 <li>
-                Address: {spotData.address}
+                Address: {data.address}
                 </li>
                 
                 <li>
-                Average rating: {spotData.avgRating}
+                Average rating: {data.avgRating}
                 </li>
                 
                 <li>
-                City: {spotData.city}
+                City: {data.city}
                 </li>
 
                 <li>
-                Country: {spotData.country}
+                Country: {data.country}
                 </li>
 
                 <li>
-                State: {spotData.state}
+                State: {data.state}
                 </li>
 
                 <li>
-                Name: {spotData.name}
+                Name: {data.name}
                 </li>
 
                 <li>
-                Price: {spotData.price}
+                Price: {data.price}
                 </li>
 
             </ul>

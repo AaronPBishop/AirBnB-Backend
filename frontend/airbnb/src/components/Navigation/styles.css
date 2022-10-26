@@ -1,6 +1,60 @@
 #navigation {
-    display: flex;
-    justify-content: center;
+    display: block;
+    justify-content: space-between;
     text-decoration: none;
     list-style: none;
+    border-bottom: 1px solid rgb(220, 220, 220);
+}
+
+#home-navlink {
+    text-decoration: none;
+    color: #FF385C;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -2px;
+}
+
+#profile-button-container {
+    display: flex;
+    justify-content: flex-end;
+
+    position: relative;
+    bottom: 3vh;
+}
+
+#profile-button {
+    color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+
+    background-color: #FF385C;
+    border: 1px solid #FF385C;
+    border-bottom: 3px solid #a6223a;
+    border-radius: 6px;
+
+    min-height: 30px;
+    max-height: 30px;
+}
+
+#hide-profile-button {
+    display: none;
+}
+
+#logout-button {
+    color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+
+    background-color: #FF385C;
+    border: 1px solid #FF385C;
+    border-bottom: 3px solid #a6223a;
+    border-radius: 6px;
+
+    min-height: 30px;
+    max-height: 30px;
+}
+
+.profile-dropdown {
+    list-style: none;
+    line-height: 30px;
 }

@@ -23,7 +23,7 @@ const LoginFormPage = () => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
       });
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} id='login-form'>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import { createSpot } from './store/spotsReducer.js';
 import * as sessionActions from "./store/session";
 
 import LoginFormPage from "./components/LoginFormPage/index.js";
@@ -10,22 +9,12 @@ import Navigation from "./components/Navigation";
 
 import ShowAllSpots from "./components/ShowAllSpots/index.js";
 import ShowSpot from "./components/ShowSpot/index.js";
+import CreateSpot from "./components/CreateSpot/index.js";
+import ManageSpots from "./components/ManageSpots/index.js";
 
 const App = () => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  
-  useEffect(() => {
-      const makeFetch = async () => {
-        const fetchReq = await fetch(`/api/spots`);
-        const fetchJSON = await fetchReq.json();
-
-        const data = [fetchJSON];
-        data.forEach(spot => spot.Spots.forEach((obj => dispatch(createSpot(obj)))));
-      };
-
-      makeFetch();
-  }, []);
   
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -49,6 +38,14 @@ const App = () => {
 
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+
+          <Route path='/create-spot'>
+            <CreateSpot/>
+          </Route>
+
+          <Route path='/manage-listings'>
+            <ManageSpots/>
           </Route>
 
           <Route path='/spots/:spotId'>

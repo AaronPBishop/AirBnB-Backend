@@ -1,25 +1,31 @@
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import './styles.css';
 
 const ShowAllSpots = () => {
-    const allSpots = useSelector(state => state.spots);
+    const [data, setData] = useState([]);
 
-    const spotsArr = [];
-    for (let key in allSpots) {
-        const currSpot = allSpots[key];
-
-        spotsArr.push(currSpot);
-    };
+    useEffect(() => {
+        const makeFetch = async () => {
+          const fetchReq = await fetch(`/api/spots`);
+          const fetchJSON = await fetchReq.json();
+  
+          setData([fetchJSON])
+        };
+  
+        makeFetch();
+    }, []);
+    
+    const allSpots = [];
+    data.forEach(spot => spot.Spots.forEach((obj => allSpots.push(obj))));
 
     return (
         <div id='all-spots'>
-            {spotsArr.map((spot, i) => 
+            {allSpots.map((spot, i) => 
             <div className='spot-divs' key={i}>
-                {spot.description}
-                <NavLink to={`/spots/${spot.id}`}>{spot.address}</NavLink>
+                <p>{spot.description}</p>
+                <NavLink to={`/spots/${spot.id}`} className='navlinks'>{spot.address}</NavLink>
             </div>)}
         </div>
     );

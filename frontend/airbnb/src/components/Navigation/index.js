@@ -8,7 +8,7 @@ const Navigation = ({ isLoaded }) => {
   const sessionUser = useSelector(state => state.session.user);
 
   let sessionLinks;
-  console.log(sessionUser)
+
   if (sessionUser) {
     sessionLinks = (
       <ProfileButton user={sessionUser} />
@@ -16,8 +16,8 @@ const Navigation = ({ isLoaded }) => {
   } else {
     sessionLinks = (
       <>
-        <NavLink to="/login">Log In</NavLink>
-        <NavLink to="/signup">Sign Up</NavLink>
+        <NavLink to="/login" className='navlinks'>Log In</NavLink>
+        <NavLink to="/signup" className='navlinks'>Sign Up</NavLink>
       </>
     );
   }
@@ -25,7 +25,7 @@ const Navigation = ({ isLoaded }) => {
   return (
     <ul id='navigation'>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/" id='home-navlink' className='navlinks'>airbnb</NavLink>
         {isLoaded && sessionLinks}
       </li>
     </ul>

@@ -1,29 +1,67 @@
 import { csrfFetch } from "./csrf";
 
-const initialState = {};
+const initialState = {
+    address: '',
+    city: '',
+    state: '',
+    country: '',
+    lat: '',
+    lng: '',
+    name: '',
+    description: '',
+    price: ''
+};
 
-export const createSpot = (spot) => {
+export const createSpotData = (fieldName, info) => {
     return {
-        type: 'CREATE_SPOT',
-        payload: spot
+        type: 'CREATE_SPOT_DATA',
+        payload1: fieldName,
+        payload2: info
     };
 };
 
-export const seedInitialState = () => async (dispatch) => {
-    const fetchReq = await csrfFetch(`/api/spots`);
-    const fetchJSON = await fetchReq.json();
+export const setSpotData = (data) => {
+    return {
+        type: 'SET_SPOT_DATA',
+        payload: data
+    };
+};
 
-    return fetchJSON;
+export const setSpotId = (id) => {
+    return {
+        type: 'SET_SPOT_ID',
+        payload: id
+    };
+};
+
+export const sendSpotData = (data) => async (dispatch) => {
+    await csrfFetch(`/api/spots`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    });
+
+    dispatch(setSpotData(data));
+};
+
+export const deleteSpotData = (id) => async (dispatch) => {
+    await csrfFetch(`/api/spots/${id}`, {
+        method: 'DELETE'
+    });
 };
 
 const spotsReducer = (state = initialState, action) => {
     const currentState = { ...state };
 
     switch (action.type) {
-        case 'CREATE_SPOT': {
-            currentState[action.payload.id] = action.payload;
+        case 'CREATE_SPOT_DATA': {
+            currentState[action.payload1] = action.payload2;
 
             return currentState;
+        };
+
+        case 'SET_SPOT_DATA': {
+            return initialState;
         };
 
         default: return currentState;
