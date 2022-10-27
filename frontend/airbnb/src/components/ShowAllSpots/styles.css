@@ -1,6 +1,6 @@
 #all-spots {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin: auto;
     flex-wrap: wrap;
     box-sizing: content-box;
@@ -10,8 +10,25 @@
 }
 
 .spot-divs {
-    text-align: center;
-    border: 2px solid black;
-    border-radius: 8px;
+    text-align: left;
+    line-height: 10px;
     padding: 20px;
+
+    min-width: 160px;
+    max-width: 160px;
+
+    min-height: 140px;
+    max-height: 140px;
+
+    margin: 15px;
+}
+
+#preview-image {
+    border: 1px solid black;
+    border-radius: 8px;
+    min-width: 300px;
+    max-width: 300px;
+
+    min-height: 250px;
+    max-height: 250px;
 }

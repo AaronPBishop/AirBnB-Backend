@@ -1,5 +1,6 @@
 #create-spot {
     display: flex;
+    overflow: hidden;
 }
 
 #spot-creation-prompts {
@@ -30,12 +31,39 @@
     top: 50vh;
 }
 
-#form-navigation {
+#form-navigation-1 {
     border-top: 2px solid rgb(220, 220, 220);
     width: 105vh;
 
     position: relative;
-    top: 25vh;
+    top: 23vh;
+    right: 50vh;
+}
+
+#form-navigation-2 {
+    border-top: 2px solid rgb(220, 220, 220);
+    width: 105vh;
+
+    position: relative;
+    top: 5.7vh;
+    right: 50vh;
+}
+
+#form-navigation-3 {
+    border-top: 2px solid rgb(220, 220, 220);
+    width: 105vh;
+
+    position: relative;
+    top: 28vh;
+    right: 50vh;
+}
+
+#form-navigation-4 {
+    border-top: 2px solid rgb(220, 220, 220);
+    width: 105vh;
+
+    position: relative;
+    top: 28vh;
     right: 50vh;
 }
 
@@ -86,7 +114,7 @@
     font-weight: 800;
     
     position: relative;
-    top: 2vh;
+    top: 0.8vh;
     left: 70vh;
     color: white;
 
@@ -104,10 +132,36 @@
 .create-spot-input {
     border: 2px solid black;
     border-radius: 4px;
-    height: 20px;
+
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+
+    color: black;
+    height: 30px;
+
     position: relative;
     bottom: 30vh;
-    right: 5vh;
+    right: 12vh;
+}
+
+#create-spot-description {
+    resize: none;
+
+    border: 2px solid black;
+    border-radius: 4px;
+
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+
+    color: black;
+    height: 150px;
+    width: 350px;
+
+    position: relative;
+    bottom: 35vh;
+    right: 20vh;
 }
 
 #address-form {
@@ -120,16 +174,19 @@
     justify-content: center;
 
     position: relative;
-    bottom: 35vh;
-    right: 45vh;
+    bottom: 25vh;
+    right: 30vh;
 
     text-decoration: none;
     list-style: none;
+
+    min-width: 400px;
+    max-width: 400px;
 
     position: fixed;
 }
 
 #review-spot-ul {
-    line-height: 30px;
+    line-height: 35px;
     list-style: none;
 }

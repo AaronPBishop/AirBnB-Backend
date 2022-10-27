@@ -1,9 +1,32 @@
-#show-spot {
+#spot-list-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+
+    border-bottom: 2px solid rgb(220, 220, 220);
+    margin-left: 300px;
+    margin-right: 300px;
 }
 
 #spot-list {
     list-style: none;
-    line-height: 30px;
+    line-height: 35px;
+
+    position: relative;
+    left: 270px;
+}
+
+#spot-images-container {
+    display: flex;
+    justify-content: center;
+}
+
+#spot-images {
+    border: 1px solid black;
+    border-radius: 8px;
+    
+    min-width: 300px;
+    max-width: 300px;
+
+    min-height: 250px;
+    max-height: 250px;
 }

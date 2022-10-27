@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 
@@ -11,9 +11,11 @@ import ShowAllSpots from "./components/ShowAllSpots/index.js";
 import ShowSpot from "./components/ShowSpot/index.js";
 import CreateSpot from "./components/CreateSpot/index.js";
 import ManageSpots from "./components/ManageSpots/index.js";
+import ManageImages from "./components/ManageImages/index.js";
 
 const App = () => {
   const dispatch = useDispatch();
+  const currSpotId = useSelector(state => state.spots.currSpotId);
   const [isLoaded, setIsLoaded] = useState(false);
   
   useEffect(() => {
@@ -45,11 +47,19 @@ const App = () => {
           </Route>
 
           <Route path='/manage-listings'>
-            <ManageSpots/>
+            <ManageSpots />
+          </Route>
+
+          <Route path='/manage-photos/:spotId'>
+            <ManageImages />
           </Route>
 
           <Route path='/spots/:spotId'>
             <ShowSpot />
+          </Route>
+
+          <Route path='/edit-spot/:spotId'>
+            <CreateSpot id={currSpotId}/>
           </Route>
           
         </Switch>

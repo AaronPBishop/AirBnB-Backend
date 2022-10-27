@@ -1,6 +1,6 @@
 #user-spots {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin: auto;
     flex-wrap: wrap;
     box-sizing: content-box;
@@ -11,9 +11,17 @@
 
 .user-spot-divs {
     text-align: center;
-    border: 2px solid black;
-    border-radius: 8px;
     padding: 20px;
+    
+    text-align: left;
+    line-height: 10px;
+    min-width: 160px;
+    max-width: 160px;
+
+    min-height: 140px;
+    max-height: 140px;
+
+    margin: 15px;
 }
 
 .manage-buttons {
@@ -33,6 +41,28 @@
     max-height: 30px;
 }
 
+#manage-photos {
+    position: relative;
+    bottom: 2.5vh;
+}
+
 #edit-spot {
     min-width: 52px;
+}
+
+.no-content {
+    display: flex;
+    justify-content: center;
+
+    font-weight: 800;
+    font-size: 25px;
+
+    position: relative;
+    top: 10vh;
+}
+
+#manage-buttons-container {
+    position: relative;
+    bottom: 9vh;
+    left: 12vw;
 }

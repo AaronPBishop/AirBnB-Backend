@@ -1,17 +1,29 @@
 import { useHistory } from 'react-router-dom';
-import { useState, useContext, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createSpotData, sendSpotData } from '../../store/spotsReducer.js';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { sendSpotData } from '../../store/spots.js';
+import { editSpotData } from '../../store/userSpots.js';
+
 import './styles.css';
 
-const CreateSpot = () => {
+const CreateSpot = ({ id }) => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { address, city, state, country, lat, lng, name, description, price } = useSelector(state => state.spots);
-    const currSpot = useSelector(state => state.spots);
 
     const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Now, set your price', 'Check out your listing!'];
     const buttonText = ['Next', 'Save your listing'];
+
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [country, setCountry] = useState('');
+    const [lat, setLat] = useState('');
+    const [lng, setLng] = useState('');
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
+
     const [currPrompt, setCurrPrompt] = useState(Number(0));
 
     useEffect(() => {
@@ -22,11 +34,19 @@ const CreateSpot = () => {
     const handleSubmit = () => {
         if (currPrompt < 4) {
             setCurrPrompt(Number(currPrompt) + 1);
+
             return;
         };
 
+        if (id) {
+            dispatch(editSpotData({id: id, address, city, state, country, lat, lng, name, description, price}));
+            history.push(`/`);
+            
+            return;
+        };
+
+        dispatch(sendSpotData({address, city, state, country, lat, lng, name, description, price}));
         history.push(`/`);
-        dispatch(sendSpotData(currSpot));
     };
 
     return (
@@ -46,19 +66,21 @@ const CreateSpot = () => {
                     className='create-spot-input'
                     type='text'
                     value={name}
-                    onChange={e => dispatch((createSpotData('name', e.target.value)))}>
+                    onChange={e => setName(e.target.value)}
+                    placeholder='Name'>
                     </input>
                 </label>
 
                 || currPrompt === 1 &&
 
                 <label>
-                    <input
-                    className='create-spot-input'
-                    type='text-area'
+                    <textarea
+                    id='create-spot-description'
+                    type='textarea'
                     value={description}
-                    onChange={e => dispatch((createSpotData('description', e.target.value)))}>
-                    </input>
+                    onChange={e => setDescription(e.target.value)}
+                    placeholder='Description'>
+                    </textarea>
                 </label>
 
                 || currPrompt === 2 &&
@@ -67,9 +89,9 @@ const CreateSpot = () => {
                     <label>
                         <input
                         className='create-spot-input'
-                        type='text-area'
+                        type='text'
                         value={address}
-                        onChange={e => dispatch((createSpotData('address', e.target.value)))}
+                        onChange={e => setAddress(e.target.value)}
                         placeholder='Address'>
                         </input>
                     </label>
@@ -79,7 +101,7 @@ const CreateSpot = () => {
                         className='create-spot-input'
                         type='text-area'
                         value={city}
-                        onChange={e => dispatch((createSpotData('city', e.target.value)))}
+                        onChange={e => setCity(e.target.value)}
                         placeholder='City'>
                         </input>
                     </label>
@@ -89,7 +111,7 @@ const CreateSpot = () => {
                         className='create-spot-input'
                         type='text-area'
                         value={state}
-                        onChange={e => dispatch((createSpotData('state', e.target.value)))}
+                        onChange={e => setState(e.target.value)}
                         placeholder='State'>
                         </input>
                     </label>
@@ -99,7 +121,7 @@ const CreateSpot = () => {
                         className='create-spot-input'
                         type='text-area'
                         value={country}
-                        onChange={e => dispatch((createSpotData('country', e.target.value)))}
+                        onChange={e => setCountry(e.target.value)}
                         placeholder='Country'>
                         </input>
                     </label>
@@ -109,7 +131,7 @@ const CreateSpot = () => {
                         className='create-spot-input'
                         type='text-area'
                         value={lat}
-                        onChange={e => dispatch((createSpotData('lat', e.target.value)))}
+                        onChange={e => setLat(e.target.value)}
                         placeholder='Lat'>
                         </input>
                     </label>
@@ -119,7 +141,7 @@ const CreateSpot = () => {
                         className='create-spot-input'
                         type='text-area'
                         value={lng}
-                        onChange={e => dispatch((createSpotData('lng', e.target.value)))}
+                        onChange={e => setLng(e.target.value)}
                         placeholder='Lng'>
                         </input>
                     </label>
@@ -132,7 +154,8 @@ const CreateSpot = () => {
                     className='create-spot-input'
                     type='text-area'
                     value={price}
-                    onChange={e => dispatch((createSpotData('price', e.target.value)))}>
+                    onChange={e => setPrice(e.target.value)}
+                    placeholder='$'>
                     </input>
                 </label>
 
@@ -153,7 +176,12 @@ const CreateSpot = () => {
                 </div>
                 }
 
-                <div id='form-navigation'>
+                <div id={
+                    (currPrompt === 0 || currPrompt === 3) && 'form-navigation-1'
+                    || (currPrompt === 1) && 'form-navigation-2'
+                    || (currPrompt === 2) && 'form-navigation-3'
+                    || (currPrompt === 4) && 'form-navigation-4'
+                }>
                     <button id='form-navigate-back-button' onClick={() => setCurrPrompt(Number(currPrompt) - 1)}>Back</button>
                     <button id={currPrompt < 4 ? 
                                 'form-navigation-button' :

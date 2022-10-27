@@ -1,54 +1,69 @@
-import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useEffect } from 'react';
+
+import { fetchSpotById } from "../../store/spots.js";
+import Reviews from "../Reviews/index.js";
+
 import './styles.css';
 
 const ShowSpot = () => {
+    const dispatch = useDispatch();
     const spotId = useParams();
-    const [data, setData] = useState([]);
 
     useEffect(() => {
-        const makeFetch = async () => {
-          const fetchReq = await fetch(`/api/spots/${spotId.spotId}`);
-          const fetchJSON = await fetchReq.json();
-  
-          setData(fetchJSON)
-        };
-  
-        makeFetch();
-    }, []);
+        dispatch(fetchSpotById(spotId.spotId))
+    }, [dispatch]);
 
-    return (
-        <div id='show-spot'>
-            <ul id='spot-list'>
-                <li>
-                Address: {data.address}
-                </li>
-                
-                <li>
-                Average rating: {data.avgRating}
-                </li>
-                
-                <li>
-                City: {data.city}
-                </li>
+    const spotData = useSelector(state => state.spots.currSpot);
 
-                <li>
-                Country: {data.country}
-                </li>
+    if (spotData) return (
+        <div>
+            <div id='spot-images-container'>
+                {
+                    spotData.SpotImages.length > 0 ?
+                    spotData.SpotImages.map((img, i) => <img src={img.url} key={i} id='spot-images'></img>) 
+                    : <p><i>No images to display</i></p>
+                }
+            </div>
 
-                <li>
-                State: {data.state}
-                </li>
+            <div id='spot-list-container'>
+                <ul id='spot-list'>
 
-                <li>
-                Name: {data.name}
-                </li>
+                    <li>
+                    Address: <b>{spotData.address}</b>
+                    </li>
 
-                <li>
-                Price: {data.price}
-                </li>
+                    <li>
+                    Average rating: <b>{spotData.avgRating}</b>
+                    </li>
 
-            </ul>
+                    <li>
+                    City: <b>{spotData.city}</b>
+                    </li>
+
+                    <li>
+                    Country: <b>{spotData.country}</b>
+                    </li>
+
+                    <li>
+                    State: <b>{spotData.state}</b>
+                    </li>
+
+                    <li>
+                    Name: <b>{spotData.name}</b>
+                    </li>
+
+                    <li>
+                    Price: <b>{spotData.price}</b>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div id='reviews'>
+                <Reviews spotId={spotId.spotId} avgRating={spotData.avgRating} />
+            </div>
         </div>
     );
 };

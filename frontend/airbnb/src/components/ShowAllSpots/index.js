@@ -1,31 +1,46 @@
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+
+import { fetchSpots, setCurrSpotId } from '../../store/spots.js';
 
 import './styles.css';
 
 const ShowAllSpots = () => {
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        const makeFetch = async () => {
-          const fetchReq = await fetch(`/api/spots`);
-          const fetchJSON = await fetchReq.json();
-  
-          setData([fetchJSON])
-        };
-  
-        makeFetch();
-    }, []);
+    const dispatch = useDispatch();
     
-    const allSpots = [];
-    data.forEach(spot => spot.Spots.forEach((obj => allSpots.push(obj))));
+    useEffect (() => {
+        dispatch(fetchSpots());
+    }, [dispatch]);
+
+    const allSpots = useSelector(state => state.spots);
+    
+    const spotsArr = [];
+    for (let key in allSpots) {
+        const currSpot = allSpots[key];
+
+        if (key.match(/[0-9]/)) spotsArr.push(currSpot);
+    };
 
     return (
         <div id='all-spots'>
-            {allSpots.map((spot, i) => 
+            {spotsArr.map((spot, i) => 
             <div className='spot-divs' key={i}>
-                <p>{spot.description}</p>
-                <NavLink to={`/spots/${spot.id}`} className='navlinks'>{spot.address}</NavLink>
+
+                <div id='preview-image-container'>
+                    {
+                        spot.previewImage !== null ? 
+                        <img src={spot.previewImage} id='preview-image'></img> : 
+                        <p><i>No Image</i></p>
+                    }
+                </div>
+
+                <p><b>{spot.name}</b></p>
+
+                <NavLink to={`/spots/${spot.id}`} className='navlinks' onClick={() => dispatch(setCurrSpotId(spot.id))}>{spot.city}</NavLink>
+
+                <p><b>${spot.price}</b> night</p>
             </div>)}
         </div>
     );

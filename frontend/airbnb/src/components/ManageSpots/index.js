@@ -1,45 +1,59 @@
-import { useState, useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { deleteSpotData } from '../../store/spotsReducer.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+
+import { fetchUserSpots, deleteSpotThunk } from '../../store/userSpots.js';
+import { setCurrSpotId } from '../../store/spots.js';
 
 import './styles.css';
 
 const ManageSpots = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [data, setData] = useState([]);
-    const [spotId, setSpotId] = useState(Number(0));
 
     useEffect(() => {
-        const makeFetch = async () => {
-          const fetchReq = await fetch(`/api/spots/current`);
-          const fetchJSON = await fetchReq.json();
-  
-          setData([fetchJSON])
-        };
-  
-        makeFetch();
-    }, []);
-
-    useEffect(() => {
-        dispatch(deleteSpotData(spotId));
-        history.push('/manage-listings')
-    }, [spotId]);
+        dispatch(fetchUserSpots());
+    }, [dispatch]);
     
-    const allSpots = [];
-    data.forEach(spot => spot.Spots.forEach((obj => allSpots.push(obj))));
+    const userSpots = useSelector(state => state.userSpots);
 
+    const spotsArr = [];
+    for (let key in userSpots) {
+        const currSpot = userSpots[key];
+
+        spotsArr.push(currSpot);
+    };
+
+    if (!spotsArr.length) return (<p className='no-content'>...Nothing to show here!</p>)
     return (
         <div id='user-spots'>
-            {allSpots.map((spot, i) => 
+
+            {spotsArr.map((spot, i) => 
             <div className='user-spot-divs' key={i}>
-                <p>{spot.description}</p>
-                <NavLink to={`/spots/${spot.id}`} className='navlinks'>{spot.address}</NavLink>
-                <br/>
-                <button className='manage-buttons' id='delete-spot' onClick={() => setSpotId(spot.id)}>Delete</button>
-                <button className='manage-buttons' id='edit-spot'>Edit</button>
+                <div id='preview-image-container'>
+                    {
+                        spot.previewImage !== null ? 
+                        <img src={spot.previewImage} id='preview-image'></img> : 
+                        <p><i>No Image</i></p>
+                    }
+                </div>
+
+                <p><b>{spot.name}</b></p>
+                <NavLink to={`/spots/${spot.id}`} className='navlinks'>{spot.city}</NavLink>
+
+                <div id='manage-buttons-container'>
+                    <button className='manage-buttons' id='delete-spot' onClick={() => dispatch(deleteSpotThunk(spot.id))}>Delete</button>
+
+                    <button className='manage-buttons' id='edit-spot' onClick={() => {
+                        dispatch(setCurrSpotId(spot.id));
+                        history.push(`/edit-spot/${spot.id}`);
+                    }}>Edit</button>
+
+                    <button className='manage-buttons' id='manage-photos' onClick={() => history.push(`/manage-photos/${spot.id}`)}>Manage Photos</button>
+                </div>
+
             </div>)}
+
         </div>
     );
 };

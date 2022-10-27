@@ -1,0 +1,56 @@
+#add-images {
+    display: flex;
+    justify-content: center;
+}
+
+#add-image-button {
+    margin: 2px;
+    margin-top: 20px;
+
+    color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+
+    background-color: #FF385C;
+    border: 1px solid #FF385C;
+    border-bottom: 3px solid #a6223a;
+    border-radius: 6px;
+
+    min-height: 40px;
+    max-height: 40px;
+
+    min-width: 125px;
+    max-width: 125px;
+}
+
+#image-form {
+    display: flex;
+    justify-content: center;
+
+    margin: 40px;
+}
+
+#add-image {
+    min-height: 23px;
+    max-height: 23px;
+
+    text-align: center;
+    color: white;
+
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
+    border-bottom: 3px solid #0a5c2c;
+    border-radius: 6px;
+
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    touch-action: manipulation;
+    vertical-align: middle;
+    outline: 0;
+}
+
+#preview-image-form {
+    display: flex;
+    justify-content: space-evenly;
+}
