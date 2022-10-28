@@ -18,8 +18,14 @@ const ManageImages = () => {
         dispatch(fetchSpotById(spotId.spotId))
     }, [dispatch]);
 
-    const spotData = useSelector(state => state.spots.currSpot);
-    const imgData = useSelector(state => state.spots.currSpot.SpotImages);
+    const selectSpot = useSelector(state => state.spots);
+
+    let imgData;
+    let spotData;
+    if (selectSpot.currSpot) {
+        spotData = selectSpot.currSpot;
+        imgData = selectSpot.currSpot.SpotImages;
+    };
 
     const handleSubmit = () => {
         dispatch(sendSpotImgData(spotId.spotId, {url, previewImage}))
