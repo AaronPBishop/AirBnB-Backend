@@ -1,15 +1,20 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { fetchSpotReviews } from '../../store/reviews.js';
+import { fetchUserReviews } from '../../store/reviews.js';
+import { deleteReviewData } from '../../store/reviews.js';
+import { toggleEditMode } from '../../store/reviews.js';
 
 import './styles.css';
 
-const Reviews = ({ spotId, avgRating }) => {
+const Reviews = ({ spotId, avgRating, type }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchSpotReviews(spotId));
-    }, []);
+        if (type === 'spot') dispatch(fetchSpotReviews(spotId));
+        if (type === 'user') dispatch(fetchUserReviews());
+    }, [dispatch]);
 
     const reviews = useSelector(state => state.reviews);
 
@@ -22,13 +27,21 @@ const Reviews = ({ spotId, avgRating }) => {
 
     return (
         <div>
-            <p id='header'>⭐ {avgRating} - {reviewsArr.length} reviews</p>
+            {type === 'spot' && <div id='ratings-header'><p id='header'>⭐ {avgRating} - {reviewsArr.length} reviews</p></div>}
 
             <div id='reviews-container'>
                 {reviewsArr.map((review, i) => {
                     return <div id='individual-reviews' key={i}>
                                 <p id='review-username'><b>{review.User.firstName}:</b></p> 
+                                {type === 'user' && <p>Spot: {review.spotId}</p>}
                                 <p>{review.review}</p>
+                                {type === 'user' && 
+                                    <div>
+                                        <button className='manage-user-review-buttons' 
+                                        onClick={() => dispatch(deleteReviewData(review.id))}>Delete</button>
+                                        <button className='manage-user-review-buttons'
+                                        onClick={() => dispatch(toggleEditMode(true, review.id))}>Edit</button>
+                                    </div>}
                             </div>
                 })}
             </div>

@@ -1,6 +1,5 @@
 #create-spot {
     display: flex;
-    overflow: hidden;
 }
 
 #spot-creation-prompts {
@@ -59,6 +58,15 @@
 }
 
 #form-navigation-4 {
+    border-top: 2px solid rgb(220, 220, 220);
+    width: 105vh;
+
+    position: relative;
+    top: 12.1vh;
+    right: 50vh;
+}
+
+#form-navigation-5 {
     border-top: 2px solid rgb(220, 220, 220);
     width: 105vh;
 
@@ -189,4 +197,71 @@
 #review-spot-ul {
     line-height: 35px;
     list-style: none;
+}
+
+#create-spot-image-container {
+    max-width: 475px;
+    width: 100%;
+    margin: 0 auto;
+
+    position: relative;
+    right: 24vw;
+    bottom: 30vh;
+}
+
+#create-spot-image-form {
+    display: flex;
+    justify-content: center;
+
+    border: 2px solid black;
+    border-radius: 8px;
+
+    background: #F9F9F9;
+    padding: 25px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}   
+
+.create-spot-image-labels {
+    display: flex;
+    justify-content: center;
+    margin: 1px;
+
+    position: relative;
+}
+
+.create-spot-image-labels > p {
+    display: flex;
+    justify-content: center;
+    margin: 1px;
+
+    position: relative;
+    left: 15px;
+}
+
+.create-spot-preview-radio {
+    position: relative;
+    right: 25px;
+    top: 5px;
+
+    margin: 5px;
+}
+
+#create-spot-add-image {
+    text-align: center;
+    color: white;
+
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
+    border-bottom: 3px solid #0a5c2c;
+    border-radius: 6px;
+
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    touch-action: manipulation;
+    vertical-align: middle;
+    outline: 0;
+
+    min-width: 50px;
+    max-width: 50px;
 }

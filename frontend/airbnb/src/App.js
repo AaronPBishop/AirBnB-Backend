@@ -12,6 +12,7 @@ import ShowSpot from "./components/ShowSpot/index.js";
 import CreateSpot from "./components/CreateSpot/index.js";
 import ManageSpots from "./components/ManageSpots/index.js";
 import ManageImages from "./components/ManageImages/index.js";
+import ManageAccount from "./components/ManageAccount/index.js";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -48,6 +49,10 @@ const App = () => {
 
           <Route path='/manage-listings'>
             <ManageSpots />
+          </Route>
+
+          <Route path='/manage-account'>
+            <ManageAccount />
           </Route>
 
           <Route path='/manage-photos/:spotId'>

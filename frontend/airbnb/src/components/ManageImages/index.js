@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { fetchSpotById, sendSpotImgData } from '../../store/spots.js';
+import { fetchSpotById, sendSpotImgData, deleteSpotImgData } from '../../store/spots.js';
 
 import './styles.css';
 
@@ -19,23 +19,26 @@ const ManageImages = () => {
     }, [dispatch]);
 
     const spotData = useSelector(state => state.spots.currSpot);
+    const imgData = useSelector(state => state.spots.currSpot.SpotImages);
 
     const handleSubmit = () => {
         dispatch(sendSpotImgData(spotId.spotId, {url, previewImage}))
     };
 
     if (spotData) return (
-        <div>
-            <div id='spot-images-container'>
-                {spotData.SpotImages.length > 0 && <p id='current-images'>Current Images</p>}
+        <div id='manage-images'>
+            <div id='manage-spot-images-container'>
+                {spotData.SpotImages.length > 0 && <div id='current-images'><p id='header'>Current Images</p></div>}
 
                 {
-                    spotData.SpotImages.length > 0 ?
+                    spotData.SpotImages.length > 0 && imgData ?
                     spotData.SpotImages.map((img, i) => {
                         return (
-                            <div id='spot-image-div'>
-                                <img src={img.url} key={i} id='spot-images'></img>
-                                <button>Delete</button>
+                            <div id='spot-images-div'>
+                                <div>
+                                    <img src={img.url} key={i} id='manage-spot-images'></img>
+                                </div>
+                                <div id='delete-image-div'><button id='delete-image-button' onClick={() => dispatch(deleteSpotImgData(i, imgData[i].id))}>Delete</button></div>
                             </div>
                         )
                     }) : <p><i>No images to display</i></p>
@@ -48,41 +51,44 @@ const ManageImages = () => {
 
             {
                 clicked && 
-                <form id='image-form' onSubmit={handleSubmit}>
-                    <label>
-                        <input
-                        type='text'
-                        value={url}
-                        onChange={e => setUrl(e.target.value)}
-                        placeholder='image URL'
-                        ></input>
-                    </label>
-                    
-                    <div id='preview-image-form'>
-                        Is this a preview image?
-                        <label>
+                <div id='form-container'>
+                    <form id='image-form' onSubmit={handleSubmit}>
+                        <label className='image-form-holders'>
                             <input
-                                type="radio"
-                                value={true}
-                                name="previewImage"
-                                onChange={() => setPreviewImage(true)}
-                                checked={previewImage === true}/>
-                                Yes
+                            id='manage-photos-input'
+                            type='text'
+                            value={url}
+                            onChange={e => setUrl(e.target.value)}
+                            placeholder='image URL'
+                            ></input>
                         </label>
 
-                          <label>
-                            <input
-                                type="radio"
-                                value={false}
-                                name="previewImage"
-                                onChange={() => setPreviewImage(false)}
-                                checked={previewImage === false}/>
+                        <div className='image-form-holders'>
+                            <p>Is this a preview image?</p>
+                            <label className='preview-radio'>
+                                Yes
+                                <input
+                                    type="radio"
+                                    value={true}
+                                    name="previewImage"
+                                    onChange={() => setPreviewImage(true)}
+                                    checked={previewImage === true}/>
+                            </label>
+
+                              <label className='preview-radio'>
                                 No
-                        </label>
-                    </div>
-                    
-                    <button id='add-image' type='submit'>Add</button>
-                </form>
+                                <input
+                                    type="radio"
+                                    value={false}
+                                    name="previewImage"
+                                    onChange={() => setPreviewImage(false)}
+                                    checked={previewImage === false}/>
+                            </label>
+                        </div>
+
+                        <button id='add-image' type='submit'>Add</button>
+                    </form>
+                </div>
             }
         </div>
     )

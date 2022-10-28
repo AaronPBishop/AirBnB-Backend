@@ -1,15 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { fetchSpotById } from "../../store/spots.js";
 import Reviews from "../Reviews/index.js";
+import CreateReview from "../Reviews/CreateReview.js";
 
 import './styles.css';
 
 const ShowSpot = () => {
     const dispatch = useDispatch();
     const spotId = useParams();
+    
+    const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
         dispatch(fetchSpotById(spotId.spotId))
@@ -55,14 +58,22 @@ const ShowSpot = () => {
                     </li>
 
                     <li>
+                    Description: <b>{spotData.description}</b>
+                    </li>
+
+                    <li>
                     Price: <b>{spotData.price}</b>
                     </li>
 
                 </ul>
             </div>
 
-            <div id='reviews'>
-                <Reviews spotId={spotId.spotId} avgRating={spotData.avgRating} />
+            <div id={clicked ? 'move-reviews' : 'reviews'}>
+                <Reviews spotId={spotId.spotId} avgRating={spotData.avgRating} type='spot' />
+            </div>
+
+            <div id='create-review-component' onClick={() => setClicked(true)}>
+                <CreateReview spotId={spotId.spotId} />
             </div>
         </div>
     );

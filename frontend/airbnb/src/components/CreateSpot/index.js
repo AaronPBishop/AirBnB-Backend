@@ -11,7 +11,7 @@ const CreateSpot = ({ id }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Now, set your price', 'Check out your listing!'];
+    const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Set your price', 'Now, let\'s give it an image', 'Check out your listing!'];
     const buttonText = ['Next', 'Save your listing'];
 
     const [address, setAddress] = useState('');
@@ -23,29 +23,31 @@ const CreateSpot = ({ id }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
+    const [previewImage, setPreviewImage] = useState('');
+    const [url, setUrl] = useState('');
 
     const [currPrompt, setCurrPrompt] = useState(Number(0));
 
     useEffect(() => {
-        if (currPrompt > 4) setCurrPrompt(Number(0));
+        if (currPrompt > 5) setCurrPrompt(Number(0));
         if (currPrompt < 0) setCurrPrompt(Number(0));
     }, [currPrompt])
 
     const handleSubmit = () => {
-        if (currPrompt < 4) {
+        if (currPrompt < 5) {
             setCurrPrompt(Number(currPrompt) + 1);
 
             return;
         };
 
         if (id) {
-            dispatch(editSpotData({id: id, address, city, state, country, lat, lng, name, description, price}));
+            dispatch(editSpotData({id: id, address, city, state, country, lat, lng, name, description, price, previewImage: url}));
             history.push(`/`);
             
             return;
         };
 
-        dispatch(sendSpotData({address, city, state, country, lat, lng, name, description, price}));
+        dispatch(sendSpotData({address, city, state, country, lat, lng, name, description, price, previewImage: url}));
         history.push(`/`);
     };
 
@@ -161,6 +163,46 @@ const CreateSpot = ({ id }) => {
 
                 || currPrompt === 4 &&
                 
+                <div id='create-spot-image-container'>
+                    <form id='create-spot-image-form' onSubmit={handleSubmit}>
+                        <label className='create-spot-image-labels'>
+                            <input
+                            type='text'
+                            value={url}
+                            onChange={e => setUrl(e.target.value)}
+                            placeholder='image URL'
+                            ></input>
+                        </label>
+
+                        <div className='create-spot-image-labels'>
+                            <p>Is this a preview image?</p>
+                            <label className='create-spot-preview-radio'>
+                                Yes
+                                <input
+                                    type="radio"
+                                    value={true}
+                                    name="previewImage"
+                                    onChange={() => setPreviewImage(true)}
+                                    checked={previewImage === true}/>   
+                            </label>
+
+                            <label className='create-spot-preview-radio'>
+                                No
+                                <input
+                                    type="radio"
+                                    value={false}
+                                    name="previewImage"
+                                    onChange={() => setPreviewImage(false)}
+                                    checked={previewImage === false}/>
+                            </label>
+                        </div>
+
+                        <button id='create-spot-add-image'>Add</button>
+                    </form>
+                </div>
+
+                || currPrompt === 5 &&
+
                 <div id='review-spot'>
                     <ul id='review-spot-ul'>
                         <li>Address: {address}</li>
@@ -181,15 +223,16 @@ const CreateSpot = ({ id }) => {
                     || (currPrompt === 1) && 'form-navigation-2'
                     || (currPrompt === 2) && 'form-navigation-3'
                     || (currPrompt === 4) && 'form-navigation-4'
+                    || (currPrompt === 5) && 'form-navigation-5'
                 }>
                     <button id='form-navigate-back-button' onClick={() => setCurrPrompt(Number(currPrompt) - 1)}>Back</button>
-                    <button id={currPrompt < 4 ? 
+                    <button id={currPrompt < 5 ? 
                                 'form-navigation-button' :
                                 'form-save-button'} 
                                 type='submit' 
                                 onClick={handleSubmit}>
                                 {
-                                currPrompt < 4 ?
+                                currPrompt < 5 ?
                                 buttonText[0] :
                                 buttonText[1]
                                 }

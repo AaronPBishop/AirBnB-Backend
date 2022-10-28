@@ -10,9 +10,6 @@
 #spot-list {
     list-style: none;
     line-height: 35px;
-
-    position: relative;
-    left: 270px;
 }
 
 #spot-images-container {
@@ -29,4 +26,11 @@
 
     min-height: 250px;
     max-height: 250px;
+
+    margin: 15px;
 }
+
+#move-reviews {
+    position: relative;
+    top: 50vh;
+};

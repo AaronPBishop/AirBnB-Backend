@@ -1,12 +1,16 @@
 #all-spots {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     margin: auto;
     flex-wrap: wrap;
     box-sizing: content-box;
 
-    min-width: 950px;
-    max-width: 950px;
+    min-width: 900px;
+    max-width: 900px;
+
+    position: relative;
+    right: 4.5vw;
+    padding-bottom: 80px;
 }
 
 .spot-divs {
@@ -17,8 +21,8 @@
     min-width: 160px;
     max-width: 160px;
 
-    min-height: 140px;
-    max-height: 140px;
+    min-height: 290px;
+    max-height: 290px;
 
     margin: 15px;
 }
@@ -31,4 +35,9 @@
 
     min-height: 250px;
     max-height: 250px;
+}
+
+#spot-name {
+    line-height: 15px;
+    margin-bottom: 10px;
 }

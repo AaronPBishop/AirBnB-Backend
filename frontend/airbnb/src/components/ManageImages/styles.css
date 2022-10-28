@@ -1,6 +1,85 @@
+#current-images {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    bottom: 12vh;
+    left: 13vw;
+}
+
+#manage-spot-images-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 5vh;
+}
+
+#manage-spot-images {
+    margin: 15px;
+}
+
+#delete-image-button {
+    margin: 2px;
+    margin-top: 20px;
+
+    color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+
+    background-color: #FF385C;
+    border: 1px solid #FF385C;
+    border-bottom: 3px solid #a6223a;
+    border-radius: 6px;
+
+    position: relative;
+    bottom: 3vh;
+    left: 6vw;
+}
+
+#manage-spot-images {
+    position: relative;
+    right: 2vw;
+    border: 1px solid black;
+    border-radius: 8px;
+    
+    min-width: 300px;
+    max-width: 300px;
+
+    min-height: 250px;
+    max-height: 250px;
+}
+
+#form-container {
+    max-width: 475px;
+    width: 100%;
+    margin: 0 auto;
+
+    position: relative;
+    top: 5vh;
+}
+
+.image-form-holders {
+    display: flex;
+    justify-content: center;
+    margin: 1px;
+
+    position: relative;
+    left: 15px;
+}
+
+.image-form-holders > p {
+    display: flex;
+    justify-content: center;
+    margin: 1px;
+
+    position: relative;
+    left: 15px;
+}
+
 #add-images {
     display: flex;
     justify-content: center;
+    position: relative;
+    top: 2vh;
 }
 
 #add-image-button {
@@ -21,19 +100,29 @@
 
     min-width: 125px;
     max-width: 125px;
+
+    position: relative;
+    left: 2vw;
+    top: 2vh;
 }
 
 #image-form {
     display: flex;
     justify-content: center;
 
-    margin: 40px;
+    border: 2px solid black;
+    border-radius: 8px;
+
+    background: #F9F9F9;
+    padding: 25px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+    position: relative;
+    left: 2vw;
+    top: 2vh;
 }
 
 #add-image {
-    min-height: 23px;
-    max-height: 23px;
-
     text-align: center;
     color: white;
 
@@ -48,9 +137,31 @@
     touch-action: manipulation;
     vertical-align: middle;
     outline: 0;
+
+    min-width: 50px;
+    max-width: 50px;
 }
 
 #preview-image-form {
     display: flex;
     justify-content: space-evenly;
+}
+
+#manage-photos-input {
+    position: relative;
+    top: 2vh;
+
+    min-height: 30px;
+    max-height: 30px;
+    
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.preview-radio {
+    position: relative;
+    right: 25px;
+    top: 5px;
+
+    margin: 5px;
 }

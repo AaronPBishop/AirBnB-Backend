@@ -36,7 +36,7 @@ const ShowAllSpots = () => {
                     }
                 </div>
 
-                <p><b>{spot.name}</b></p>
+                <p id='spot-name'><b>{spot.name}</b></p>
 
                 <NavLink to={`/spots/${spot.id}`} className='navlinks' onClick={() => dispatch(setCurrSpotId(spot.id))}>{spot.city}</NavLink>
 

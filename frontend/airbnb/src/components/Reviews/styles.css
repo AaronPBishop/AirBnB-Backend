@@ -15,20 +15,171 @@
     box-sizing: content-box;
 
     position: relative;
-    top: 10vh;
+    bottom: 3vh;
 
-    min-width: 950px;
-    max-width: 950px;
+    min-width: 800px;
+    max-width: 800px;
 }
 
 #individual-reviews {
-    border: 2px solid black;
-    border-radius: 8px;
-
     min-width: 200px;
     max-width: 200px;
 
-    padding: 20px;
+    padding: 10px;
 
     margin-bottom: 10px;
+}
+
+#create-review-container {
+    display: flex;
+    justify-content: flex-start;
+
+    position: relative;
+    bottom: 12vh;
+    left: 10.2vw;
+}
+
+#move-create-review-container {
+    display: flex;
+    justify-content: flex-start;
+
+    position: relative;
+    bottom: 12vh;
+    left: 40vw;
+}
+
+#create-review-button {
+    font-family: 'Montserrat';
+    color: #222222;
+
+    background-color: white;
+    font-weight: 800;
+    font-size: 15px;
+
+    min-width: 180px;
+    max-width: 180px;
+
+    min-height: 40px;
+
+    border: 1px solid #222222;
+    border-radius: 8px;
+}
+
+#hide-create-review-button {
+    display: none;
+}
+
+#review-textarea {
+    resize: none;
+
+    border: 2px solid black;
+    border-radius: 4px;
+
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 15px;
+
+    color: black;
+    height: 150px;
+    width: 350px;
+
+    position: relative;
+    bottom: 5vh;
+    right: 8vh;
+}
+
+#review-form-hidden {
+    display: none;
+}
+
+.star-rating {
+    display: flex;
+    justify-content: flex-start;
+
+    position: relative;
+    bottom: 6vh;
+    right: 4.1vw;
+}
+
+#stars-button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.on {
+  color: #ffd700;
+}
+
+.off {
+  color: #ccc;
+}
+
+#submit-review {
+    font-family: 'Montserrat';
+    color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+
+    background-color: #FF385C;
+    border: 1px solid #FF385C;
+    border-bottom: 3px solid #a6223a;
+    border-radius: 6px;
+
+    min-height: 30px;
+    max-height: 30px;
+
+    position: relative;
+    bottom: 12vh;
+    left: 12vw;
+
+    cursor: pointer;
+}
+
+#submit-edit {
+    font-family: 'Montserrat';
+    color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+
+    background-color: #FF385C;
+    border: 1px solid #FF385C;
+    border-bottom: 3px solid #a6223a;
+    border-radius: 6px;
+
+    min-height: 30px;
+    max-height: 30px;
+
+    position: relative;
+    bottom: 12vh;
+    left: 11vw;
+
+    cursor: pointer;
+}
+
+.manage-user-review-buttons {
+    margin: 2px;
+    margin-top: 20px;
+
+    color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+
+    background-color: #FF385C;
+    border: 1px solid #FF385C;
+    border-bottom: 3px solid #a6223a;
+    border-radius: 6px;
+
+    min-height: 30px;
+    max-height: 30px;
+
+    position: relative;
+    bottom: 2.3vh;
+}
+
+#edit-review-form {
+    position: relative;
+    top: 12vh;
+    left: 31.8vw;
 }

@@ -48,6 +48,8 @@ const ProfileButton = ({ user }) => {
           <NavLink to='/create-spot' className='navlinks'>Host your Home</NavLink>
           <br/>
           <NavLink to='/manage-listings' className='navlinks'>Manage your Listings</NavLink>
+          <br/>
+          <NavLink to='/manage-account' className='navlinks'>Manage your Account</NavLink>
           <li>
             <button id='logout-button' onClick={logout}>Log Out</button>
           </li>

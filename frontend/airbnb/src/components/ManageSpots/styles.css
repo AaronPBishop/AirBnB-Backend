@@ -1,6 +1,6 @@
 #user-spots {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     margin: auto;
     flex-wrap: wrap;
     box-sizing: content-box;
@@ -14,14 +14,14 @@
     padding: 20px;
     
     text-align: left;
-    line-height: 10px;
+    line-height: 15px;
     min-width: 160px;
     max-width: 160px;
 
     min-height: 140px;
     max-height: 140px;
 
-    margin: 15px;
+    margin: auto;
 }
 
 .manage-buttons {
@@ -39,11 +39,14 @@
 
     min-height: 30px;
     max-height: 30px;
+
+    position: relative;
+    bottom: 2.3vh;
 }
 
 #manage-photos {
     position: relative;
-    bottom: 2.5vh;
+    bottom: 5vh;
 }
 
 #edit-spot {

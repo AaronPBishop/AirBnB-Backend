@@ -13,7 +13,8 @@ module.exports = {
         lng: 22.2222,
         name: 'Mountain Escape',
         description: 'A beautiful retreat in the mountains of Colorado',
-        price: 499.95
+        price: 499.95,
+        previewImage: 'https://a0.muscache.com/im/pictures/miso/Hosting-33039532/original/418b9b58-01e3-4a3a-8641-f99ed5e1b846.jpeg?im_w=1200'
       },
       {
         ownerId: 2,
@@ -25,7 +26,8 @@ module.exports = {
         lng: 33.3333,
         name: 'Hawaiian Retreat',
         description: 'Breath-taking ocean-side home with gorgeous views',
-        price: 850.00
+        price: 850.00,
+        previewImage: 'https://a0.muscache.com/im/pictures/6270966e-1534-4382-a4cc-bb230f318ac6.jpg?im_w=1200'
       },
       {
         ownerId: 3,
@@ -37,7 +39,8 @@ module.exports = {
         lng: 44.4444,
         name: 'Palm Beach Villa',
         description: 'A sun-kissed villa with full spa amenities and views of the ocean',
-        price: 699.99
+        price: 699.99,
+        previewImage: 'https://a0.muscache.com/im/pictures/prohost-api/Hosting-588976199822506952/original/85cfb14a-9f26-4893-8080-155d02084b52.jpeg?im_w=720'
       }
     ], {});
   },

@@ -1,0 +1,40 @@
+#welcome-header {
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+#manage-reviews-button-div {
+    display: flex;
+    justify-content: center;
+}
+
+#manage-reviews-button {
+    margin: 2px;
+    margin-top: 20px;
+
+    color: white;
+    border: 1px solid black;
+    border-radius: 8px;
+
+    background-color: #FF385C;
+    border: 1px solid #FF385C;
+    border-bottom: 3px solid #a6223a;
+    border-radius: 6px;
+
+    min-height: 30px;
+    max-height: 30px;
+
+    position: relative;
+    bottom: 2.3vh;
+}
+
+#account-reviews {
+    position: relative;
+    top: 10vh;
+}
+
+#hide-account-reviews {
+    display: none;
+}

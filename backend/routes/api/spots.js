@@ -89,7 +89,7 @@ router.get('/', validateQueryParameters, async (req, res) => {
 
 // Create a spot
 router.post('/', requireAuth, async (req, res, next) => {
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const { address, city, state, country, lat, lng, name, description, price, previewImage } = req.body;
 
     const ownerId = req.user.id;
 
@@ -104,7 +104,8 @@ router.post('/', requireAuth, async (req, res, next) => {
             lng,
             name,
             description,
-            price
+            price,
+            previewImage
         });
 
         return res.status(201).json(newSpot);
@@ -175,7 +176,7 @@ router.get('/:spotId', async (req, res) => {
 
 // Edit a spot
 router.put('/:spotId', requireAuth, async (req, res) => {
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const { address, city, state, country, lat, lng, name, description, price, previewImage } = req.body;
 
     const spotId = await Spot.findByPk(req.params.spotId);
 
@@ -196,7 +197,8 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         lng,
         name,
         description,
-        price
+        price,
+        previewImage
     });
 
     return res.json(spotToUpdate);
@@ -299,7 +301,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
 });
 
 // Create a review for a spot based on spotId
-router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     const { review, stars } = req.body;
     const spotId = await Spot.findByPk(req.params.spotId);
 
