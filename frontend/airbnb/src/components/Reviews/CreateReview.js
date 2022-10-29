@@ -16,24 +16,32 @@ const CreateReview = ({ spotId, reviewId, type }) => {
     const [hover, setHover] = useState(0);
 
     const reviews = useSelector(state => state.reviews);
-    
-    let newReviewId;
-    newReviewId = (Math.max(...useSelector(state => Object.keys(state.reviews))) + 1);
-    if (newReviewId < 0) newReviewId = 0;
 
-    const handleSubmit = () => {
-      if (type === 'edit') dispatch(editSpotReview({review, stars: rating}, reviewId))
-      else {
-        if (reviews) {
-          const newReview = reviews[newReviewId];
+    const handleSubmit = async e => {
+      e.preventDefault();
+      
+      if (type === 'edit') {
+        const newReview = dispatch(editSpotReview({review, stars: rating}, reviewId));
 
-          let newReviewImages;
-          if (newReview) {
-            newReviewImages = newReview.ReviewImages;
+        if (newReview) {
+          const newReviewImages = reviews.CurrentReviewImgs;
 
-            dispatch(createSpotReview({review, stars: rating}, spotId)).then(newReviewImages.map(img => dispatch(createReviewImage(img.url, img.preview, newReviewId))));
-          };
+          dispatch(createReviewImage(newReviewImages.url, newReviewImages.preview, reviewId));
+          return;
         };
+
+        return;
+      } else {
+        const newReview = dispatch(createSpotReview({review, stars: rating}, spotId));
+
+        if (newReview) {
+          const newReviewImages = reviews.CurrentReviewImgs;
+
+          dispatch(createReviewImage(newReviewImages.url, newReviewImages.preview, newReview.id));
+          return;
+        };
+
+        return;
       };
     };
 
@@ -80,7 +88,7 @@ const CreateReview = ({ spotId, reviewId, type }) => {
                       clickedAddImg &&
                       <div id='review-add-img-form'>
                         <div id='review-add-img-form-inner-div'>
-                          <AddImageForm type='createReview' spotId={spotId} reviewId={newReviewId} />
+                          <AddImageForm type='createReview' spotId={spotId} />
                         </div>
                       </div>
                     }

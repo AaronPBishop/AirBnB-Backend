@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
 import { sendSpotImgData, feedImgFormData } from '../../store/spots.js';
-import { addReviewImg } from '../../store/reviews.js';
+import { addTempReviewImg } from '../../store/reviews.js';
 
 const AddImageForm = ({ type, spotId, reviewId }) => {
     const dispatch = useDispatch();
@@ -65,8 +65,7 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
                     };
 
                     if (type === 'createReview') {
-                        console.log(reviewId)
-                        dispatch(addReviewImg(url, previewImage, reviewId));
+                        dispatch(addTempReviewImg(url, previewImage));
                         return;
                     };
 

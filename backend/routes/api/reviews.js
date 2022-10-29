@@ -62,7 +62,7 @@ router.get('/current', requireAuth, async (req, res) => {
             {
                 model: Image,
                 as: 'ReviewImages',
-                attributes: ['id', 'url']
+                attributes: ['id', 'url', 'preview']
             },
         ]
     });
@@ -72,7 +72,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 // Add an image to a review based on the review id
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
-    const { url } = req.body;
+    const { url, preview } = req.body;
     const reviewId = await Review.findByPk(req.params.reviewId);
     const allImages = await Image.findAll({ where: { reviewId: req.params.reviewId } });
 
@@ -82,15 +82,33 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 
     if (allImages.length > 9) return res.status(400).json({"message": "Maximum number of images for this resource was reached", "statusCode": 400});
 
-    const newImage = await Image.create({
+    await Image.create({
         userId: reviewId.userId,
         reviewId: reviewId.id,
-        url
+        url,
+        preview
     });
 
-    const { id } = newImage;
+    const reviewImages = await Review.findOne({
+        where: { id: req.params.reviewId },
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: Spot,
+                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price', 'previewImage']
+            },
+            {
+                model: Image,
+                as: 'ReviewImages',
+                attributes: ['id', 'url', 'preview']
+            },
+        ]
+    });
 
-    res.json({id, url});
+    res.json(reviewImages)
 });
 
 // Delete an image for a review

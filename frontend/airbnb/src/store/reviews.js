@@ -17,9 +17,23 @@ export const toggleEditMode = (boolean, reviewId) => {
     };
 };
 
-export const addReviewImg = (url, preview, reviewId) => {
+export const addTempReviewImg = (url, preview) => {
     return {
-        type: 'ADD_REVIEW_IMG',
+        type: 'ADD_TEMP_REVIEW_IMG',
+        payload1: url,
+        payload2: preview
+    };
+};
+
+export const totalReviews = () => {
+    return {
+        type: 'TOTAL_REVIEWS'
+    };
+};
+
+export const addReviewImages = (url, preview, reviewId) => {
+    return {
+        type: 'ADD_REVIEW_IMAGES',
         payload1: url,
         payload2: preview,
         payload3: reviewId
@@ -56,13 +70,15 @@ export const fetchUserReviews = () => async (dispatch) => {
 };
 
 export const createSpotReview = (review, spotId) => async (dispatch) => {
-    await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(review)
     });
     
     dispatch(createReview(review));
+    const newReview = response.json();
+    return newReview;
 };
 
 export const editSpotReview = (review, reviewId) => async (dispatch) => {
@@ -75,12 +91,16 @@ export const editSpotReview = (review, reviewId) => async (dispatch) => {
     dispatch(createReview(review));
 };
 
-export const createReviewImage = (url, preview, reviewId) => async () => {
-    await csrfFetch(`/api/reviews/${reviewId}/images`, {
+export const createReviewImage = (url, preview, reviewId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}/images`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(url, preview)
+        body: JSON.stringify({url, preview})
     });
+
+    const newReview = await response.json();
+
+    dispatch(createReview(newReview));
 };
 
 export const deleteReviewData = (reviewId) => async (dispatch) => {
@@ -91,13 +111,23 @@ export const deleteReviewData = (reviewId) => async (dispatch) => {
     dispatch(deleteReview(reviewId));
 };
 
+export const readReviewImages = (url, preview, reviewId) => async (dispatch) => {
+    await csrfFetch(`/api/reviews/${reviewId}/images`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(url, preview)
+    });
+
+    dispatch(addReviewImages(url, preview, reviewId))
+};
+
 const reviewsReducer = (state = initialState, action) => {
     const currentState = { ...state };
 
     switch (action.type) {
         case 'CREATE_REVIEW': {
             currentState[action.payload.id] = action.payload;
-
+            
             return currentState;
         };
 
@@ -107,10 +137,22 @@ const reviewsReducer = (state = initialState, action) => {
             return currentState;
         };
 
-        case 'ADD_REVIEW_IMG': {
+        case 'ADD_TEMP_REVIEW_IMG': {
             const ReviewImages = {url: action.payload1, preview: action.payload2};
 
-            currentState[action.payload3] = {ReviewImages};
+            currentState['CurrentReviewImgs'] = ReviewImages;
+
+            return currentState;
+        };
+
+        case 'TOTAL_REVIEWS': {
+            currentState['totalReviews'] += 1;
+
+            return currentState;
+        };
+
+        case 'ADD_REVIEW_IMAGES': {
+            currentState[action.payload3] = {url: action.payload1, preview: action.payload2};
 
             return currentState;
         };

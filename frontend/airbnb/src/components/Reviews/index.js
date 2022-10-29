@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchSpotReviews } from '../../store/reviews.js';
@@ -22,7 +22,7 @@ const Reviews = ({ spotId, avgRating, type }) => {
     for (let key in reviews) {
         const currReview = reviews[key];
 
-        reviewsArr.push(currReview);
+        if (key.match(/[0-9]/)) reviewsArr.push(currReview);
     };
 
     return (

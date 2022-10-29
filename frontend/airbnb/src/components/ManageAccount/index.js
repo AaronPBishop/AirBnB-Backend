@@ -7,8 +7,6 @@ import CreateReview from '../Reviews/CreateReview.js'
 import './styles.css';
 
 const ManageAccount = () => {
-    const dispatch = useDispatch();
-
     const user = useSelector(state => state.session.user);
     const [clicked, setClicked] = useState(false);
 
