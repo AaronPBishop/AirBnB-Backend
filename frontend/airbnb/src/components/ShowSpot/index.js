@@ -11,6 +11,9 @@ import './styles.css';
 const ShowSpot = () => {
     const dispatch = useDispatch();
     const spotId = useParams();
+
+    const reviews = useSelector(state => state.reviews);
+    const isSubmitted = reviews.submitted;
     
     const [clicked, setClicked] = useState(false);
 
@@ -68,7 +71,7 @@ const ShowSpot = () => {
                 </ul>
             </div>
 
-            <div id={clicked ? 'move-reviews' : 'reviews'}>
+            <div id={clicked && !isSubmitted ? 'move-reviews' : 'reviews'}>
                 <Reviews spotId={spotId.spotId} avgRating={spotData.avgRating} type='spot' />
             </div>
 

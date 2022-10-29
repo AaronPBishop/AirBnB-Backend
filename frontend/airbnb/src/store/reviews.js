@@ -25,12 +25,6 @@ export const addTempReviewImg = (url, preview) => {
     };
 };
 
-export const totalReviews = () => {
-    return {
-        type: 'TOTAL_REVIEWS'
-    };
-};
-
 export const addReviewImages = (url, preview, reviewId) => {
     return {
         type: 'ADD_REVIEW_IMAGES',
@@ -44,6 +38,13 @@ export const deleteReview = (reviewId) => {
     return {
         type: 'DELETE_REVIEW',
         payload: reviewId
+    };
+};
+
+export const submittedReview = (boolean) => {
+    return {
+        type: 'SUBMITTED_REVIEW',
+        payload: boolean
     };
 };
 
@@ -77,6 +78,7 @@ export const createSpotReview = (review, spotId) => async (dispatch) => {
     });
     
     dispatch(createReview(review));
+
     const newReview = response.json();
     return newReview;
 };
@@ -111,16 +113,6 @@ export const deleteReviewData = (reviewId) => async (dispatch) => {
     dispatch(deleteReview(reviewId));
 };
 
-export const readReviewImages = (url, preview, reviewId) => async (dispatch) => {
-    await csrfFetch(`/api/reviews/${reviewId}/images`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(url, preview)
-    });
-
-    dispatch(addReviewImages(url, preview, reviewId))
-};
-
 const reviewsReducer = (state = initialState, action) => {
     const currentState = { ...state };
 
@@ -145,12 +137,6 @@ const reviewsReducer = (state = initialState, action) => {
             return currentState;
         };
 
-        case 'TOTAL_REVIEWS': {
-            currentState['totalReviews'] += 1;
-
-            return currentState;
-        };
-
         case 'ADD_REVIEW_IMAGES': {
             currentState[action.payload3] = {url: action.payload1, preview: action.payload2};
 
@@ -159,6 +145,16 @@ const reviewsReducer = (state = initialState, action) => {
 
         case 'DELETE_REVIEW': {
             delete currentState[action.payload];
+
+            return currentState;
+        };
+
+        case 'SUBMITTED_REVIEW': {
+            if (currentState['editMode']) delete currentState['editMode'];
+            if (currentState['CurrentReviewImgs']) delete currentState['CurrentReviewImgs'];
+            if (currentState['undefined']) delete currentState['undefined'];
+            
+            currentState['submitted'] = action.payload;
 
             return currentState;
         };

@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSpotReview } from '../../store/reviews.js';
-import { editSpotReview, createReviewImage } from '../../store/reviews.js';
+import { createSpotReview, editSpotReview, createReviewImage, submittedReview } from '../../store/reviews.js';
 import AddImageForm from '../ManageImages/AddImageForm.js';
 
 import './styles.css';
@@ -16,34 +15,47 @@ const CreateReview = ({ spotId, reviewId, type }) => {
     const [hover, setHover] = useState(0);
 
     const reviews = useSelector(state => state.reviews);
+    const isSubmitted = reviews.submitted;
 
     const handleSubmit = async e => {
       e.preventDefault();
-      
+
       if (type === 'edit') {
-        const newReview = dispatch(editSpotReview({review, stars: rating}, reviewId));
+        const newReview = await dispatch(editSpotReview({review, stars: rating}, reviewId));
 
         if (newReview) {
           const newReviewImages = reviews.CurrentReviewImgs;
 
           dispatch(createReviewImage(newReviewImages.url, newReviewImages.preview, reviewId));
+          dispatch(submittedReview(true));
+
           return;
         };
 
+        dispatch(submittedReview(true));
         return;
-      } else {
-        const newReview = dispatch(createSpotReview({review, stars: rating}, spotId));
+      };
+      
+      if (type !== 'edit') {
+        const newReview = await dispatch(createSpotReview({review, stars: rating}, spotId));
 
         if (newReview) {
           const newReviewImages = reviews.CurrentReviewImgs;
 
           dispatch(createReviewImage(newReviewImages.url, newReviewImages.preview, newReview.id));
+          dispatch(submittedReview(true));
+
           return;
         };
 
+        dispatch(submittedReview(true));
         return;
       };
     };
+
+    useEffect(() => {
+      setClicked(false);
+    }, [isSubmitted])
 
     return (
         <div id={clicked ? 'move-create-review-container' : 'create-review-container'}>
