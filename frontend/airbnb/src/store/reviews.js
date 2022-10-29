@@ -48,6 +48,12 @@ export const submittedReview = (boolean) => {
     };
 };
 
+export const rerenderReviews = () => {
+    return {
+        type: 'RERENDER_REVIEWS'
+    };
+};
+
 export const fetchSpotReviews = (spotId) => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'GET'
@@ -157,6 +163,10 @@ const reviewsReducer = (state = initialState, action) => {
             currentState['submitted'] = action.payload;
 
             return currentState;
+        };
+
+        case 'RERENDER_REVIEWS': {
+            return initialState;
         };
 
         default: return currentState;

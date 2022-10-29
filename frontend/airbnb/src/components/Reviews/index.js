@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchSpotReviews } from '../../store/reviews.js';
-import { fetchUserReviews } from '../../store/reviews.js';
-import { deleteReviewData } from '../../store/reviews.js';
-import { toggleEditMode } from '../../store/reviews.js';
+import { fetchSpotReviews, toggleEditMode, deleteReviewData, fetchUserReviews, rerenderReviews } from '../../store/reviews.js';
 
 import './styles.css';
 
@@ -12,6 +9,8 @@ const Reviews = ({ spotId, avgRating, type }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(rerenderReviews());
+
         if (type === 'spot') dispatch(fetchSpotReviews(spotId));
         if (type === 'user') dispatch(fetchUserReviews());
     }, [dispatch]);
@@ -25,7 +24,7 @@ const Reviews = ({ spotId, avgRating, type }) => {
         if (key.match(/[0-9]/)) reviewsArr.push(currReview);
     };
 
-    return (
+    if (reviews) return (
         <div>
             {type === 'spot' && <div id='ratings-header'><p id='header'>⭐ {avgRating} - {reviewsArr.length} reviews</p></div>}
 
