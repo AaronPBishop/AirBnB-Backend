@@ -1,18 +1,18 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { fetchSpotById, sendSpotImgData, deleteSpotImgData } from '../../store/spots.js';
+import { fetchSpotById, deleteSpotImgData } from '../../store/spots.js';
 
 import './styles.css';
+import AddImageForm from './AddImageForm.js';
 
 const ManageImages = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const spotId = useParams();
-    const [clicked, setClicked] = useState(false);
 
-    const [url, setUrl] = useState('');
-    const [previewImage, setPreviewImage] = useState(false);
+    const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
         dispatch(fetchSpotById(spotId.spotId))
@@ -27,14 +27,10 @@ const ManageImages = () => {
         imgData = selectSpot.currSpot.SpotImages;
     };
 
-    const handleSubmit = () => {
-        dispatch(sendSpotImgData(spotId.spotId, {url, previewImage}))
-    };
-
     if (spotData) return (
         <div id='manage-images'>
             <div id='manage-spot-images-container'>
-                {spotData.SpotImages.length > 0 && <div id='current-images'><p id='header'>Current Images</p></div>}
+                {spotData.SpotImages.length > 0 && <div id='current-images'><p id='manage-images-header'>Current Images</p></div>}
 
                 {
                     spotData.SpotImages.length > 0 && imgData ?
@@ -44,7 +40,10 @@ const ManageImages = () => {
                                 <div>
                                     <img src={img.url} key={i} id='manage-spot-images'></img>
                                 </div>
-                                <div id='delete-image-div'><button id='delete-image-button' onClick={() => dispatch(deleteSpotImgData(i, imgData[i].id))}>Delete</button></div>
+                                <div id='delete-image-div'><button id='delete-image-button' 
+                                onClick={() => {
+                                    dispatch(deleteSpotImgData(i, imgData[i].id)) 
+                                    history.push('/manage-listings')}}>Delete</button></div>
                             </div>
                         )
                     }) : <p><i>No images to display</i></p>
@@ -57,44 +56,7 @@ const ManageImages = () => {
 
             {
                 clicked && 
-                <div id='form-container'>
-                    <form id='image-form' onSubmit={handleSubmit}>
-                        <label className='image-form-holders'>
-                            <input
-                            id='manage-photos-input'
-                            type='text'
-                            value={url}
-                            onChange={e => setUrl(e.target.value)}
-                            placeholder='image URL'
-                            ></input>
-                        </label>
-
-                        <div className='image-form-holders'>
-                            <p>Is this a preview image?</p>
-                            <label className='preview-radio'>
-                                Yes
-                                <input
-                                    type="radio"
-                                    value={true}
-                                    name="previewImage"
-                                    onChange={() => setPreviewImage(true)}
-                                    checked={previewImage === true}/>
-                            </label>
-
-                              <label className='preview-radio'>
-                                No
-                                <input
-                                    type="radio"
-                                    value={false}
-                                    name="previewImage"
-                                    onChange={() => setPreviewImage(false)}
-                                    checked={previewImage === false}/>
-                            </label>
-                        </div>
-
-                        <button id='add-image' type='submit'>Add</button>
-                    </form>
-                </div>
+                <AddImageForm spotId={spotId} />
             }
         </div>
     )

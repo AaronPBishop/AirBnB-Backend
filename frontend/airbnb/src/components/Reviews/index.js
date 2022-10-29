@@ -32,16 +32,25 @@ const Reviews = ({ spotId, avgRating, type }) => {
             <div id='reviews-container'>
                 {reviewsArr.map((review, i) => {
                     return <div id='individual-reviews' key={i}>
+
                                 <p id='review-username'><b>{review.User.firstName}:</b></p> 
+
                                 {type === 'user' && <p>Spot: {review.spotId}</p>}
+
                                 <p>{review.review}</p>
+
                                 {type === 'user' && 
                                     <div>
+
                                         <button className='manage-user-review-buttons' 
                                         onClick={() => dispatch(deleteReviewData(review.id))}>Delete</button>
+
                                         <button className='manage-user-review-buttons'
                                         onClick={() => dispatch(toggleEditMode(true, review.id))}>Edit</button>
-                                    </div>}
+
+                                    </div>
+                                }
+
                             </div>
                 })}
             </div>

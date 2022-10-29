@@ -38,8 +38,10 @@ const ManageSpots = () => {
                     }
                 </div>
 
-                <p><b>{spot.name}</b></p>
-                <NavLink to={`/spots/${spot.id}`} className='navlinks'>{spot.city}</NavLink>
+                <div id='manage-spot-details'>
+                    <p id='spot-name'><b>{spot.name}</b></p>
+                    <NavLink to={`/spots/${spot.id}`} className='navlinks'>{spot.city}</NavLink>
+                </div>
 
                 <div id='manage-buttons-container'>
                     <button className='manage-buttons' id='delete-spot' onClick={() => dispatch(deleteSpotThunk(spot.id))}>Delete</button>

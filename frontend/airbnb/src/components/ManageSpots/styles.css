@@ -5,23 +5,26 @@
     flex-wrap: wrap;
     box-sizing: content-box;
 
-    min-width: 950px;
-    max-width: 950px;
+    min-width: 900px;
+    max-width: 900px;
+
+    position: relative;
+    right: 4.5vw;
+    padding-bottom: 80px;
 }
 
 .user-spot-divs {
-    text-align: center;
-    padding: 20px;
-    
     text-align: left;
-    line-height: 15px;
+    line-height: 10px;
+    padding: 20px;
+
     min-width: 160px;
     max-width: 160px;
 
-    min-height: 140px;
-    max-height: 140px;
+    min-height: 290px;
+    max-height: 290px;
 
-    margin: auto;
+    margin: 15px;
 }
 
 .manage-buttons {
@@ -64,8 +67,17 @@
     top: 10vh;
 }
 
+#manage-spot-details {
+    position: absolute;
+}
+
 #manage-buttons-container {
     position: relative;
-    bottom: 9vh;
-    left: 12vw;
+    top: 0.5vh;
+    left: 12.5vw;
+}
+
+#spot-name {
+    line-height: 15px;
+    margin-bottom: 10px;
 }

@@ -38,6 +38,13 @@ export const deleteSpotImage = (spotId, imgIndex) => {
     };
 };
 
+export const feedImgFormData = (url) => {
+    return {
+        type: 'FEED_IMG_FORM_DATA',
+        payload: url
+    };
+};
+
 export const fetchSpots = () => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots`, {
         method: 'GET'
@@ -120,6 +127,12 @@ const spotsReducer = (state = initialState, action) => {
         case 'DELETE_SPOT_IMAGE': {
             const spotImages = currentState.currSpot.SpotImages;
             delete spotImages[action.payload]
+
+            return currentState;
+        };
+
+        case 'FEED_IMG_FORM_DATA': {
+            currentState['imgFormData'] = {url: action.payload};
 
             return currentState;
         };

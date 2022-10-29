@@ -17,6 +17,15 @@ export const toggleEditMode = (boolean, reviewId) => {
     };
 };
 
+export const addReviewImg = (url, preview, reviewId) => {
+    return {
+        type: 'ADD_REVIEW_IMG',
+        payload1: url,
+        payload2: preview,
+        payload3: reviewId
+    };
+};
+
 export const deleteReview = (reviewId) => {
     return {
         type: 'DELETE_REVIEW',
@@ -66,6 +75,14 @@ export const editSpotReview = (review, reviewId) => async (dispatch) => {
     dispatch(createReview(review));
 };
 
+export const createReviewImage = (url, preview, reviewId) => async () => {
+    await csrfFetch(`/api/reviews/${reviewId}/images`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(url, preview)
+    });
+};
+
 export const deleteReviewData = (reviewId) => async (dispatch) => {
     await csrfFetch(`/api/reviews/${reviewId}`, {
         method: 'DELETE'
@@ -86,6 +103,14 @@ const reviewsReducer = (state = initialState, action) => {
 
         case 'EDIT_REVIEW': {
             currentState['editMode'] = {boolean: action.payload1, reviewId: action.payload2};
+
+            return currentState;
+        };
+
+        case 'ADD_REVIEW_IMG': {
+            const ReviewImages = {url: action.payload1, preview: action.payload2};
+
+            currentState[action.payload3] = {ReviewImages};
 
             return currentState;
         };

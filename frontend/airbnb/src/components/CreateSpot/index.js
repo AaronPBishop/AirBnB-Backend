@@ -1,17 +1,18 @@
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { sendSpotData } from '../../store/spots.js';
 import { editSpotData } from '../../store/userSpots.js';
 
 import './styles.css';
+import AddImageForm from '../ManageImages/AddImageForm.js';
 
 const CreateSpot = ({ id }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Set your price', 'Now, let\'s give it an image', 'Check out your listing!'];
+    const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Set your price', 'Now, let\'s give it a preview image', 'Check out your listing!'];
     const buttonText = ['Next', 'Save your listing'];
 
     const [address, setAddress] = useState('');
@@ -23,8 +24,15 @@ const CreateSpot = ({ id }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
-    const [previewImage, setPreviewImage] = useState('');
-    const [url, setUrl] = useState('');
+
+    const spotState = useSelector(state => state.spots);
+
+    let url;
+    if (spotState) {
+        const imgFormData = spotState.imgFormData;
+
+        if (imgFormData) url = imgFormData.url;
+    };
 
     const [currPrompt, setCurrPrompt] = useState(Number(0));
 
@@ -163,42 +171,8 @@ const CreateSpot = ({ id }) => {
 
                 || currPrompt === 4 &&
                 
-                <div id='create-spot-image-container'>
-                    <form id='create-spot-image-form' onSubmit={handleSubmit}>
-                        <label className='create-spot-image-labels'>
-                            <input
-                            type='text'
-                            value={url}
-                            onChange={e => setUrl(e.target.value)}
-                            placeholder='image URL'
-                            ></input>
-                        </label>
-
-                        <div className='create-spot-image-labels'>
-                            <p>Is this a preview image?</p>
-                            <label className='create-spot-preview-radio'>
-                                Yes
-                                <input
-                                    type="radio"
-                                    value={true}
-                                    name="previewImage"
-                                    onChange={() => setPreviewImage(true)}
-                                    checked={previewImage === true}/>   
-                            </label>
-
-                            <label className='create-spot-preview-radio'>
-                                No
-                                <input
-                                    type="radio"
-                                    value={false}
-                                    name="previewImage"
-                                    onChange={() => setPreviewImage(false)}
-                                    checked={previewImage === false}/>
-                            </label>
-                        </div>
-
-                        <button id='create-spot-add-image'>Add</button>
-                    </form>
+                <div id='create-spot-image-form'>
+                    <AddImageForm type='createSpot' spotId={id} />
                 </div>
 
                 || currPrompt === 5 &&
