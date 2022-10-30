@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchSpotReviews, toggleEditMode, deleteReviewData, fetchUserReviews, rerenderReviews } from '../../store/reviews.js';
+import DisplayReviewImages from './DisplayReviewImages.js';
 
 import './styles.css';
 
 const Reviews = ({ spotId, avgRating, type }) => {
     const dispatch = useDispatch();
+
+    const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
         dispatch(rerenderReviews());
@@ -24,6 +27,15 @@ const Reviews = ({ spotId, avgRating, type }) => {
         if (key.match(/[0-9]/)) reviewsArr.push(currReview);
     };
 
+    const formatDate = (date) => {
+        const dateArr = date.split('-')
+        const year = dateArr[0];
+        const splitYear = year.split('');
+        const month = dateArr[1].concat('/');
+        const dateString = dateArr[2].split('');
+        return month.concat(dateString[0]).concat(dateString[1]).concat('/' + splitYear[2]).concat(splitYear[3]);
+    };
+
     if (reviews) return (
         <div>
             {type === 'spot' && <div id='ratings-header'><p id='header'>⭐ {avgRating} - {reviewsArr.length} reviews</p></div>}
@@ -37,6 +49,17 @@ const Reviews = ({ spotId, avgRating, type }) => {
                                 {type === 'user' && <p>Spot: {review.spotId}</p>}
 
                                 <p>{review.review}</p>
+
+                                <p><i>{formatDate(review.createdAt)}</i></p>
+
+                                {review.ReviewImages.length ? 
+                                <button id='show-review-images' onClick={() => setClicked(clicked => !clicked)}>{review.ReviewImages.length} image</button> 
+                                : null}
+
+                                {
+                                    clicked &&
+                                    <div id='review-images-component-container'><DisplayReviewImages imgArray={review.ReviewImages} /></div>
+                                }
 
                                 {type === 'user' && 
                                     <div>
