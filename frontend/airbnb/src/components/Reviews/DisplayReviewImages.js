@@ -1,11 +1,8 @@
-import { useState } from 'react';
 import './styles.css';
 
-const DisplayReviewImages = ({ imgArray }) => {
-    const [clicked, setClicked] = useState(false);
-
+const DisplayReviewImages = ({ imgArray, clicked }) => {
     return (
-        <div id={!clicked ? 'review-images-container' : 'hide-review-images-container'} onClick={() => setClicked(clicked => !clicked)}>
+        <div id={clicked ? 'review-images-container' : 'hide-review-images-container'}>
             {imgArray.map((img, i) => {
                 return  <div>
                             <img className='review-images' src={img.url} key={i}></img>

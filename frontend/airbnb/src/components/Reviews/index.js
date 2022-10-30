@@ -53,12 +53,12 @@ const Reviews = ({ spotId, avgRating, type }) => {
                                 <p><i>{formatDate(review.createdAt)}</i></p>
 
                                 {review.ReviewImages.length ? 
-                                <button id='show-review-images' onClick={() => setClicked(clicked => !clicked)}>{review.ReviewImages.length} image</button> 
+                                <button id='show-review-images' onClick={() => setClicked(true)}>{review.ReviewImages.length} image</button> 
                                 : null}
 
                                 {
                                     clicked &&
-                                    <div id='review-images-component-container'><DisplayReviewImages imgArray={review.ReviewImages} /></div>
+                                    <div id='review-images-component-container' onClick={() => setClicked(false)}><DisplayReviewImages imgArray={review.ReviewImages} clicked={clicked} /></div>
                                 }
 
                                 {type === 'user' && 
