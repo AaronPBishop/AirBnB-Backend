@@ -93,7 +93,9 @@ const CreateReview = ({ spotId, reviewId, type }) => {
                         })}
                         <p><b>{rating}</b></p>
 
-                        <button id='review-add-img-button' onClick={e => {setClickedAddImg(true); e.preventDefault()}}>Add Image</button>
+                        { type !== 'edit' &&
+                          <button id='review-add-img-button' onClick={e => {setClickedAddImg(true); e.preventDefault()}}>Add Image</button>
+                        }
                     </div>
 
                     {

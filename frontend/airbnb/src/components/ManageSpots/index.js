@@ -51,7 +51,7 @@ const ManageSpots = () => {
                         history.push(`/edit-spot/${spot.id}`);
                     }}>Edit</button>
 
-                    <button className='manage-buttons' id='manage-photos' onClick={() => history.push(`/manage-photos/${spot.id}`)}>Manage Photos</button>
+                    <button className='manage-buttons' id='manage-photos' onClick={() => history.push(`/manage-photos/spots/${spot.id}`)}>Manage Photos</button>
                 </div>
 
             </div>)}

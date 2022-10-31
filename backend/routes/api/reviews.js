@@ -70,6 +70,7 @@ router.get('/current', requireAuth, async (req, res) => {
     return res.json({ Reviews: reviews });
 });
 
+
 // Add an image to a review based on the review id
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const { url, preview } = req.body;

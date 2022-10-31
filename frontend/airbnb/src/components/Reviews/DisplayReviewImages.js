@@ -1,6 +1,6 @@
 import './styles.css';
 
-const DisplayReviewImages = ({ imgArray, clicked }) => {
+const DisplayReviewImages = ({ imgArray, clicked, imgCount }) => {
     return (
         <div id={clicked ? 'review-images-container' : 'hide-review-images-container'}>
             {imgArray.map((img, i) => {

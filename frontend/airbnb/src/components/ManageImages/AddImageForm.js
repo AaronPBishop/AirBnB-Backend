@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
 import { sendSpotImgData, feedImgFormData } from '../../store/spots.js';
-import { addTempReviewImg } from '../../store/reviews.js';
+import { addTempReviewImg, addMoreReviewImages } from '../../store/reviews.js';
 
 const AddImageForm = ({ type, spotId, reviewId }) => {
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
 
                 <label className='image-form-holders'>
                     <input
-                    id={!type ? 'photos-input' : 'new-spot-photos-input'}
+                    id={type !== 'createSpot' && type !== 'createReview' ? 'photos-input' : 'new-spot-photos-input'}
                     type='text'
                     value={url}
                     onChange={e => setUrl(e.target.value)}
@@ -27,7 +27,7 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
                 </label>
                 
                 {
-                    type !== 'createSpot' && 
+                    type !== 'createSpot' && type !== 'createReview' && 
                     <div className='image-form-holders'>
 
                     <p>Is this a preview image?</p>
@@ -59,19 +59,15 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
                     e.preventDefault();
                     setClicked(true);
 
-                    if (type === 'createSpot') {
-                        dispatch(feedImgFormData(url));
-                        return;
-                    };
+                    if (type === 'createSpot') dispatch(feedImgFormData(url));
 
-                    if (type === 'createReview') {
-                        dispatch(addTempReviewImg(url, previewImage));
-                        return;
-                    };
+                    if (type === 'createReview') dispatch(addTempReviewImg(url, previewImage));
 
-                    dispatch(sendSpotImgData(spotId.spotId, {url, previewImage}));
+                    if (type === 'editSpot') dispatch(sendSpotImgData(spotId.spotId, {url, previewImage}));
+
+                    if (type === 'editReview') dispatch(addMoreReviewImages(url, previewImage, reviewId));
                 }}>
-                    {type && clicked === true ? <p><i>Added</i></p> : <p>Add</p>}
+                    {type !== 'editSpot' && type !== 'editReview' && clicked === true ? <p><i>Added</i></p> : <p>Add</p>}
                 </button>
 
             </form>

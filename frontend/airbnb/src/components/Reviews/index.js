@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -7,6 +8,7 @@ import DisplayReviewImages from './DisplayReviewImages.js';
 import './styles.css';
 
 const Reviews = ({ spotId, avgRating, type }) => {
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const [clicked, setClicked] = useState(false);
@@ -52,13 +54,17 @@ const Reviews = ({ spotId, avgRating, type }) => {
 
                                 <p><i>{formatDate(review.createdAt)}</i></p>
 
-                                {review.ReviewImages.length ? 
-                                <button id='show-review-images' onClick={() => setClicked(true)}>{review.ReviewImages.length} image</button> 
-                                : null}
+                                {
+                                    type !== 'user' && review.ReviewImages.length === 1 ? 
+                                    <button id='show-review-images' onClick={() => setClicked(true)}>... <i>{review.ReviewImages.length} image</i></button> 
+                                    : type !== 'user' && review.ReviewImages.length > 1 ?
+                                    <button id='show-review-images' onClick={() => setClicked(true)}>... <i>{review.ReviewImages.length} images</i></button>
+                                    : null
+                                }
 
                                 {
                                     clicked &&
-                                    <div id='review-images-component-container' onClick={() => setClicked(false)}><DisplayReviewImages imgArray={review.ReviewImages} clicked={clicked} /></div>
+                                    <div id='review-images-component-container' onClick={() => setClicked(false)}><DisplayReviewImages imgArray={review.ReviewImages} clicked={clicked} imgCount={review.ReviewImages.length} /></div>
                                 }
 
                                 {type === 'user' && 
@@ -69,6 +75,8 @@ const Reviews = ({ spotId, avgRating, type }) => {
 
                                         <button className='manage-user-review-buttons'
                                         onClick={() => dispatch(toggleEditMode(true, review.id))}>Edit</button>
+
+                                        <button className='manage-user-review-buttons' id='manage-photos' onClick={() => history.push(`/manage-photos/reviews/${review.id}`)}>Manage Photos</button>
 
                                     </div>
                                 }

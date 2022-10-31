@@ -55,8 +55,12 @@ const App = () => {
             <ManageAccount />
           </Route>
 
-          <Route path='/manage-photos/:spotId'>
-            <ManageImages />
+          <Route path='/manage-photos/spots/:spotId'>
+            <ManageImages type={'spot'} />
+          </Route>
+
+          <Route path='/manage-photos/reviews/:reviewId'>
+            <ManageImages type={'review'} />
           </Route>
 
           <Route path='/spots/:spotId'>

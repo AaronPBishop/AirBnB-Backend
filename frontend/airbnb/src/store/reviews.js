@@ -41,6 +41,14 @@ export const deleteReview = (reviewId) => {
     };
 };
 
+export const deleteReviewImg = (reviewId, imgIndex) => {
+    return {
+        type: 'DELETE_REVIEW_IMG',
+        payload1: reviewId,
+        payload2: imgIndex
+    };
+};
+
 export const submittedReview = (boolean) => {
     return {
         type: 'SUBMITTED_REVIEW',
@@ -111,12 +119,30 @@ export const createReviewImage = (url, preview, reviewId) => async (dispatch) =>
     dispatch(createReview(newReview));
 };
 
+export const addMoreReviewImages = (url, preview, reviewId) => async (dispatch) => {
+    await csrfFetch(`/api/reviews/${reviewId}/images`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({url, preview})
+    });
+
+    dispatch(addReviewImages(url, preview, reviewId));
+};
+
 export const deleteReviewData = (reviewId) => async (dispatch) => {
     await csrfFetch(`/api/reviews/${reviewId}`, {
         method: 'DELETE'
     });
     
     dispatch(deleteReview(reviewId));
+};
+
+export const deleteReviewImgData = (reviewId, imgIndex, imageId) => async (dispatch) => {
+    await csrfFetch(`/api/images/${imageId}`, {
+        method: 'DELETE'
+    });
+    
+    dispatch(deleteReviewImg(reviewId, imgIndex));
 };
 
 const reviewsReducer = (state = initialState, action) => {
@@ -135,6 +161,7 @@ const reviewsReducer = (state = initialState, action) => {
             return currentState;
         };
 
+
         case 'ADD_TEMP_REVIEW_IMG': {
             const ReviewImages = {url: action.payload1, preview: action.payload2};
 
@@ -144,13 +171,20 @@ const reviewsReducer = (state = initialState, action) => {
         };
 
         case 'ADD_REVIEW_IMAGES': {
-            currentState[action.payload3] = {url: action.payload1, preview: action.payload2};
+            const reviewImages = currentState[action.payload3];
+            reviewImages[reviewImages.length] = {url: action.payload1, preview: action.payload2};
 
             return currentState;
         };
 
         case 'DELETE_REVIEW': {
             delete currentState[action.payload];
+
+            return currentState;
+        };
+
+        case 'DELETE_REVIEW_IMG': {
+            delete currentState[action.payload1].ReviewImages[action.payload2];
 
             return currentState;
         };
