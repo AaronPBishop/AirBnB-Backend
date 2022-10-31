@@ -2,6 +2,7 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import CreateReview from "../Reviews/CreateReview.js";
 import { fetchSpotReviews, toggleEditMode, deleteReviewData, fetchUserReviews, rerenderReviews } from '../../store/reviews.js';
 import DisplayReviewImages from './DisplayReviewImages.js';
 
@@ -40,7 +41,18 @@ const Reviews = ({ spotId, avgRating, type }) => {
 
     if (reviews) return (
         <div>
-            {type === 'spot' && <div id='ratings-header'><p id='header'>⭐ {avgRating} - {reviewsArr.length} reviews</p></div>}
+            {
+                type === 'spot' && 
+                <div id='reviews-header'>
+                    <p style={{
+                        position: 'absolute', 
+                        fontWeight: '800', 
+                        bottom: '5vh'}}>
+                        ⭐ {avgRating} - {reviewsArr.length} reviews
+                    </p>
+                    <CreateReview spotId={spotId} />
+                </div>
+            }
 
             <div id='reviews-container'>
                 {reviewsArr.map((review, i) => {

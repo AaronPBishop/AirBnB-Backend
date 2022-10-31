@@ -1,9 +1,12 @@
-#header {
-    font-weight: 800;
+#reviews-header {
+    display: flex;
+    justify-content: flex-start;
 
     position: relative;
-    top: 5vh;
-    left: 10vw;
+    top: 9vh;
+    left: 4vw;
+    
+    margin-bottom: 10vh;
 }
 
 #reviews-container {
@@ -28,17 +31,6 @@
     padding: 10px;
 
     margin-bottom: 10px;
-}
-
-#create-review-container {
-    display: flex;
-    justify-content: flex-start;
-
-    position: relative;
-    bottom: 12vh;
-    left: 10.2vw;
-    
-    width: 12%;
 }
 
 #move-create-review-container {

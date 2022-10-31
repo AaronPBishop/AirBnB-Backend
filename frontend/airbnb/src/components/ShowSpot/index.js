@@ -75,9 +75,9 @@ const ShowSpot = () => {
                 <Reviews spotId={spotId.spotId} avgRating={spotData.avgRating} type='spot' />
             </div>
 
-            <div id='create-review-component-container' onClick={() => setClicked(true)}>
+            {/* <div id='create-review-component-container' onClick={() => setClicked(true)}>
                 <CreateReview spotId={spotId.spotId} />
-            </div>
+            </div> */}
         </div>
     );
 };

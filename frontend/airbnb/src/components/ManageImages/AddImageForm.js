@@ -67,8 +67,19 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
 
                     if (type === 'editReview') dispatch(addMoreReviewImages(url, previewImage, reviewId));
                 }}>
-                    {type !== 'editSpot' && type !== 'editReview' && clicked === true ? <p><i>Added</i></p> : <p>Add</p>}
+                    {
+                        type !== 'editSpot' && type !== 'editReview' && clicked === true ? 
+                        <p style={{position: 'relative', right: '0.1vw', fontStyle: 'italic'}}>Added</p> 
+                        : <p>Add</p>
+                    }
                 </button>
+
+                {
+                    type === 'createReview' &&
+                    <p style={{position: 'absolute', top: '9.6vh', right: '17vw', fontSize: '11px', fontStyle: 'italic'}}>
+                    You can add more images later
+                    </p>
+                }
 
             </form>
 
