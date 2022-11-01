@@ -45,6 +45,11 @@ const CheckoutListing = ({ previewImage, listingName, description, price, listin
                         <li>Lat <i style={{position: 'fixed', fontWeight: '400'}}>: {listingDetails.lat}</i></li>
                         <li>Lng <i style={{position: 'fixed', fontWeight: '400'}}>: {listingDetails.lng}</i></li>
                     </ul>
+
+                    <div id='expand-details-button' style={{position: 'relative', top: '12vh'}}>
+                        <button onClick={() => setExpandDetails(false)}>Back</button>
+                    </div>
+
                 </div>
             }
             

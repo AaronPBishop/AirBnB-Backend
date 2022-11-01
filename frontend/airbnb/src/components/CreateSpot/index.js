@@ -197,22 +197,10 @@ const CreateSpot = ({ id }) => {
 
                 || currPrompt === 5 &&
 
-                // <div id='review-spot'>
-                //     <ul id='review-spot-ul'>
-                //         <li>Address <i style={{position: 'fixed', fontWeight: '400'}}>: {address}</i></li>
-                //         <li>City <i style={{position: 'fixed', fontWeight: '400'}}>: {city}</i></li>
-                //         <li>State <i style={{position: 'fixed', fontWeight: '400'}}>: {state}</i></li>
-                //         <li>Country <i style={{position: 'fixed', fontWeight: '400'}}>: {country}</i></li>
-                //         <li>Lat <i style={{position: 'fixed', fontWeight: '400'}}>: {lat}</i></li>
-                //         <li>Lng <i style={{position: 'fixed', fontWeight: '400'}}>: {lng}</i></li>
-                //         <li>Name <i style={{position: 'fixed', fontWeight: '400'}}>: {name}</i></li>
-                //         <li>Price <i style={{position: 'fixed', fontWeight: '400'}}>: ${price} per night</i></li>
-                //         <li>Description: <br/> <i style={{position: 'fixed', fontWeight: '400'}}>{description}</i></li>
-                //     </ul>
-                // </div>
                 <div id='checkout-listing-container'>
                     <CheckoutListing previewImage={url} listingName={name} description={description} price={price} listingDetails={{address, city, state, country, lat, lng}} />
                 </div>
+                
                 }
 
                 <div id={
