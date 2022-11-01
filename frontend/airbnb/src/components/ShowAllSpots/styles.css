@@ -37,7 +37,11 @@
     max-height: 250px;
 }
 
-#spot-name {
-    line-height: 15px;
-    margin-bottom: 10px;
+#spot-details-name {
+    line-height: 20px;
+    margin-bottom: -1vh;
+}
+
+.spot-details {
+    line-height: 5px;
 }

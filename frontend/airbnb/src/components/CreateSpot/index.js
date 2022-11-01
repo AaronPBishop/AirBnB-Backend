@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { sendSpotData } from '../../store/spots.js';
 import { editSpotData } from '../../store/userSpots.js';
 
-import './styles.css';
+import CheckoutListing from './CheckoutListing.js';
 import AddImageForm from '../ManageImages/AddImageForm.js';
+
+import './styles.css';
 
 const CreateSpot = ({ id }) => {
     const history = useHistory();
@@ -59,11 +61,22 @@ const CreateSpot = ({ id }) => {
         history.push(`/`);
     };
 
+    document.body.style.overflowY = 'hidden';
+
     return (
         <div id='create-spot'>
 
             <div id='spot-creation-prompts'>
-                <p className='prompts'>{prompts[currPrompt]}</p>
+                <p className='prompts' style={{
+                    display: 'flex',
+                    position: 'absolute',
+                    inlineSize: '40vw',
+                    top: '31vh',
+                    left: currPrompt === 5 ? '8.8vw'
+                    : currPrompt === 3 ? '14.8vw'
+                    : '5.2vw'}}>
+                    {prompts[currPrompt]}
+                </p>
             </div>
 
             <div id='create-spot-forms'>
@@ -94,11 +107,11 @@ const CreateSpot = ({ id }) => {
                 </label>
 
                 || currPrompt === 2 &&
-
+                
                 <form id='address-form'>
                     <label>
                         <input
-                        className='create-spot-input'
+                        className='create-spot-address-inputs'
                         type='text'
                         value={address}
                         onChange={e => setAddress(e.target.value)}
@@ -108,7 +121,7 @@ const CreateSpot = ({ id }) => {
 
                     <label>
                         <input
-                        className='create-spot-input'
+                        className='create-spot-address-inputs'
                         type='text-area'
                         value={city}
                         onChange={e => setCity(e.target.value)}
@@ -118,7 +131,7 @@ const CreateSpot = ({ id }) => {
 
                     <label>
                         <input
-                        className='create-spot-input'
+                        className='create-spot-address-inputs'
                         type='text-area'
                         value={state}
                         onChange={e => setState(e.target.value)}
@@ -128,7 +141,7 @@ const CreateSpot = ({ id }) => {
 
                     <label>
                         <input
-                        className='create-spot-input'
+                        className='create-spot-address-inputs'
                         type='text-area'
                         value={country}
                         onChange={e => setCountry(e.target.value)}
@@ -138,7 +151,7 @@ const CreateSpot = ({ id }) => {
 
                     <label>
                         <input
-                        className='create-spot-input'
+                        className='create-spot-address-inputs'
                         type='text-area'
                         value={lat}
                         onChange={e => setLat(e.target.value)}
@@ -148,7 +161,7 @@ const CreateSpot = ({ id }) => {
 
                     <label>
                         <input
-                        className='create-spot-input'
+                        className='create-spot-address-inputs'
                         type='text-area'
                         value={lng}
                         onChange={e => setLng(e.target.value)}
@@ -160,12 +173,19 @@ const CreateSpot = ({ id }) => {
                 || currPrompt === 3 && 
 
                 <label>
+                    <p style={{
+                        position: 'fixed',
+                        fontSize: '35px',
+                        fontWeight: 'bold',
+                        bottom: '50.8vh',
+                        right: '41.2vw'
+                        }}>$</p>
                     <input
                     className='create-spot-input'
                     type='text-area'
                     value={price}
                     onChange={e => setPrice(e.target.value)}
-                    placeholder='$'>
+                    placeholder='Price per night'>
                     </input>
                 </label>
 
@@ -177,18 +197,21 @@ const CreateSpot = ({ id }) => {
 
                 || currPrompt === 5 &&
 
-                <div id='review-spot'>
-                    <ul id='review-spot-ul'>
-                        <li>Address: {address}</li>
-                        <li>City: {city}</li>
-                        <li>State: {state}</li>
-                        <li>Country: {country}</li>
-                        <li>Lat: {lat}</li>
-                        <li>Lng: {lng}</li>
-                        <li>Name: {name}</li>
-                        <li>Price: {price}</li>
-                        <li>Description: {description}</li>
-                    </ul>
+                // <div id='review-spot'>
+                //     <ul id='review-spot-ul'>
+                //         <li>Address <i style={{position: 'fixed', fontWeight: '400'}}>: {address}</i></li>
+                //         <li>City <i style={{position: 'fixed', fontWeight: '400'}}>: {city}</i></li>
+                //         <li>State <i style={{position: 'fixed', fontWeight: '400'}}>: {state}</i></li>
+                //         <li>Country <i style={{position: 'fixed', fontWeight: '400'}}>: {country}</i></li>
+                //         <li>Lat <i style={{position: 'fixed', fontWeight: '400'}}>: {lat}</i></li>
+                //         <li>Lng <i style={{position: 'fixed', fontWeight: '400'}}>: {lng}</i></li>
+                //         <li>Name <i style={{position: 'fixed', fontWeight: '400'}}>: {name}</i></li>
+                //         <li>Price <i style={{position: 'fixed', fontWeight: '400'}}>: ${price} per night</i></li>
+                //         <li>Description: <br/> <i style={{position: 'fixed', fontWeight: '400'}}>{description}</i></li>
+                //     </ul>
+                // </div>
+                <div id='checkout-listing-container'>
+                    <CheckoutListing previewImage={url} listingName={name} description={description} price={price} listingDetails={{address, city, state, country, lat, lng}} />
                 </div>
                 }
 

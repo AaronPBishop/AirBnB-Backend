@@ -23,6 +23,8 @@ const ShowAllSpots = () => {
         if (key.match(/[0-9]/)) spotsArr.push(currSpot);
     };
 
+    document.body.style.overflowY = 'scroll';
+
     return (
         <div id='all-spots'>
             {spotsArr.map((spot, i) => 
@@ -36,11 +38,13 @@ const ShowAllSpots = () => {
                     }
                 </div>
 
-                <p id='spot-name'><b>{spot.name}</b></p>
+                <NavLink to={`/spots/${spot.id}`} className='navlinks' onClick={() => dispatch(setCurrSpotId(spot.id))}>
+                    <p id='spot-details-name'>{spot.name}</p>
+                </NavLink>
 
-                <NavLink to={`/spots/${spot.id}`} className='navlinks' onClick={() => dispatch(setCurrSpotId(spot.id))}>{spot.city}</NavLink>
+                <p className='spot-details'>{spot.city}</p>
 
-                <p><b>${spot.price}</b> night</p>
+                <p className='spot-details'><b>${spot.price}</b> night</p>
             </div>)}
         </div>
     );

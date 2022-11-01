@@ -24,6 +24,8 @@ const ManageSpots = () => {
         spotsArr.push(currSpot);
     };
 
+    document.body.style.overflowY = 'scroll';
+
     if (!spotsArr.length) return (<p className='no-content'>...Nothing to show here!</p>)
     return (
         <div id='user-spots'>

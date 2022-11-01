@@ -48,7 +48,8 @@ const ManageImages = ({ type }) => {
             };
         };
     };
-    
+
+    document.body.style.overflowY = 'scroll';
 
     if (spotData || reviewData) return (
         <div id='manage-images'>

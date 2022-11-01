@@ -34,11 +34,8 @@
 }
 
 #move-create-review-container {
-    display: flex;
-    justify-content: flex-start;
-
     position: relative;
-    bottom: 12vh;
+    bottom: 15vh;
     left: 40vw;
 }
 
@@ -80,6 +77,13 @@
     position: relative;
     bottom: 5vh;
     right: 8vh;
+}
+
+#review-form {
+    position: relative;
+    top: 15vh;
+    right: 4vw;
+    z-index: 200;
 }
 
 #review-form-hidden {

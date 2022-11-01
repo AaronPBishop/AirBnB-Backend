@@ -44,7 +44,7 @@ const CreateReview = ({ spotId, reviewId, type }) => {
 
           dispatch(createReviewImage(newReviewImages.url, newReviewImages.preview, newReview.id));
           dispatch(submittedReview(true));
-
+          
           return;
         };
 
@@ -109,8 +109,10 @@ const CreateReview = ({ spotId, reviewId, type }) => {
 
                     <div>
                         <button id={type !== 'edit' ? 'submit-review' : 'submit-edit'} type='submit' onClick={handleSubmit}>
-                          {type !== 'edit' ? <p style={{position: 'relative', bottom: '1.1vh'}}>Submit Review</p> 
-                          : <p style={{position: 'relative', bottom: '1.1vh'}}>Confirm Changes</p>}
+                          {
+                            type !== 'edit' ? <p style={{position: 'relative', bottom: '1.1vh'}}>Submit Review</p> 
+                            : <p style={{position: 'relative', bottom: '1.1vh'}}>Confirm Changes</p>
+                          }
                         </button>
                     </div>
                </form>

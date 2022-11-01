@@ -30,9 +30,9 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
                     type !== 'createSpot' && type !== 'createReview' && 
                     <div className='image-form-holders'>
 
-                    <p>Is this a preview image?</p>
+                    <p style={{fontFamily: 'Montserrat', fontWeight: 'bold', fontStyle: 'italic'}}>Is this a preview image?</p>
 
-                    <label className='preview-radio'>
+                    <label className='preview-radio' style={{fontFamily: 'Montserrat', fontWeight: 'bold'}}>
                         Yes
                         <input
                             type="radio"
@@ -42,7 +42,7 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
                             checked={previewImage === true}/>
                     </label>
 
-                    <label className='preview-radio'>
+                    <label className='preview-radio' style={{fontFamily: 'Montserrat', fontWeight: 'bold'}}>
                         No
                         <input
                             type="radio"
@@ -69,14 +69,14 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
                 }}>
                     {
                         type !== 'editSpot' && type !== 'editReview' && clicked === true ? 
-                        <p style={{position: 'relative', right: '0.1vw', fontStyle: 'italic'}}>Added</p> 
+                        <p style={{position: 'relative', right: '0.35vw', fontStyle: 'italic'}}>Added</p> 
                         : <p>Add</p>
                     }
                 </button>
 
                 {
                     type === 'createReview' &&
-                    <p style={{position: 'absolute', top: '9.6vh', right: '17vw', fontSize: '11px', fontStyle: 'italic'}}>
+                    <p style={{fontFamily: 'Montserrat', position: 'absolute', top: '9.8vh', right: '17vw', fontSize: '11px', fontStyle: 'italic'}}>
                     You can add more images later
                     </p>
                 }

@@ -150,9 +150,9 @@
     justify-content: center;
 
     border: 2px solid black;
-    border-radius: 8px;
+    border-radius: 14px;
 
-    background: #F9F9F9;
+    background-color: #F7F7F7;
     padding: 25px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 
@@ -166,9 +166,9 @@
     justify-content: center;
 
     border: 2px solid black;
-    border-radius: 8px;
+    border-radius: 14px;
 
-    background: #F9F9F9;
+    background-color: #F7F7F7;
     padding: 25px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
@@ -179,30 +179,69 @@
 }
 
 #photos-input {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+
     position: relative;
     top: 2vh;
+
+    background-color: black;
+    color: white;
 
     min-height: 30px;
     max-height: 30px;
     
     border: 1px solid black;
     border-radius: 5px;
+
+    box-shadow: -1.5px 1.5px 1px 0px #112D32;
+}
+
+#photos-input::placeholder {
+    font-family: 'Montserrat', sans-serif;
+    
+    text-align: center;
+    color: white;
+
+    font-style: italic;
+    font-weight: 800;
 }
 
 #new-spot-photos-input {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+
     position: relative;
     top: 0vh;
     right: 2vw;
 
+    background-color: black;
+    color: white;
+
     min-height: 45px;
     max-height: 45px;
-    min-width: 17vw;
-    max-width: 17vw;
+    min-width: 18vw;
+    max-width: 18vw;
 
     padding-right: 75px;
     
     border: 1px solid black;
-    border-radius: 5px;
+    border-radius: 40px;
+
+    box-shadow: -1.5px 1.5px 1px 0px #112D32;
+}
+
+#new-spot-photos-input::placeholder {
+    font-family: 'Montserrat', sans-serif;
+
+    text-align: center;
+    color: white;
+
+    font-style: italic;
+    font-weight: 800;
+
+    position: relative;
+    left: 2.4vw;
 }
 
 .preview-radio {
@@ -214,16 +253,20 @@
 }
 
 #add-image {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+
     text-align: center;
     color: white;
 
-    background-color: #13aa52;
-    border: 1px solid #13aa52;
-    border-bottom: 3px solid #0a5c2c;
+    background-color: #6F019C;
+    border: 1px solid #6F019C;
+    border-bottom: 3px solid #49006d;
     border-radius: 6px;
 
-    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-shadow: 1.5px 1px 0.5px 0px black;
     box-sizing: border-box;
+
     cursor: pointer;
     touch-action: manipulation;
     vertical-align: middle;
@@ -234,16 +277,20 @@
 }
 
 #new-spot-add-image {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+
     text-align: center;
     color: white;
 
-    background-color: #13aa52;
-    border: 1px solid #13aa52;
-    border-bottom: 3px solid #0a5c2c;
+    background-color: #6F019C;
+    border: 1px solid #6F019C;
+    border-bottom: 3px solid #49006d;
     border-radius: 6px;
 
-    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-shadow: 1.5px 1px 0.5px 0px black;
     box-sizing: border-box;
+
     cursor: pointer;
     touch-action: manipulation;
     vertical-align: middle;

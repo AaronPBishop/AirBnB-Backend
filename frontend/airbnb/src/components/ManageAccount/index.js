@@ -23,6 +23,8 @@ const ManageAccount = () => {
         reviewId = reviews.editMode.reviewId
     };
 
+    document.body.style.overflowY = 'scroll';
+
     if (user) return (
         <div id='manage-account-container'>
             <div id='welcome-header'><p>Welcome back, {user.firstName}!</p></div>

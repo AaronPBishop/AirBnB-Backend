@@ -39,6 +39,8 @@ const Reviews = ({ spotId, avgRating, type }) => {
         return month.concat(dateString[0]).concat(dateString[1]).concat('/' + splitYear[2]).concat(splitYear[3]);
     };
 
+    document.body.style.overflowY = 'scroll';
+
     if (reviews) return (
         <div>
             {
