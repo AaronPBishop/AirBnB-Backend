@@ -25,12 +25,13 @@ export const addTempReviewImg = (url, preview) => {
     };
 };
 
-export const addReviewImages = (url, preview, reviewId) => {
+export const addReviewImages = (id, url, preview, reviewId) => {
     return {
         type: 'ADD_REVIEW_IMAGES',
-        payload1: url,
-        payload2: preview,
-        payload3: reviewId
+        payload1: id,
+        payload2: url,
+        payload3: preview,
+        payload4: reviewId
     };
 };
 
@@ -120,13 +121,15 @@ export const createReviewImage = (url, preview, reviewId) => async (dispatch) =>
 };
 
 export const addMoreReviewImages = (url, preview, reviewId) => async (dispatch) => {
-    await csrfFetch(`/api/reviews/${reviewId}/images`, {
+    const response = await csrfFetch(`/api/reviews/${reviewId}/images`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({url, preview})
     });
 
-    dispatch(addReviewImages(url, preview, reviewId));
+    const newImage = await response.json();
+
+    dispatch(addReviewImages(newImage.id, url, preview, reviewId));
 };
 
 export const deleteReviewData = (reviewId) => async (dispatch) => {
@@ -171,8 +174,8 @@ const reviewsReducer = (state = initialState, action) => {
         };
 
         case 'ADD_REVIEW_IMAGES': {
-            const reviewImages = currentState[action.payload3].ReviewImages;
-            currentState[action.payload3].ReviewImages[reviewImages.length] = {url: action.payload1, preview: action.payload2};
+            const reviewImages = currentState[action.payload4].ReviewImages;
+            currentState[action.payload4].ReviewImages[reviewImages.length] = {id: action.payload1, url: action.payload2, preview: action.payload3};
 
             return currentState;
         };

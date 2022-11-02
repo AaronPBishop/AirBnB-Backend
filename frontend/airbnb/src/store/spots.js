@@ -30,11 +30,10 @@ export const createSpotImage = (image) => {
     }
 };
 
-export const deleteSpotImage = (spotId, imgIndex) => {
+export const deleteSpotImage = (imgIndex) => {
     return {
         type: 'DELETE_SPOT_IMAGE',
-        payload1: spotId,
-        payload2: imgIndex
+        payload: imgIndex
     };
 };
 
@@ -126,7 +125,7 @@ const spotsReducer = (state = initialState, action) => {
 
         case 'DELETE_SPOT_IMAGE': {
             const spotImages = currentState.currSpot.SpotImages;
-            delete spotImages[action.payload]
+            delete spotImages[action.payload];
 
             return currentState;
         };

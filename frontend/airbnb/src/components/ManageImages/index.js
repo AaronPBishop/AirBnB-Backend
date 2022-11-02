@@ -46,7 +46,7 @@ const ManageImages = ({ type }) => {
                                 <div id='delete-image-div'><button id='delete-image-button' 
                                 onClick={() => {
                                     dispatch(deleteSpotImgData(i, spotImgs[i].id)) 
-                                    history.push('/manage-listings')}}>Delete</button></div>
+                                    }}>Delete</button></div>
                             </div>
                         )
                     }) 
@@ -60,7 +60,7 @@ const ManageImages = ({ type }) => {
                                 <div id='delete-image-div'><button id='delete-image-button' 
                                 onClick={() => {
                                     dispatch(deleteReviewImgData(typeId.reviewId, i, img.id)) 
-                                    history.push('/manage-account')}}>Delete</button></div>
+                                    }}>Delete</button></div>
                             </div>
                         )
                     })
