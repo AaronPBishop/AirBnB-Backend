@@ -23,10 +23,12 @@ export const setCurrSpot = (currSpot) => {
     };
 };
 
-export const createSpotImage = (image) => {
+export const createSpotImage = (id, url, preview) => {
     return {
         type: 'CREATE_SPOT_IMAGE',
-        payload: image
+        payload1: id,
+        payload2: url,
+        payload3: preview
     }
 };
 
@@ -76,14 +78,16 @@ export const sendSpotData = (spot) => async (dispatch) => {
     dispatch(createSpotData(spot));
 };
 
-export const sendSpotImgData = (spotId, imgData) => async (dispatch) => {
-    await csrfFetch(`/api/spots/${spotId}/images`, {
+export const sendSpotImgData = (spotId, url, preview) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/images`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(imgData)
+        body: JSON.stringify({url, preview})
     });
 
-    dispatch(createSpotImage(imgData));
+    const newImage = await response.json();
+
+    dispatch(createSpotImage(newImage.id, url, preview));
 };
 
 export const deleteSpotImgData = (imgIndex, imgId) => async (dispatch) => {
@@ -118,7 +122,7 @@ const spotsReducer = (state = initialState, action) => {
 
         case 'CREATE_SPOT_IMAGE': {
             const spotImages = currentState.currSpot.SpotImages;
-            spotImages[spotImages.length] = action.payload;
+            currentState.currSpot.SpotImages[spotImages.length] = {id: action.payload1, url: action.payload2, preview: action.payload3};
 
             return currentState;
         };

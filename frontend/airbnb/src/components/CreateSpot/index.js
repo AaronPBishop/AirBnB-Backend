@@ -27,6 +27,8 @@ const CreateSpot = ({ id }) => {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
 
+    const [errors, setErrors] = useState([]);
+
     const spotState = useSelector(state => state.spots);
 
     let url;
@@ -44,6 +46,9 @@ const CreateSpot = ({ id }) => {
     }, [currPrompt])
 
     const handleSubmit = () => {
+        const errorsArr = [];
+        setErrors(errorsArr);
+
         if (currPrompt < 5) {
             setCurrPrompt(Number(currPrompt) + 1);
 
@@ -58,7 +63,7 @@ const CreateSpot = ({ id }) => {
         };
 
         dispatch(sendSpotData({address, city, state, country, lat, lng, name, description, price, previewImage: url}));
-        history.push(`/`);
+        history.push(`/manage-listings`);
     };
 
     document.body.style.overflowY = 'hidden';

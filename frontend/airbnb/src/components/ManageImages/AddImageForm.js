@@ -63,7 +63,7 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
 
                     if (type === 'createReview') dispatch(addTempReviewImg(url, previewImage));
 
-                    if (type === 'editSpot') dispatch(sendSpotImgData(spotId.spotId, {url, previewImage}));
+                    if (type === 'editSpot') dispatch(sendSpotImgData(spotId.spotId, url, previewImage));
 
                     if (type === 'editReview') dispatch(addMoreReviewImages(url, previewImage, reviewId));
                 }}>
