@@ -29,6 +29,19 @@ const CreateSpot = ({ id }) => {
 
     const [errors, setErrors] = useState([]);
 
+    useEffect(() => {
+        const errorMessages = {
+            name: ['Name may only contain alphabetical characters', 'Name must be between 2 and 49 characters']
+        };
+
+        const errorsArr = [];
+
+        name.split('').forEach(letter => {if (!letter.match(/[A-Za-z ]/) && !errorsArr.includes(errorMessages.name[0])) errorsArr.push(errorMessages.name[0])});
+        if (name.length < 2 || name.length > 49) if (!errorsArr.includes(errorMessages.name[1])) errorsArr.push(errorMessages.name[1]);
+
+        setErrors(errorsArr);
+    }, [name]);
+
     const spotState = useSelector(state => state.spots);
 
     let url;
@@ -46,9 +59,6 @@ const CreateSpot = ({ id }) => {
     }, [currPrompt])
 
     const handleSubmit = () => {
-        const errorsArr = [];
-        setErrors(errorsArr);
-
         if (currPrompt < 5) {
             setCurrPrompt(Number(currPrompt) + 1);
 
@@ -85,126 +95,138 @@ const CreateSpot = ({ id }) => {
             </div>
 
             <div id='create-spot-forms'>
+                {
+                    errors.length > 0 && 
 
-               {
-               currPrompt === 0 && 
+                    <ul style={{
+                        position: 'absolute',
+                        top: '10vh',
+                        right: '45vw'
+                    }}>
+                        {errors}
+                    </ul>
+                }
 
-               <label>
-                    <input
-                    className='create-spot-input'
-                    type='text'
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    placeholder='Name'>
-                    </input>
-                </label>
+                {
 
-                || currPrompt === 1 &&
+                    currPrompt === 0 && 
 
-                <label>
-                    <textarea
-                    id='create-spot-description'
-                    type='textarea'
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                    placeholder='Description'>
-                    </textarea>
-                </label>
+                    <label>
+                         <input
+                         className='create-spot-input'
+                         type='text'
+                         value={name}
+                         onChange={e => setName(e.target.value)}
+                         placeholder='Name'>
+                         </input>
+                     </label>
 
-                || currPrompt === 2 &&
+                    || currPrompt === 1 &&
+
+                    <label>
+                        <textarea
+                        id='create-spot-description'
+                        type='textarea'
+                        value={description}
+                        onChange={e => setDescription(e.target.value)}
+                        placeholder='Description'>
+                        </textarea>
+                    </label>
+
+                    || currPrompt === 2 &&
                 
-                <form id='address-form'>
-                    <label>
-                        <input
-                        className='create-spot-address-inputs'
-                        type='text'
-                        value={address}
-                        onChange={e => setAddress(e.target.value)}
-                        placeholder='Address'>
-                        </input>
-                    </label>
+                    <form id='address-form'>
+                        <label>
+                            <input
+                            className='create-spot-address-inputs'
+                            type='text'
+                            value={address}
+                            onChange={e => setAddress(e.target.value)}
+                            placeholder='Address'>
+                            </input>
+                        </label>
+
+                        <label>
+                            <input
+                            className='create-spot-address-inputs'
+                            type='text-area'
+                            value={city}
+                            onChange={e => setCity(e.target.value)}
+                            placeholder='City'>
+                            </input>
+                        </label>
+
+                        <label>
+                            <input
+                            className='create-spot-address-inputs'
+                            type='text-area'
+                            value={state}
+                            onChange={e => setState(e.target.value)}
+                            placeholder='State'>
+                            </input>
+                        </label>
+
+                        <label>
+                            <input
+                            className='create-spot-address-inputs'
+                            type='text-area'
+                            value={country}
+                            onChange={e => setCountry(e.target.value)}
+                            placeholder='Country'>
+                            </input>
+                        </label>
+
+                        <label>
+                            <input
+                            className='create-spot-address-inputs'
+                            type='text-area'
+                            value={lat}
+                            onChange={e => setLat(e.target.value)}
+                            placeholder='Lat'>
+                            </input>
+                        </label>
+
+                        <label>
+                            <input
+                            className='create-spot-address-inputs'
+                            type='text-area'
+                            value={lng}
+                            onChange={e => setLng(e.target.value)}
+                            placeholder='Lng'>
+                            </input>
+                        </label>
+                    </form>
+
+                    || currPrompt === 3 && 
 
                     <label>
+                        <p style={{
+                            position: 'fixed',
+                            fontSize: '35px',
+                            fontWeight: 'bold',
+                            bottom: '50.8vh',
+                            right: '41.2vw'
+                            }}>$</p>
                         <input
-                        className='create-spot-address-inputs'
+                        className='create-spot-input'
                         type='text-area'
-                        value={city}
-                        onChange={e => setCity(e.target.value)}
-                        placeholder='City'>
+                        value={price}
+                        onChange={e => setPrice(e.target.value)}
+                        placeholder='Price per night'>
                         </input>
                     </label>
 
-                    <label>
-                        <input
-                        className='create-spot-address-inputs'
-                        type='text-area'
-                        value={state}
-                        onChange={e => setState(e.target.value)}
-                        placeholder='State'>
-                        </input>
-                    </label>
-
-                    <label>
-                        <input
-                        className='create-spot-address-inputs'
-                        type='text-area'
-                        value={country}
-                        onChange={e => setCountry(e.target.value)}
-                        placeholder='Country'>
-                        </input>
-                    </label>
-
-                    <label>
-                        <input
-                        className='create-spot-address-inputs'
-                        type='text-area'
-                        value={lat}
-                        onChange={e => setLat(e.target.value)}
-                        placeholder='Lat'>
-                        </input>
-                    </label>
-
-                    <label>
-                        <input
-                        className='create-spot-address-inputs'
-                        type='text-area'
-                        value={lng}
-                        onChange={e => setLng(e.target.value)}
-                        placeholder='Lng'>
-                        </input>
-                    </label>
-                </form>
-
-                || currPrompt === 3 && 
-
-                <label>
-                    <p style={{
-                        position: 'fixed',
-                        fontSize: '35px',
-                        fontWeight: 'bold',
-                        bottom: '50.8vh',
-                        right: '41.2vw'
-                        }}>$</p>
-                    <input
-                    className='create-spot-input'
-                    type='text-area'
-                    value={price}
-                    onChange={e => setPrice(e.target.value)}
-                    placeholder='Price per night'>
-                    </input>
-                </label>
-
-                || currPrompt === 4 &&
+                    || currPrompt === 4 &&
                 
-                <div id='create-spot-image-form'>
-                    <AddImageForm type='createSpot' spotId={id} />
-                </div>
+                    <div id='create-spot-image-form'>
+                        <AddImageForm type='createSpot' spotId={id} />
+                    </div>
 
-                || currPrompt === 5 &&
+                    || currPrompt === 5 &&
 
-                <div id='checkout-listing-container'>
-                    <CheckoutListing previewImage={url} listingName={name} description={description} price={price} listingDetails={{address, city, state, country, lat, lng}} />
-                </div>
+                    <div id='checkout-listing-container'>
+                        <CheckoutListing previewImage={url} listingName={name} description={description} price={price} listingDetails={{address, city, state, country, lat, lng}} />
+                    </div>
                 
                 }
 
@@ -216,7 +238,8 @@ const CreateSpot = ({ id }) => {
                     || (currPrompt === 5) && 'form-navigation-5'
                 }>
                     <button id='form-navigate-back-button' onClick={() => setCurrPrompt(Number(currPrompt) - 1)}>Back</button>
-                    <button id={currPrompt < 5 ? 
+                    <button disabled={errors.length > 0}
+                            id={currPrompt < 5 ? 
                                 'form-navigation-button' :
                                 'form-save-button'} 
                                 type='submit' 
