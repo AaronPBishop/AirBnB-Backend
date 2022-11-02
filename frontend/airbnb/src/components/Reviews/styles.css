@@ -222,14 +222,13 @@
 
     right: 1vw;
     left: 2vw;
-    bottom: 14vh;
+    bottom: 16vh;
 
     z-index: 200;
 }
 
 .review-images {
     border-radius: 8px;
-    box-shadow: 0px 0px 13vw 11vw black;
 
     min-width: 50vw;
     max-width: 50vw;
@@ -256,6 +255,15 @@
 
     border-top: 1px solid black;
     border-bottom: 1px solid black;
+}
+
+#review-images-container {
+    border-radius: 8px;
+
+    box-shadow: 0px 0px 13vw 3vw black;
+
+    min-height: 35vw;
+    max-height: 35vh;
 }
 
 #hide-review-images-container {

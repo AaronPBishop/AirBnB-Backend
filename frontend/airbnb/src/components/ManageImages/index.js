@@ -22,51 +22,30 @@ const ManageImages = ({ type }) => {
 
     const selectType = useSelector(state => state[type + 's']);
 
-    let imgData;
-    let spotData;
-    if (type === 'spot' && selectType.currSpot) {
-        spotData = selectType.currSpot;
-        imgData = selectType.currSpot.SpotImages;
-    };
+    let spotImgs;
+    if (type === 'spot' && selectType.currSpot && selectType.currSpot.SpotImages) spotImgs = selectType.currSpot.SpotImages;
 
     let reviewImgs;
-    let reviewData;
-    // if (type === 'review' && selectType[typeId.reviewId] && selectType[typeId.reviewId].ReviewImages) {
-    //     reviewData = selectType[typeId.reviewId];
-    //     reviewImgs = selectType[typeId.reviewId].ReviewImages;
-    // };
-    if (type === 'review' && selectType.editMode) {
-        const editMode = selectType.editMode;
-
-        let reviewId;
-        if (editMode.reviewId) {
-            reviewId = editMode.reviewId;
-            
-            if (selectType[reviewId] && selectType[reviewId].ReviewImages) {
-                reviewData = selectType[editMode.reviewId];
-                reviewImgs = selectType[editMode.reviewId].ReviewImages;
-            };
-        };
-    };
+    if (type === 'review' && selectType[typeId.reviewId] && selectType[typeId.reviewId].ReviewImages) reviewImgs = selectType[typeId.reviewId].ReviewImages;
 
     document.body.style.overflowY = 'scroll';
 
-    if (spotData || reviewData) return (
+    if (type === 'spot' && spotImgs || type ==='review' && reviewImgs) return (
         <div id='manage-images'>
             <div id='manage-spot-images-container'>
-                {type === 'spot' && spotData.SpotImages.length > 0 || type === 'review' && reviewImgs.length > 0 && <div id='current-images'><p id='manage-images-header'>Current Images</p></div>}
+                {type === 'spot' && spotImgs.length > 0 || type === 'review' && reviewImgs.length > 0 && <div id='current-images'><p id='manage-images-header'>Current Images</p></div>}
 
                 {
-                    type === 'spot' && spotData.SpotImages.length > 0 && imgData ?
-                    spotData.SpotImages.map((img, i) => {
+                    type === 'spot' && spotImgs.length > 0 ?
+                    spotImgs.map((img, i) => {
                         return (
-                            <div id='spot-images-div'>
+                            <div id='spot-images-div' key={i}>
                                 <div>
-                                    <img src={img.url} key={i} id='manage-spot-images'></img>
+                                    <img src={img.url} id='manage-spot-images'></img>
                                 </div>
                                 <div id='delete-image-div'><button id='delete-image-button' 
                                 onClick={() => {
-                                    dispatch(deleteSpotImgData(i, imgData[i].id)) 
+                                    dispatch(deleteSpotImgData(i, spotImgs[i].id)) 
                                     history.push('/manage-listings')}}>Delete</button></div>
                             </div>
                         )
@@ -74,9 +53,9 @@ const ManageImages = ({ type }) => {
                     : type === 'review' && reviewImgs.length > 0 ?
                     reviewImgs.map((img, i) => {
                         return (
-                            <div id='spot-images-div'>
+                            <div id='spot-images-div' key={i}>
                                 <div>
-                                    <img src={img.url} key={i} id='manage-spot-images'></img>
+                                    <img src={img.url} id='manage-spot-images'></img>
                                 </div>
                                 <div id='delete-image-div'><button id='delete-image-button' 
                                 onClick={() => {

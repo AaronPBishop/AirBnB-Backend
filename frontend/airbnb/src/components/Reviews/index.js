@@ -12,6 +12,7 @@ const Reviews = ({ spotId, avgRating, type }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const [imagesArr, setImagesArr] = useState([]);
     const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
@@ -78,7 +79,7 @@ const Reviews = ({ spotId, avgRating, type }) => {
 
                                 {
                                     clicked &&
-                                    <div id='review-images-component-container' onClick={() => setClicked(false)}><DisplayReviewImages imgArray={review.ReviewImages} clicked={clicked} imgCount={review.ReviewImages.length} /></div>
+                                    <div id='review-images-component-container' onClick={() => setClicked(false)}><DisplayReviewImages imgArray={review.ReviewImages} clicked={clicked} imgCount={review.ReviewImages.length} reviewId={review.id} /></div>
                                 }
 
                                 {type === 'user' && 

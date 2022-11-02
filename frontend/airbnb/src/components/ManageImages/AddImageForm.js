@@ -75,7 +75,7 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
                 </button>
 
                 {
-                    type === 'createReview' &&
+                    type === 'createReview' || type === 'createSpot' &&
                     <p style={{fontFamily: 'Montserrat', position: 'absolute', top: '9.8vh', right: '17vw', fontSize: '11px', fontStyle: 'italic'}}>
                     You can add more images later
                     </p>

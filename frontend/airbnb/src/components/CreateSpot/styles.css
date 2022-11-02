@@ -352,6 +352,11 @@
     right: 7vw;
 
     text-align: center;
+}
+
+#review-spot-ul {
+    font-weight: 800;
+    line-height: 40px;
     list-style: none;
 }
 

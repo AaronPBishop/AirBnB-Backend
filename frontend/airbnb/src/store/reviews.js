@@ -171,8 +171,8 @@ const reviewsReducer = (state = initialState, action) => {
         };
 
         case 'ADD_REVIEW_IMAGES': {
-            const reviewImages = currentState[action.payload3];
-            reviewImages[reviewImages.length] = {url: action.payload1, preview: action.payload2};
+            const reviewImages = currentState[action.payload3].ReviewImages;
+            currentState[action.payload3].ReviewImages[reviewImages.length] = {url: action.payload1, preview: action.payload2};
 
             return currentState;
         };

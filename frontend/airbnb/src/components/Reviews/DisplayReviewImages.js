@@ -2,12 +2,15 @@ import { useState } from 'react';
 
 import './styles.css';
 
-const DisplayReviewImages = ({ imgArray, clicked, imgCount }) => {
-    const [imgIndex, setImgIndex] = useState(0);
+const DisplayReviewImages = ({ imgArray, clicked, imgCount, reviewId }) => {
+    const [imgIndex, setImgIndex] = useState(Number(0));
+
+    let url;
+    if (imgArray[imgIndex] && imgArray[imgIndex].url) url = imgArray[imgIndex].url;
     
     return (
         <div id={clicked ? 'review-images-container' : 'hide-review-images-container'}>
-            <img className='review-images' src={imgArray[imgIndex].url}></img>
+            <img className='review-images' src={url}></img>
             {
                 imgCount > 1 &&
                 <div id='iterate-review-images-div'>
