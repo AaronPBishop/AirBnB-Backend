@@ -87,7 +87,8 @@ const CreateReview = ({ spotId, reviewId, type }) => {
               <button 
                 id={clicked ? 'hide-create-review-button' : 'create-review-button'} 
                 onClick={() => setClicked(true)}
-                style={{visibility: hasReviewed === true && 'hidden'}}>
+                style={{visibility: hasReviewed === true && 'hidden'}}
+                disabled={hasReviewed === true}>
                   Add a Review
                 </button>}
 
