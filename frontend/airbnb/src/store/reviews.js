@@ -160,6 +160,7 @@ const reviewsReducer = (state = initialState, action) => {
 
         case 'EDIT_REVIEW': {
             currentState['editMode'] = {boolean: action.payload1, reviewId: action.payload2};
+            // currentState[action.payload2]
 
             return currentState;
         };

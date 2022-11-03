@@ -105,6 +105,23 @@ const spotsReducer = (state = initialState, action) => {
         case 'CREATE_SPOT_DATA': {
             currentState[action.payload.id] = action.payload;
 
+            currentState['spotAddresses'] = [];
+            const spotAddresses = currentState.spotAddresses;
+            
+            for (let key in currentState) {
+                const currSpot = currentState[key];
+                const currAddress = currSpot.address;
+                
+                let splitAddress;
+                if (currAddress !== undefined) splitAddress = currAddress.split('');
+                
+
+                const flattenedAddress = [];
+                if (splitAddress) splitAddress.map(char => char.match(/[A-Za-z0-9 ]/) && flattenedAddress.push(char.toLowerCase()));
+                
+                if (flattenedAddress.length) currentState.spotAddresses[spotAddresses.length] = flattenedAddress.join('');
+            };
+
             return currentState;
         };
 

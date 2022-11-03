@@ -2,7 +2,7 @@ import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { sendSpotData } from '../../store/spots.js';
+import { sendSpotData, fetchSpots } from '../../store/spots.js';
 import { editSpotData } from '../../store/userSpots.js';
 
 import CheckoutListing from './CheckoutListing.js';
@@ -14,8 +14,15 @@ const CreateSpot = ({ id }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Set your price', 'Now, let\'s give it a preview image', 'Check out your listing!'];
+    const spotState = useSelector(state => state.spots);
+
+    let spotAddresses;
+    if (spotState && spotState.spotAddresses) spotAddresses = spotState.spotAddresses;
+
+    const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Set your price', 'Now, let\'s give it a preview image (you can do this later)', 'Check out your listing!'];
     const buttonText = ['Next', 'Save your listing'];
+
+    const [currPrompt, setCurrPrompt] = useState(Number(0));
 
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -30,19 +37,68 @@ const CreateSpot = ({ id }) => {
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
+        dispatch(fetchSpots());
+    }, []);
+
+    useEffect(() => {
         const errorMessages = {
-            name: ['Name may only contain alphabetical characters', 'Name must be between 2 and 49 characters']
+            name: ['Name may only contain alphabetical characters', 'Enter a name between 2 and 49 characters long'],
+            description: 'Description is required',
+            address: ['Street address is required', 'Addresses must be unique. This address already exists.'],
+            city: 'City is required',
+            state: 'State is required',
+            country: 'Country is required',
+            lat: ['Latitude is required', 'Latitude must be a decimal type number'],
+            lng: ['Longitude is required', 'Longitude must be a decimal type number'],
+            price: ['Price is required', 'Price must be an integer or decimal (do not include commas)']
         };
 
         const errorsArr = [];
 
-        name.split('').forEach(letter => {if (!letter.match(/[A-Za-z ]/) && !errorsArr.includes(errorMessages.name[0])) errorsArr.push(errorMessages.name[0])});
-        if (name.length < 2 || name.length > 49) if (!errorsArr.includes(errorMessages.name[1])) errorsArr.push(errorMessages.name[1]);
+        // Name
+        name.split('').forEach(letter => !letter.match(/[A-Za-z ]/) && !errorsArr.includes(errorMessages.name[0]) && currPrompt === 0 && errorsArr.push(errorMessages.name[0]));
+
+        if (name.length < 2 && currPrompt === 0 || name.length > 49 && currPrompt === 0) if (!errorsArr.includes(errorMessages.name[1])) errorsArr.push(errorMessages.name[1]);
+
+        // Description
+        if (!description.length && currPrompt === 1) errorsArr.push(errorMessages.description);
+
+        // Address
+        const flattenedAddress = [];
+        address.split('').map(char => char.match(/[A-Za-z0-9 ]/) && flattenedAddress.push(char.toLowerCase()));
+        
+        if (!address.length && currPrompt === 2) errorsArr.push(errorMessages.address[0]) 
+
+        if (spotAddresses && spotAddresses.includes(flattenedAddress.join('')) && currPrompt === 2) errorsArr.push(errorMessages.address[1]);
+
+        // City
+        if (!city.length && currPrompt === 2) errorsArr.push(errorMessages.city);
+
+        // State
+        if (!state.length && currPrompt === 2) errorsArr.push(errorMessages.state);
+
+        // Country
+        if (!country.length && currPrompt === 2) errorsArr.push(errorMessages.country);
+
+        // Lat
+        if (!lat.length && currPrompt === 2) errorsArr.push(errorMessages.lat[0]);
+
+        lat.split('').forEach(char => !char.match(/[0-9.]/) && currPrompt === 2 && !errorsArr.includes(errorMessages.lat[1]) && errorsArr.push(errorMessages.lat[1]));
+
+        if (!lat.split('').includes('.') && !errorsArr.includes(errorMessages.lat[1]) && currPrompt === 2) errorsArr.push(errorMessages.lat[1]);
+
+        // Lng
+        lng.split('').forEach(char => !char.match(/[0-9.]/) && currPrompt === 2 && !errorsArr.includes(errorMessages.lng[1]) && errorsArr.push(errorMessages.lng[1]));
+
+        if (!lng.split('').includes('.') && !errorsArr.includes(errorMessages.lng[1]) && currPrompt === 2) errorsArr.push(errorMessages.lng[1]);
+
+        // Price
+        if (!price.length && currPrompt === 3) errorsArr.push(errorMessages.price[0]);
+
+        price.split('').forEach(char => !char.match(/[0-9.]/) && !errorsArr.includes(errorMessages.price[1]) && errorsArr.push(errorMessages.price[1]));
 
         setErrors(errorsArr);
-    }, [name]);
-
-    const spotState = useSelector(state => state.spots);
+    }, [currPrompt, name, description, address, city, state, country, lat, lng, price]);
 
     let url;
     if (spotState) {
@@ -50,8 +106,6 @@ const CreateSpot = ({ id }) => {
 
         if (imgFormData) url = imgFormData.url;
     };
-
-    const [currPrompt, setCurrPrompt] = useState(Number(0));
 
     useEffect(() => {
         if (currPrompt > 5) setCurrPrompt(Number(0));
@@ -97,14 +151,27 @@ const CreateSpot = ({ id }) => {
             <div id='create-spot-forms'>
                 {
                     errors.length > 0 && 
-
-                    <ul style={{
-                        position: 'absolute',
-                        top: '10vh',
-                        right: '45vw'
-                    }}>
-                        {errors}
-                    </ul>
+                    <div id='form-errors-container' style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            overflow: 'auto',
+                            position: 'absolute',
+                            bottom: '136vh',
+                            right: currPrompt === 1 ? '35.7vw' : '34.9vw',
+                            minWidth: '30vw',
+                            maxWidth: '30vw',
+                            textAlign: 'center',
+                            lineHeight: '5vh',
+                            minHeight: '90px',
+                            maxHeight: '90px',
+                            border: 'none',
+                            borderRadius: '5px',
+                            boxShadow: errors.length > 2 && '0px 2px 4px 0px rgb(65, 65, 65)'
+                        }}>
+                        <ul>
+                            {errors.map((err, i) => <li style={{listStyle: 'none', fontWeight: '800', fontStyle: 'italic'}} key={i}>{err}</li>)}
+                        </ul>
+                    </div>
                 }
 
                 {

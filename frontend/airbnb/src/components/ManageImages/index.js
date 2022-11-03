@@ -1,15 +1,14 @@
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import { fetchSpotById, deleteSpotImgData } from '../../store/spots.js';
-import { deleteReviewImgData, toggleEditMode } from '../../store/reviews.js';
+import { deleteReviewImgData, fetchUserReviews, toggleEditMode } from '../../store/reviews.js';
 
 import './styles.css';
 import AddImageForm from './AddImageForm.js';
 
 const ManageImages = ({ type }) => {
-    const history = useHistory();
     const dispatch = useDispatch();
     const typeId = useParams();
 
@@ -17,7 +16,10 @@ const ManageImages = ({ type }) => {
 
     useEffect(() => {
         if (type === 'spot') dispatch(fetchSpotById(typeId.spotId))
-        if (type === 'review') dispatch(toggleEditMode(true, typeId.reviewId));
+        if (type === 'review') {
+            dispatch(fetchUserReviews());
+            dispatch(toggleEditMode(true, typeId.reviewId));
+        };
     }, [dispatch]);
 
     const selectType = useSelector(state => state[type + 's']);
