@@ -2,10 +2,11 @@ import { csrfFetch } from "./csrf";
 
 const initialState = {};
 
-export const createReview = (review) => {
+export const createReview = (review, reviewId) => {
     return {
         type: 'CREATE_REVIEW',
-        payload: review
+        payload: review,
+        payload2: reviewId
     };
 };
 
@@ -91,10 +92,10 @@ export const createSpotReview = (review, spotId) => async (dispatch) => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(review)
     });
-    
-    dispatch(createReview(review));
 
     const newReview = response.json();
+    dispatch(createReview(review, newReview.id));
+
     return newReview;
 };
 
@@ -153,7 +154,8 @@ const reviewsReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'CREATE_REVIEW': {
-            currentState[action.payload.id] = action.payload;
+            if (!action.payload2) currentState[action.payload.id] = action.payload
+            else currentState[action.payload2] = action.payload;
             
             return currentState;
         };

@@ -12,7 +12,6 @@ const Reviews = ({ spotId, avgRating, type }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [imagesArr, setImagesArr] = useState([]);
     const [clicked, setClicked] = useState(false);
 
     useEffect(() => {

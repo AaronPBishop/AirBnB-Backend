@@ -6,6 +6,7 @@ import SpotImages from "./SpotImages.js";
 import Reviews from "../Reviews/index.js";
 
 import { fetchSpotById } from "../../store/spots.js";
+import { fetchSpotReviews } from "../../store/reviews.js";
 
 import './styles.css';
 
@@ -16,7 +17,7 @@ const ShowSpot = () => {
     const [clicked, setClicked] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchSpotById(spotId.spotId))
+        dispatch(fetchSpotById(spotId.spotId));
     }, [dispatch]);
 
     const spotData = useSelector(state => state.spots.currSpot);

@@ -14,11 +14,34 @@ const CreateReview = ({ spotId, reviewId, type }) => {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
 
+    const [errors, setErrors] = useState([]);
+    const [invalid, setInvalid] = useState(false);
+
+    const session = useSelector(state => state.session);
     const reviews = useSelector(state => state.reviews);
     const isSubmitted = reviews.submitted;
 
+    let hasReviewed;
+    if (reviews) for (let key in reviews) if (reviews[key].User) reviews[key].User.id === session.user.id ? hasReviewed = true : hasReviewed = false;
+
+    useEffect(() => {
+      setInvalid(false);
+
+      const errorsArr = [];
+
+      if (review.length < 2 || review.length > 1000) errorsArr.push('Review must be between 2 and 1000 characters in length');
+      if (!rating) errorsArr.push('Review must include a rating');
+
+      setErrors(errorsArr);
+    }, [review, rating]);
+
     const handleSubmit = async e => {
       e.preventDefault();
+
+      if (errors.length > 0) {
+        setInvalid(true);
+        return;
+      };
 
       if (type === 'edit') {
         const newReview = await dispatch(editSpotReview({review, stars: rating}, reviewId));
@@ -26,7 +49,7 @@ const CreateReview = ({ spotId, reviewId, type }) => {
         if (newReview) {
           const newReviewImages = reviews.CurrentReviewImgs;
 
-          dispatch(createReviewImage(newReviewImages.url, newReviewImages.preview, reviewId));
+          if (newReviewImages) dispatch(createReviewImage(newReviewImages.url, newReviewImages.preview, reviewId));
           dispatch(submittedReview(true));
 
           return;
@@ -42,7 +65,7 @@ const CreateReview = ({ spotId, reviewId, type }) => {
         if (newReview) {
           const newReviewImages = reviews.CurrentReviewImgs;
 
-          dispatch(createReviewImage(newReviewImages.url, newReviewImages.preview, newReview.id));
+          if (newReviewImages) dispatch(createReviewImage(newReviewImages.url, newReviewImages.preview, newReview.id));
           dispatch(submittedReview(true));
           
           return;
@@ -59,10 +82,32 @@ const CreateReview = ({ spotId, reviewId, type }) => {
 
     return (
         <div id={clicked ? 'move-create-review-container' : 'create-review-container'}>
-            {type !== 'edit' && 
-            <button id={clicked ? 'hide-create-review-button' : 'create-review-button'} onClick={() => setClicked(true)}>Add a Review</button>}
+            {
+              type !== 'edit' && 
+              <button 
+                id={clicked ? 'hide-create-review-button' : 'create-review-button'} 
+                onClick={() => setClicked(true)}
+                style={{visibility: hasReviewed === true && 'hidden'}}>
+                  Add a Review
+                </button>}
 
             <div id={type === 'edit' ? 'edit-review-form' : clicked ? 'review-form' : 'review-form-hidden'}>
+
+              {
+                invalid === true && 
+                <div 
+                style={{
+                  position: 'relative',
+                  bottom: '8vh',
+                  right: '7vw',
+                  textAlign: 'center',
+                  lineHeight: '25px',
+                  fontWeight: 'bold'
+                }}>
+                  {errors.map((err, i) => <li style={{listStyle: 'none'}} key={i}>{err}</li>)}
+                </div>
+              }
+
                <form>
                     <label>
                         <textarea
@@ -108,7 +153,10 @@ const CreateReview = ({ spotId, reviewId, type }) => {
                     }
 
                     <div>
-                        <button id={type !== 'edit' ? 'submit-review' : 'submit-edit'} type='submit' onClick={handleSubmit}>
+                        <button 
+                          id={type !== 'edit' ? 'submit-review' : 'submit-edit'} 
+                          type='submit' 
+                          onClick={handleSubmit}>
                           {
                             type !== 'edit' ? <p style={{position: 'relative', bottom: '1.1vh'}}>Submit Review</p> 
                             : <p style={{position: 'relative', bottom: '1.1vh'}}>Confirm Changes</p>
