@@ -16,7 +16,6 @@ import ManageAccount from "./components/ManageAccount/index.js";
 
 const App = () => {
   const dispatch = useDispatch();
-  const currSpotId = useSelector(state => state.spots.currSpotId);
   const [isLoaded, setIsLoaded] = useState(false);
   
   useEffect(() => {
@@ -69,7 +68,7 @@ const App = () => {
           </Route>
 
           <Route path='/edit-spot/:spotId'>
-            <CreateSpot id={currSpotId}/>
+            <CreateSpot />
           </Route>
           
         </Switch>

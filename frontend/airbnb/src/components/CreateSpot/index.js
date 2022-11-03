@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,10 +10,12 @@ import AddImageForm from '../ManageImages/AddImageForm.js';
 
 import './styles.css';
 
-const CreateSpot = ({ id }) => {
+const CreateSpot = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const spotId = useParams();
+    
     const spotState = useSelector(state => state.spots);
 
     let spotAddresses;
@@ -37,6 +39,8 @@ const CreateSpot = ({ id }) => {
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+
         dispatch(fetchSpots());
     }, []);
 
@@ -119,8 +123,8 @@ const CreateSpot = ({ id }) => {
             return;
         };
 
-        if (id) {
-            dispatch(editSpotData({id: id, address, city, state, country, lat, lng, name, description, price, previewImage: url}));
+        if (spotId && spotId.spotId) {
+            dispatch(editSpotData({id: spotId.spotId, address, city, state, country, lat, lng, name, description, price, previewImage: url}));
             history.push(`/`);
             
             return;
@@ -286,7 +290,7 @@ const CreateSpot = ({ id }) => {
                     || currPrompt === 4 &&
                 
                     <div id='create-spot-image-form'>
-                        <AddImageForm type='createSpot' spotId={id} />
+                        <AddImageForm type='createSpot' spotId={spotId.spotId} />
                     </div>
 
                     || currPrompt === 5 &&
