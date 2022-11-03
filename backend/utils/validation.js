@@ -7,7 +7,6 @@ const handleValidationErrors = (req, _res, next) => {
     const errors = validationErrors
       .array()
       .map((error) => `${error.msg}`);
-    console.log('HELLO THIS RAN')
     const err = Error('Validation error');
     err.errors = errors;
     err.status = 400;
