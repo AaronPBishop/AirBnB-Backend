@@ -14,12 +14,14 @@ const Reviews = ({ spotId, avgRating, type }) => {
 
     const [clicked, setClicked] = useState(false);
 
+    const submitted = useSelector(state => state.reviews.submitted);
+
     useEffect(() => {
         dispatch(rerenderReviews());
 
         if (type === 'spot') dispatch(fetchSpotReviews(spotId));
         if (type === 'user') dispatch(fetchUserReviews());
-    }, [dispatch]);
+    }, [dispatch, submitted]);
 
     const reviews = useSelector(state => state.reviews);
 
