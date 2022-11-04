@@ -52,8 +52,8 @@ const CreateSpot = () => {
             city: 'City is required',
             state: 'State is required',
             country: 'Country is required',
-            lat: ['Latitude is required', 'Latitude must be a decimal type number'],
-            lng: ['Longitude is required', 'Longitude must be a decimal type number'],
+            lat: 'Valid latitude value is required',
+            lng: 'Valid longitude value is required',
             price: ['Price is required', 'Price must be an integer or decimal (do not include commas)']
         };
 
@@ -84,18 +84,11 @@ const CreateSpot = () => {
         // Country
         if (!country.length && currPrompt === 2) errorsArr.push(errorMessages.country);
 
-        // Lat
-        if (!lat.length && currPrompt === 2) errorsArr.push(errorMessages.lat[0]);
+        // Lat & Lng
 
-        lat.split('').forEach(char => !char.match(/[0-9.-]/) && currPrompt === 2 && !errorsArr.includes(errorMessages.lat[1]) && errorsArr.push(errorMessages.lat[1]));
-
-        if (!lat.split('').includes('.') && !errorsArr.includes(errorMessages.lat[1]) && currPrompt === 2) errorsArr.push(errorMessages.lat[1]);
-
-        // Lng
-        lng.split('').forEach(char => !char.match(/[0-9.-]/) && currPrompt === 2 && !errorsArr.includes(errorMessages.lng[1]) && errorsArr.push(errorMessages.lng[1]));
-
-        if (!lng.split('').includes('.') && !errorsArr.includes(errorMessages.lng[1]) && currPrompt === 2) errorsArr.push(errorMessages.lng[1]);
-
+        (!(isFinite(lat) && Math.abs(lat) <= 90) && currPrompt === 2 && !errorsArr.includes(errorMessages.lat)) && errorsArr.push(errorMessages.lat);
+        (!(isFinite(lng) && Math.abs(lng) <= 180) && currPrompt === 2 && !errorsArr.includes(errorMessages.lng)) && errorsArr.push(errorMessages.lng); 
+        
         // Price
         if (!price.length && currPrompt === 3) errorsArr.push(errorMessages.price[0]);
 

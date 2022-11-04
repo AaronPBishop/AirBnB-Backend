@@ -18,7 +18,7 @@ const ManageSpots = () => {
     const userSpots = useSelector(state => state.userSpots);
 
     const spotsArr = [];
-    if (userSpots) for (let key in userSpots) {
+    if (userSpots && Object.keys(userSpots).length > 0) for (let key in userSpots) {
         const currSpot = userSpots[key];
 
         spotsArr.push(currSpot);
@@ -27,7 +27,7 @@ const ManageSpots = () => {
     document.body.style.overflowY = 'scroll';
 
     if (!spotsArr.length) return (<p className='no-content'>...Nothing to show here!</p>)
-    return (
+    if (spotsArr.length) return (
         <div id='user-spots'>
 
             {spotsArr.map((spot, i) => 
