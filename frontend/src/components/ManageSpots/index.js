@@ -18,7 +18,7 @@ const ManageSpots = () => {
     const userSpots = useSelector(state => state.userSpots);
 
     const spotsArr = [];
-    for (let key in userSpots) {
+    if (userSpots) for (let key in userSpots) {
         const currSpot = userSpots[key];
 
         spotsArr.push(currSpot);
