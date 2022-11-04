@@ -22,7 +22,7 @@ const CreateReview = ({ spotId, reviewId, type }) => {
     const isSubmitted = reviews.submitted;
 
     let hasReviewed;
-    if (reviews) for (let key in reviews) if (reviews[key].User) reviews[key].User.id === session.user.id ? hasReviewed = true : hasReviewed = false;
+    if (session && session.user && reviews) for (let key in reviews) if (reviews[key].User && reviews[key].User.id) reviews[key].User.id === session.user.id ? hasReviewed = true : hasReviewed = false;
 
     useEffect(() => {
       setInvalid(false);
@@ -87,8 +87,8 @@ const CreateReview = ({ spotId, reviewId, type }) => {
               <button 
                 id={clicked ? 'hide-create-review-button' : 'create-review-button'} 
                 onClick={() => setClicked(true)}
-                style={{visibility: hasReviewed === true && 'hidden'}}
-                disabled={hasReviewed === true}>
+                style={{visibility: hasReviewed === true || !session.user && 'hidden'}}
+                disabled={hasReviewed === true || !session.user}>
                   Add a Review
                 </button>}
 
