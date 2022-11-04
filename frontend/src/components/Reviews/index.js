@@ -43,6 +43,7 @@ const Reviews = ({ spotId, avgRating, type }) => {
 
     document.body.style.overflowY = 'scroll';
 
+    if (!reviews) return <p>No data to show</p>
     if (reviews) return (
         <div>
             {

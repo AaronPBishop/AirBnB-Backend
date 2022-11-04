@@ -23,7 +23,6 @@ const CreateReview = ({ spotId, reviewId, type }) => {
 
     let hasReviewed;
     if (session && session.user && reviews) for (let key in reviews) if (reviews[key].User && reviews[key].User.id) reviews[key].User.id === session.user.id ? hasReviewed = true : hasReviewed = false;
-    console.log(hasReviewed)
 
     useEffect(() => {
       setInvalid(false);

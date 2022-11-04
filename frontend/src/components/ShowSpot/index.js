@@ -6,7 +6,6 @@ import SpotImages from "./SpotImages.js";
 import Reviews from "../Reviews/index.js";
 
 import { fetchSpotById } from "../../store/spots.js";
-import { fetchSpotReviews } from "../../store/reviews.js";
 
 import './styles.css';
 
@@ -27,6 +26,7 @@ const ShowSpot = () => {
 
     document.body.style.overflowY = 'scroll';
 
+    if (!spotData) return <p>No data to show</p>
     if (spotData) return (
         <div style={{display: clicked && 'flex', justifyContent: 'center'}}>
         { 
