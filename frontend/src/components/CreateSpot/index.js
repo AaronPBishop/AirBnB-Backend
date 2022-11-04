@@ -52,8 +52,8 @@ const CreateSpot = () => {
             city: 'City is required',
             state: 'State is required',
             country: 'Country is required',
-            lat: 'Valid latitude value is required',
-            lng: 'Valid longitude value is required',
+            lat: ['Latitude is required', 'Valid latitude value is required'],
+            lng: ['Longitude is required', 'Valid longitude value is required'],
             price: ['Price is required', 'Price must be an integer or decimal (do not include commas)']
         };
 
@@ -86,8 +86,11 @@ const CreateSpot = () => {
 
         // Lat & Lng
 
-        (!(isFinite(lat) && Math.abs(lat) <= 90) && currPrompt === 2 && !errorsArr.includes(errorMessages.lat)) && errorsArr.push(errorMessages.lat);
-        (!(isFinite(lng) && Math.abs(lng) <= 180) && currPrompt === 2 && !errorsArr.includes(errorMessages.lng)) && errorsArr.push(errorMessages.lng); 
+        (!lat && currPrompt === 2 && !errorsArr.includes(errorMessages.lat[0])) && errorsArr.push(errorMessages.lat[0]);
+        (!lng && currPrompt === 2 && !errorsArr.includes(errorMessages.lng[0])) && errorsArr.push(errorMessages.lng[0]);
+
+        (!(isFinite(lat) && Math.abs(lat) <= 90) && currPrompt === 2 && !errorsArr.includes(errorMessages.lat[1])) && errorsArr.push(errorMessages.lat[1]);
+        (!(isFinite(lng) && Math.abs(lng) <= 180) && currPrompt === 2 && !errorsArr.includes(errorMessages.lng[1])) && errorsArr.push(errorMessages.lng[1]); 
         
         // Price
         if (!price.length && currPrompt === 3) errorsArr.push(errorMessages.price[0]);
