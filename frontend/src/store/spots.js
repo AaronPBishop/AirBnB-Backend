@@ -122,6 +122,8 @@ const spotsReducer = (state = initialState, action) => {
                 if (flattenedAddress.length) currentState.spotAddresses[spotAddresses.length] = flattenedAddress.join('');
             };
 
+            currentState['submitted'] = true;
+
             return currentState;
         };
 
