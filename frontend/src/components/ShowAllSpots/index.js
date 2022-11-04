@@ -9,15 +9,12 @@ import './styles.css';
 
 const ShowAllSpots = () => {
     const dispatch = useDispatch();
-
-    const allSpots = useSelector(state => state.spots);
-
-    let isSubmitted;
-    if (allSpots && allSpots.submitted) isSubmitted = allSpots.submitted;
     
     useEffect (() => {
         dispatch(fetchSpots());
-    }, [dispatch, isSubmitted]);
+    }, [dispatch]);
+
+    const allSpots = useSelector(state => state.spots);
     
     const spotsArr = [];
     for (let key in allSpots) {

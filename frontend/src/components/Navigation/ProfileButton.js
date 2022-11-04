@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 
 import './styles.css';
 
 const ProfileButton = ({ user }) => {
+  const history = useHistory();
+  
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   
@@ -51,7 +53,11 @@ const ProfileButton = ({ user }) => {
           <br/>
           <NavLink to='/manage-account' className='navlinks'>Manage your Account</NavLink>
           <li>
-            <button id='logout-button' onClick={logout}>Log Out</button>
+            <button id='logout-button' onClick={e => {
+              logout(e);
+
+              history.push('/');
+            }}>Log Out</button>
           </li>
         </ul>
       )}

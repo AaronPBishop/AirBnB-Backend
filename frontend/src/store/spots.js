@@ -23,6 +23,13 @@ export const setCurrSpot = (currSpot) => {
     };
 };
 
+export const deleteSpot = (spotId) => {
+    return {
+        type: 'DELETE_SPOT',
+        payload: spotId
+    };
+};
+
 export const createSpotImage = (id, url, preview) => {
     return {
         type: 'CREATE_SPOT_IMAGE',
@@ -122,8 +129,6 @@ const spotsReducer = (state = initialState, action) => {
                 if (flattenedAddress.length) currentState.spotAddresses[spotAddresses.length] = flattenedAddress.join('');
             };
 
-            currentState['submitted'] = true;
-
             return currentState;
         };
 
@@ -135,6 +140,12 @@ const spotsReducer = (state = initialState, action) => {
 
         case 'SET_CURR_SPOT': {
             currentState['currSpot'] = action.payload;
+
+            return currentState;
+        };
+
+        case 'DELETE_SPOT': {
+            delete currentState[action.payload];
 
             return currentState;
         };

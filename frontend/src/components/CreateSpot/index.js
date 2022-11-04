@@ -87,12 +87,12 @@ const CreateSpot = () => {
         // Lat
         if (!lat.length && currPrompt === 2) errorsArr.push(errorMessages.lat[0]);
 
-        lat.split('').forEach(char => !char.match(/[0-9.]/) && currPrompt === 2 && !errorsArr.includes(errorMessages.lat[1]) && errorsArr.push(errorMessages.lat[1]));
+        lat.split('').forEach(char => !char.match(/[0-9.-]/) && currPrompt === 2 && !errorsArr.includes(errorMessages.lat[1]) && errorsArr.push(errorMessages.lat[1]));
 
         if (!lat.split('').includes('.') && !errorsArr.includes(errorMessages.lat[1]) && currPrompt === 2) errorsArr.push(errorMessages.lat[1]);
 
         // Lng
-        lng.split('').forEach(char => !char.match(/[0-9.]/) && currPrompt === 2 && !errorsArr.includes(errorMessages.lng[1]) && errorsArr.push(errorMessages.lng[1]));
+        lng.split('').forEach(char => !char.match(/[0-9.-]/) && currPrompt === 2 && !errorsArr.includes(errorMessages.lng[1]) && errorsArr.push(errorMessages.lng[1]));
 
         if (!lng.split('').includes('.') && !errorsArr.includes(errorMessages.lng[1]) && currPrompt === 2) errorsArr.push(errorMessages.lng[1]);
 

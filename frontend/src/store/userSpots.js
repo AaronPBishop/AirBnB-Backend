@@ -1,6 +1,7 @@
 import { csrfFetch } from "./csrf";
+import { deleteSpot } from "./spots";
 
-const initialState = { };
+const initialState = {};
 
 export const seedUserSpots = (spot) => {
     return {
@@ -9,9 +10,9 @@ export const seedUserSpots = (spot) => {
     };
 };
 
-export const deleteSpot = (spotId) => {
+export const deleteUserSpot = (spotId) => {
     return {
-        type: 'DELETE_SPOT',
+        type: 'DELETE_USER_SPOT',
         payload: spotId
     };
 };
@@ -31,6 +32,7 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
         method: 'DELETE'
     });
 
+    dispatch(deleteUserSpot(spotId));
     dispatch(deleteSpot(spotId));
 };
 
@@ -54,7 +56,7 @@ const userSpotsReducer = (state = initialState, action) => {
             return currentState;
         };
 
-        case 'DELETE_SPOT': {
+        case 'DELETE_USER_SPOT': {
             delete currentState[action.payload];
 
             return currentState;

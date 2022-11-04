@@ -11,14 +11,9 @@ const ManageSpots = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const spots = useSelector(state => state.spots);
-
-    let isSubmitted;
-    if (spots && spots.submitted) isSubmitted = spots.submitted;
-
     useEffect(() => {
         dispatch(fetchUserSpots());
-    }, [dispatch, isSubmitted]);
+    }, [dispatch]);
     
     const userSpots = useSelector(state => state.userSpots);
 
