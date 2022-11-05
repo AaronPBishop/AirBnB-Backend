@@ -35,15 +35,13 @@
 #spot-images-div {
     text-align: left;
     line-height: 10px;
-    padding: 20px;
+    padding: 5vw;
 
     min-width: 160px;
     max-width: 160px;
 
     min-height: 290px;
     max-height: 290px;
-
-    margin: 15px;
 }
 
 #delete-image-button {
@@ -114,13 +112,6 @@
     left: 15px;
 }
 
-#add-images {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    top: 2vh;
-}
-
 #add-image-button {
     margin: 2px;
     margin-top: 20px;
@@ -141,8 +132,7 @@
     max-width: 125px;
 
     position: relative;
-    left: 1.7vw;
-    bottom: 13vh;
+    top: 8vh;
 }
 
 #image-form {

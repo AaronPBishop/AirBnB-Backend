@@ -33,17 +33,38 @@ const ManageImages = ({ type }) => {
     document.body.style.overflowY = 'scroll';
 
     if (type === 'spot' && (spotImgs === undefined || !spotImgs.length || spotImgs.length < 1) || type === 'review' && (reviewImgs === undefined || !reviewImgs.length || reviewImgs.length < 1)) return (
-        <div>
-            <div id='add-images'>
-                <button id='add-image-button' onClick={() => setClicked(clicked => !clicked)}>Add an Image</button>
-            </div>
+        <div id='manage-images' style={{display: 'flex', justifyContent: 'center', margin: 'auto', width: '20vw', flexWrap: 'wrap'}}>
+
+            <p className='no-content'>Nothing to show here!</p>
+
+            <button id='add-image-button' onClick={() => setClicked(clicked => !clicked)}>Add an Image</button>
+
+            {
+                clicked && type === 'spot' ? 
+
+                <div style={{display: 'flex', position: 'absolute', top: '55vh', right: '36vw'}}><AddImageForm type='editSpot' spotId={typeId} /></div>
+                
+                : clicked && type === 'review' && 
+                
+                <div style={{display: 'flex', position: 'absolute', top: '55vh', right: '36vw'}}><AddImageForm type='editReview' reviewId={typeId.reviewId} /></div>
+            }
+
         </div>
     );
 
     if (type === 'spot' && (spotImgs !== undefined && spotImgs.length && spotImgs.length > 0) || type ==='review' && (reviewImgs !== undefined && reviewImgs.length && reviewImgs.length > 0)) return (
-        <div id='manage-images'>
+        <div id='manage-images' style={{display: 'flex', justifyContent: 'center', margin: 'auto', width: '60%', flexWrap: 'wrap'}}>
+
+            <button 
+                style={{position: 'relative', 
+                        top: '-3vh'
+                    }} 
+                id='add-image-button' 
+                onClick={() => setClicked(clicked => !clicked)}>
+                    Add an Image
+            </button>
+
             <div id='manage-spot-images-container'>
-                {type === 'spot' && spotImgs.length > 0 || type === 'review' && reviewImgs.length > 0 && <div id='current-images'><p id='manage-images-header'>Current Images</p></div>}
 
                 {
                     type === 'spot' && spotImgs.length > 0 ?
@@ -74,18 +95,18 @@ const ManageImages = ({ type }) => {
                             </div>
                         )
                     })
-                    : <p><i>No images to display</i></p>
+                    : <p className='no-content'>Nothing to show here!</p>
                 }
-            </div>
-
-            <div id='add-images'>
-                <button id='add-image-button' onClick={() => setClicked(clicked => !clicked)}>Add an Image</button>
             </div>
 
             {
                 clicked && type === 'spot' ? 
-                <AddImageForm type='editSpot' spotId={typeId} />
-                : clicked && type === 'review' && <AddImageForm type='editReview' reviewId={typeId.reviewId} />
+
+                <div style={{display: 'flex', position: 'relative'}}><AddImageForm type='editSpot' spotId={typeId} /></div>
+
+                : clicked && type === 'review' && 
+
+                <div style={{display: 'flex', position: 'relative'}}><AddImageForm type='editReview' reviewId={typeId.reviewId} /></div>
             }
         </div>
     )

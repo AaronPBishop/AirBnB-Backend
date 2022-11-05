@@ -31,7 +31,7 @@ const ManageSpots = () => {
 
     document.body.style.overflowY = 'scroll';
 
-    if (userSpots.length < 1) return (<p className='no-content'>...Nothing to show here!</p>)
+    if (userSpots.length < 1) return (<p className='no-content'>Nothing to show here!</p>)
     if (userSpots.length > 0) return (
         <div id='user-spots'>
 
