@@ -53,6 +53,12 @@ export const feedImgFormData = (url) => {
     };
 };
 
+export const rerenderSpots = () => {
+    return {
+        type: 'RERENDER_SPOTS'
+    };
+};
+
 export const fetchSpots = () => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots`, {
         method: 'GET'
@@ -109,7 +115,7 @@ export const sendSpotImgData = (spotId, url, preview) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/images`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({url, preview})
+        body: JSON.stringify({url, previewImage: preview})
     });
 
     const newImage = await response.json();
@@ -179,7 +185,10 @@ const spotsReducer = (state = initialState, action) => {
         };
 
         case 'CREATE_SPOT_IMAGE': {
+            const spotId = currentState.currSpot.id;
             const spotImages = currentState.currSpot.SpotImages;
+
+            if (currentState[spotId].previewImage) if (action.payload3 === true) currentState[spotId].previewImage = action.payload2;
             currentState.currSpot.SpotImages[spotImages.length] = {id: action.payload1, url: action.payload2, preview: action.payload3};
 
             return currentState;
@@ -197,6 +206,8 @@ const spotsReducer = (state = initialState, action) => {
 
             return currentState;
         };
+
+        case 'RERENDER_SPOTS': return initialState;
 
         default: return currentState;
     };

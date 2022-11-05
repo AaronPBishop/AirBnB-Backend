@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { fetchSpots, setCurrSpotId } from '../../store/spots.js';
+import { fetchSpots, rerenderSpots, setCurrSpotId } from '../../store/spots.js';
 
 import './styles.css';
 
@@ -11,6 +11,8 @@ const ShowAllSpots = () => {
     const dispatch = useDispatch();
     
     useEffect (() => {
+        dispatch(rerenderSpots());
+        
         dispatch(fetchSpots());
     }, [dispatch]);
 
