@@ -32,7 +32,9 @@ const ManageImages = ({ type }) => {
 
     document.body.style.overflowY = 'scroll';
 
-    if (type === 'spot' && spotImgs || type ==='review' && reviewImgs) return (
+    if (type === 'spot' && (!spotImgs.length || spotImgs.length < 1) || type === 'review' && (!reviewImgs.length || reviewImgs.length < 1)) return <p className='no-content'>...Nothing to show here!</p>
+    
+    if (type === 'spot' && (spotImgs.length && spotImgs.length > 0) || type ==='review' && (reviewImgs.length && reviewImgs.length > 0)) return (
         <div id='manage-images'>
             <div id='manage-spot-images-container'>
                 {type === 'spot' && spotImgs.length > 0 || type === 'review' && reviewImgs.length > 0 && <div id='current-images'><p id='manage-images-header'>Current Images</p></div>}
