@@ -23,12 +23,16 @@ const Navigation = ({ isLoaded }) => {
   }
 
   return (
-    <ul id='navigation'>
-      <li>
+    <div id='navigation'>
         <NavLink to="/" id='home-navlink' className='navlinks'>airbnb</NavLink>
-        {isLoaded && sessionLinks}
-      </li>
-    </ul>
+        {isLoaded && <div style={{
+          display: 'flex', 
+          justifyContent: 'space-evenly', 
+          position: 'relative', 
+          bottom: '1.5vh',
+          marginRight: '20vw',
+          marginLeft: '20vw'}}>{sessionLinks}</div>}
+    </div>
   );
 };
 

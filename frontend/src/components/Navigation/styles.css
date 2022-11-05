@@ -1,16 +1,21 @@
 #navigation {
-    display: block;
-    justify-content: space-between;
     text-decoration: none;
     list-style: none;
     border-bottom: 1px solid rgb(220, 220, 220);
+
+    z-index: 200;
 }
 
 #home-navlink {
+    position: relative;
+    top: 2vh;
+    left: 5vh;
     text-decoration: none;
     color: #FF385C;
+
     font-size: 25px;
     font-weight: 700;
+
     letter-spacing: -2px;
 }
 
@@ -19,7 +24,9 @@
     justify-content: flex-end;
 
     position: relative;
-    bottom: 3vh;
+    left: 35vw;
+    bottom: 0.5vh;
+    margin-left: 20vw;
 }
 
 #profile-button {
@@ -34,6 +41,8 @@
 
     min-height: 30px;
     max-height: 30px;
+
+    cursor: pointer;
 }
 
 #hide-profile-button {
@@ -52,9 +61,12 @@
 
     min-height: 30px;
     max-height: 30px;
+
+    cursor: pointer;
 }
 
 .profile-dropdown {
     list-style: none;
     line-height: 30px;
+    margin-right: 10vw;
 }
