@@ -123,8 +123,8 @@ export const sendSpotImgData = (spotId, url, preview) => async (dispatch) => {
     dispatch(createSpotImage(newImage.id, url, preview));
 };
 
-export const deleteSpotImgData = (imgIndex, imgId) => async (dispatch) => {
-    await csrfFetch(`/api/images/${imgId}`, {
+export const deleteSpotImgData = (spotId, imgIndex, imgId) => async (dispatch) => {
+    await csrfFetch(`/api/spots/${spotId}/images/${imgId}`, {
         method: 'DELETE'
     });
 
@@ -188,14 +188,18 @@ const spotsReducer = (state = initialState, action) => {
             const spotId = currentState.currSpot.id;
             const spotImages = currentState.currSpot.SpotImages;
 
-            if (currentState[spotId].previewImage) if (action.payload3 === true) currentState[spotId].previewImage = action.payload2;
+            if (currentState[spotId] && currentState[spotId].previewImage) if (action.payload3 === true) currentState[spotId].previewImage = action.payload2;
             currentState.currSpot.SpotImages[spotImages.length] = {id: action.payload1, url: action.payload2, preview: action.payload3};
 
             return currentState;
         };
 
         case 'DELETE_SPOT_IMAGE': {
+            const spotId = currentState.currSpot.id;
             const spotImages = currentState.currSpot.SpotImages;
+
+            if (currentState[spotId] && currentState[spotId].previewImage && currentState[spotId].previewImage === spotImages[action.payload].url) delete currentState[spotId].previewImage;
+            if (currentState.currSpot.previewImage === spotImages[action.payload].url) delete currentState.currSpot.previewImage;
             delete spotImages[action.payload];
 
             return currentState;

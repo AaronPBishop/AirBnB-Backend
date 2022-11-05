@@ -107,6 +107,13 @@ router.post('/', requireAuth, async (req, res, next) => {
             price,
             previewImage
         });
+        
+        await Image.create({
+            userId: req.user.id,
+            spotId: newSpot.id,
+            url: req.body.previewImage,
+            preview: true
+        });
 
         return res.status(201).json(newSpot);
     } catch (e) {
@@ -370,7 +377,12 @@ router.delete('/:spotId/images/:imageId', requireAuth, async (req, res) => {
 
     if (!imageToDelete) return res.status(404).json({"message": "Spot Image couldn't be found", "statusCode": 404});
 
-    if (req.user.id !== spotId.ownerId) return res.status(200).json({"message": "Spot must belong to the current user in order to delete an image", "statuscode": 403});
+    if (req.user.id !== spotId.ownerId) return res.status(403).json({"message": "Spot must belong to the current user in order to delete an image", "statuscode": 403});
+
+    console.log('Preview image:', spotId.previewImage)
+    console.log('Image url:', imageToDelete.url)
+    
+    if (spotId.previewImage === imageToDelete.url) await spotId.update({ previewImage: null });
 
     await imageToDelete.destroy();
 

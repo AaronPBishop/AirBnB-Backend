@@ -47,7 +47,7 @@ const ManageImages = ({ type }) => {
                                 </div>
                                 <div id='delete-image-div'><button id='delete-image-button' 
                                 onClick={() => {
-                                    dispatch(deleteSpotImgData(i, spotImgs[i].id)) 
+                                    dispatch(deleteSpotImgData(typeId.spotId, i, spotImgs[i].id)) 
                                     }}>Delete</button></div>
                             </div>
                         )
