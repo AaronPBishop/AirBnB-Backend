@@ -32,7 +32,13 @@ const ManageImages = ({ type }) => {
 
     document.body.style.overflowY = 'scroll';
 
-    // if (type === 'spot' && (spotImgs === undefined || !spotImgs.length || spotImgs.length < 1) || type === 'review' && (reviewImgs === undefined || !reviewImgs.length || reviewImgs.length < 1)) return <p className='no-content'>...Nothing to show here!</p>
+    if (type === 'spot' && (spotImgs === undefined || !spotImgs.length || spotImgs.length < 1) || type === 'review' && (reviewImgs === undefined || !reviewImgs.length || reviewImgs.length < 1)) return (
+        <div>
+            <div id='add-images'>
+                <button id='add-image-button' onClick={() => setClicked(clicked => !clicked)}>Add an Image</button>
+            </div>
+        </div>
+    );
 
     if (type === 'spot' && (spotImgs !== undefined && spotImgs.length && spotImgs.length > 0) || type ==='review' && (reviewImgs !== undefined && reviewImgs.length && reviewImgs.length > 0)) return (
         <div id='manage-images'>
