@@ -2,7 +2,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { fetchUserSpots, deleteSpotThunk } from '../../store/userSpots.js';
+import { fetchUserSpots, deleteSpotThunk } from '../../store/spots.js';
 import { setCurrSpotId } from '../../store/spots.js';
 
 import './styles.css';
@@ -15,22 +15,26 @@ const ManageSpots = () => {
         dispatch(fetchUserSpots());
     }, [dispatch]);
     
-    const userSpots = useSelector(state => state.userSpots);
+    const session = useSelector(state => state.session);
+    const spots = useSelector(state => state.spots);
 
-    const spotsArr = [];
-    if (userSpots && Object.keys(userSpots).length > 0) for (let key in userSpots) {
-        const currSpot = userSpots[key];
+    let userId;
+    const userSpots = [];
+    if (spots && session && session.user && session.user.id) {
+        userId = session.user.id;
 
-        spotsArr.push(currSpot);
+        for (let key in spots) {
+            if (spots[key].ownerId === userId) userSpots.push(spots[key]);
+        };
     };
 
     document.body.style.overflowY = 'scroll';
 
-    if (!spotsArr.length) return (<p className='no-content'>...Nothing to show here!</p>)
-    if (spotsArr.length) return (
+    if (userSpots.length < 1) return (<p className='no-content'>...Nothing to show here!</p>)
+    if (userSpots.length > 0) return (
         <div id='user-spots'>
 
-            {spotsArr.map((spot, i) => 
+            {userSpots.map((spot, i) => 
             <div className='user-spot-divs' key={i}>
                 <div id='preview-image-container'>
                     {

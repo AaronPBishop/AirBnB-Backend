@@ -75,9 +75,29 @@ export const fetchSpotById = (spotId) => async (dispatch) => {
     dispatch(setCurrSpot(data[0]));
 };
 
+export const fetchUserSpots = () => async (dispatch) => {
+    const fetchReq = await csrfFetch(`/api/spots/current`, {
+        method: 'GET'
+    });
+    const fetchJSON = await fetchReq.json();
+
+    const data = [fetchJSON];
+    data.forEach(spot => spot.Spots.forEach((obj => dispatch(createSpotData(obj)))));    
+};
+
 export const sendSpotData = (spot) => async (dispatch) => {
     await csrfFetch(`/api/spots`, {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(spot)
+    });
+
+    dispatch(createSpotData(spot));
+};
+
+export const editSpotData = (spot) => async (dispatch) => {
+    await csrfFetch(`/api/spots/${spot.id}`, {
+        method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(spot)
     });
@@ -103,6 +123,14 @@ export const deleteSpotImgData = (imgIndex, imgId) => async (dispatch) => {
     });
 
     dispatch(deleteSpotImage(imgIndex));
+};
+
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
+    await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'DELETE'
+    });
+
+    dispatch(deleteSpot(spotId));
 };
 
 const spotsReducer = (state = initialState, action) => {
