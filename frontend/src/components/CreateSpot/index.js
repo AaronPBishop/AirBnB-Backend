@@ -2,7 +2,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { sendSpotData, fetchSpots, editSpotData } from '../../store/spots.js';
+import { sendSpotData, fetchSpots, editSpotData, rerenderSpots } from '../../store/spots.js';
 
 import CheckoutListing from './CheckoutListing.js';
 import AddImageForm from '../ManageImages/AddImageForm.js';
@@ -124,12 +124,14 @@ const CreateSpot = () => {
 
         if (spotId && spotId.spotId) {
             dispatch(editSpotData({id: spotId.spotId, address, city, state, country, lat, lng, name, description, price, previewImage: url}));
-            history.push(`/`);
+            dispatch(fetchSpots());
+            history.push(`/manage-listings`);
             
             return;
         };
 
         dispatch(sendSpotData({address, city, state, country, lat, lng, name, description, price, previewImage: url}));
+        dispatch(fetchSpots());
         history.push(`/manage-listings`);
     };
 
