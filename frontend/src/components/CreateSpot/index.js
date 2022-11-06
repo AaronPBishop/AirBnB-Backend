@@ -20,7 +20,7 @@ const CreateSpot = () => {
     let spotAddresses;
     if (spotState && spotState.spotAddresses) spotAddresses = spotState.spotAddresses;
 
-    const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Set your price', 'Now, let\'s give it a preview image (you can do this later)', 'Check out your listing!'];
+    const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Set your price $', 'Now, let\'s give it a preview image (you can do this later)', 'Check out your listing!'];
     const buttonText = ['Next', 'Save your listing'];
 
     const [currPrompt, setCurrPrompt] = useState(Number(0));
@@ -53,7 +53,7 @@ const CreateSpot = () => {
             country: 'Country is required',
             lat: ['Latitude is required', 'Valid latitude value is required'],
             lng: ['Longitude is required', 'Valid longitude value is required'],
-            price: ['Price is required', 'Price must be an integer or decimal (do not include commas)']
+            price: ['Price is required', 'Price must be an integer or decimal (do not include commas)', 'Price cannot be below $20 or over $10,000', 'Price cannot start with a zero']
         };
 
         const errorsArr = [];
@@ -95,6 +95,10 @@ const CreateSpot = () => {
         if (!price.length && currPrompt === 3) errorsArr.push(errorMessages.price[0]);
 
         price.split('').forEach(char => !char.match(/[0-9.]/) && !errorsArr.includes(errorMessages.price[1]) && errorsArr.push(errorMessages.price[1]));
+
+        if ((price.length && price < 20 && currPrompt === 3) || (price.length && price > 10000 && currPrompt === 3)) errorsArr.push(errorMessages.price[2]);
+
+        if (Number(price.split('')[0]) === 0 && currPrompt === 3) errorsArr.push(errorMessages.price[3]);
 
         setErrors(errorsArr);
     }, [currPrompt, name, description, address, city, state, country, lat, lng, price]);
@@ -266,19 +270,12 @@ const CreateSpot = () => {
                     || currPrompt === 3 && 
 
                     <label>
-                        <p style={{
-                            position: 'fixed',
-                            fontSize: '35px',
-                            fontWeight: 'bold',
-                            bottom: '50.8vh',
-                            right: '41.2vw'
-                            }}>$</p>
                         <input
                         className='create-spot-input'
                         type='text-area'
                         value={price}
                         onChange={e => setPrice(e.target.value)}
-                        placeholder='Price per night'>
+                        placeholder='$ Price per night $'>
                         </input>
                     </label>
 

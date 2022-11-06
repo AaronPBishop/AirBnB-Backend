@@ -108,7 +108,7 @@ router.post('/', requireAuth, async (req, res, next) => {
             previewImage
         });
         
-        await Image.create({
+        if (req.body.previewImage) await Image.create({
             userId: req.user.id,
             spotId: newSpot.id,
             url: req.body.previewImage,
@@ -195,7 +195,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt'],
     });
 
-    await spotToUpdate.update({
+    const updatedSpot = await spotToUpdate.update({
         address,
         city,
         state,
@@ -206,6 +206,13 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         description,
         price,
         previewImage
+    });
+
+    if (req.body.previewImage) await Image.create({
+        userId: req.user.id,
+        spotId: updatedSpot.id,
+        url: req.body.previewImage,
+        preview: true
     });
 
     return res.json(spotToUpdate);
@@ -378,9 +385,6 @@ router.delete('/:spotId/images/:imageId', requireAuth, async (req, res) => {
     if (!imageToDelete) return res.status(404).json({"message": "Spot Image couldn't be found", "statusCode": 404});
 
     if (req.user.id !== spotId.ownerId) return res.status(403).json({"message": "Spot must belong to the current user in order to delete an image", "statuscode": 403});
-
-    console.log('Preview image:', spotId.previewImage)
-    console.log('Image url:', imageToDelete.url)
     
     if (spotId.previewImage === imageToDelete.url) await spotId.update({ previewImage: null });
 

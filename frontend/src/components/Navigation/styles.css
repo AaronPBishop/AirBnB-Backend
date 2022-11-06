@@ -2,8 +2,8 @@
     text-decoration: none;
     list-style: none;
     border-bottom: 1px solid rgb(220, 220, 220);
-
-    z-index: 200;
+    position: relative;
+    bottom: 2.1vh;
 }
 
 #home-navlink {
