@@ -112,6 +112,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     res.json(reviewImages)
 });
 
+
 // Delete an image for a review
 router.delete('/:reviewId/images/:imageId', requireAuth, async (req, res) => {
     const reviewId = await Review.findByPk(req.params.reviewId);

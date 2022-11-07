@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import './styles.css';
 
-const DisplayReviewImages = ({ imgArray, clicked, imgCount, reviewId }) => {
+const DisplayReviewImages = ({ imgArray, clicked, imgCount }) => {
     const [imgIndex, setImgIndex] = useState(Number(0));
 
     let url;

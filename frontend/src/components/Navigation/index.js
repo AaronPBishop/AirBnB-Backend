@@ -33,7 +33,7 @@ const Navigation = ({ isLoaded }) => {
         <button className='navigation-buttons' onClick={() => {
           setClickedLogin(clicked => !clicked);
           setClickedSignUp(false);
-        }} style={{marginRight: '5vw'}}>
+        }}>
           Log In
         </button>
 
@@ -68,7 +68,7 @@ const Navigation = ({ isLoaded }) => {
         <button className='navigation-buttons' onClick={() => {
           setClickedSignUp(clicked => !clicked);
           setClickedLogin(false);
-        }} style={{marginLeft: '5vw'}}>
+        }}>
           Sign Up
         </button>
 
