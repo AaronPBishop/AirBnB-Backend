@@ -108,7 +108,7 @@ router.post('/', requireAuth, async (req, res, next) => {
             previewImage
         });
         
-        if (req.body.previewImage) await Image.create({
+        await Image.create({
             userId: req.user.id,
             spotId: newSpot.id,
             url: req.body.previewImage,
@@ -208,7 +208,7 @@ router.put('/:spotId', requireAuth, async (req, res) => {
         previewImage
     });
 
-    if (req.body.previewImage) await Image.create({
+    await Image.create({
         userId: req.user.id,
         spotId: updatedSpot.id,
         url: req.body.previewImage,

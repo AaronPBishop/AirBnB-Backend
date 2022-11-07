@@ -138,22 +138,31 @@ const CreateReview = ({ spotId, reviewId, type }) => {
                           );
                         })}
                         <p><b>{rating}</b></p>
-
-                        { type !== 'edit' &&
-                          <button id='review-add-img-button' onClick={e => {setClickedAddImg(true); e.preventDefault()}}>Add Image</button>
-                        }
                     </div>
 
                     {
                       clickedAddImg &&
-                      <div id='review-add-img-form'>
-                        <div id='review-add-img-form-inner-div'>
+                      <div id='review-add-img-form' style={{}}>
                           <AddImageForm type='createReview' spotId={spotId} />
-                        </div>
                       </div>
                     }
 
-                    <div>
+                    <div 
+                      style={{
+                        display: 'flex', 
+                        justifyContent: 'flex-end',
+                        position: 'relative',
+                        bottom: '7vh',
+                        marginLeft: '10vw'
+                      }}>
+
+                        <button 
+                          id='review-add-img-button' 
+                          onClick={e => {setClickedAddImg(true); e.preventDefault()}}
+                          style={{visibility: type === 'edit' && 'hidden'}}>
+                          Add Image
+                        </button>
+
                         <button 
                           id={type !== 'edit' ? 'submit-review' : 'submit-edit'} 
                           type='submit' 

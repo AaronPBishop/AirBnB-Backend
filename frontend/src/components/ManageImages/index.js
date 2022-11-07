@@ -67,6 +67,16 @@ const ManageImages = ({ type }) => {
             <div id='manage-spot-images-container'>
 
                 {
+                    clicked && type === 'spot' ? 
+                
+                    <div style={{display: 'flex', position: 'absolute', zIndex: '300', right: '12vw', top: '-5vh'}}><AddImageForm type='editSpot' spotId={typeId} /></div>
+                
+                    : clicked && type === 'review' && 
+                
+                    <div style={{display: 'flex', position: 'absolute', zIndex: '300', right: '12vw', top: '-5vh'}}><AddImageForm type='editReview' reviewId={typeId.reviewId} /></div>
+                }
+
+                {
                     type === 'spot' && spotImgs.length > 0 ?
                     spotImgs.map((img, i) => {
                         return (
@@ -99,7 +109,7 @@ const ManageImages = ({ type }) => {
                 }
             </div>
 
-            {
+            {/* {
                 clicked && type === 'spot' ? 
 
                 <div style={{display: 'flex', position: 'relative'}}><AddImageForm type='editSpot' spotId={typeId} /></div>
@@ -107,7 +117,7 @@ const ManageImages = ({ type }) => {
                 : clicked && type === 'review' && 
 
                 <div style={{display: 'flex', position: 'relative'}}><AddImageForm type='editReview' reviewId={typeId.reviewId} /></div>
-            }
+            } */}
         </div>
     )
 };

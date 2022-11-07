@@ -61,7 +61,13 @@ const Reviews = ({ spotId, avgRating, type }) => {
 
             <div id='reviews-container'>
                 {reviewsArr.map((review, i) => {
-                    return <div id='individual-reviews' key={i}>
+                    return <div id='individual-reviews' 
+                                key={i} 
+                                style={{
+                                    border: type === 'user' && '1px solid rgb(220, 220, 220)',
+                                    borderRadius: '8px',
+                                    paddingLeft: '7vw'
+                                }}>
 
                                 <p id='review-username'><b>{review.User.firstName}:</b></p> 
 
@@ -82,7 +88,12 @@ const Reviews = ({ spotId, avgRating, type }) => {
                                 {
                                     clicked &&
                                     <div id='review-images-component-container' onClick={() => setClicked(false)}>
-                                        <DisplayReviewImages imgArray={review.ReviewImages} clicked={clicked} imgCount={review.ReviewImages.length} reviewId={review.id} />
+                                        <DisplayReviewImages 
+                                            imgArray={review.ReviewImages} 
+                                            clicked={clicked} 
+                                            imgCount={review.ReviewImages.length} 
+                                            reviewId={review.id} 
+                                        />
                                     </div>
                                 }
 

@@ -17,11 +17,8 @@
     flex-wrap: wrap;
     box-sizing: content-box;
 
-    position: relative;
-    bottom: 3vh;
-
-    min-width: 800px;
-    max-width: 800px;
+    min-width: 1000px;
+    max-width: 1000px;
 }
 
 #individual-reviews {
@@ -73,10 +70,6 @@
     color: black;
     height: 150px;
     width: 350px;
-
-    position: relative;
-    bottom: 5vh;
-    right: 8vh;
 }
 
 #review-form {
@@ -95,8 +88,7 @@
     justify-content: flex-start;
 
     position: relative;
-    bottom: 6vh;
-    right: 4.1vw;
+    bottom: 1vh;
 }
 
 #stars-button {
@@ -128,10 +120,6 @@
     min-height: 30px;
     max-height: 30px;
 
-    position: relative;
-    bottom: 12vh;
-    left: 12vw;
-
     cursor: pointer;
 }
 
@@ -150,8 +138,7 @@
     max-height: 30px;
 
     position: relative;
-    bottom: 12vh;
-    left: 11vw;
+    right: 1vw;
 
     cursor: pointer;
 }
@@ -177,9 +164,8 @@
 }
 
 #edit-review-form {
-    position: relative;
-    top: 12vh;
-    left: 31.8vw;
+    display: flex;
+    justify-content: center;
 }
 
 #review-add-img-button {
@@ -197,20 +183,13 @@
     max-height: 30px;
 
     cursor: pointer;
-
-    position: relative;
-    top: 1.06vh;
-    left: 1.5vw;
+    margin-right: 0.2vw;
 }
 
 #review-add-img-form {
     position: absolute;
-}
-
-#review-add-img-form-inner-div {
-    position: relative;
-    top: 2vh;
-    right: 9vw;
+    right: -3.5vw;
+    bottom: -5vh;
 }
 
 #review-images-component-container {
@@ -278,6 +257,7 @@
 .review-images-iterator {
     text-decoration: underline;
     font-weight: 800;
+    font-size: 17px;
     font-style: italic;
     font-family: 'Montserrat', sans-serif;
     color: white;
@@ -286,4 +266,6 @@
     background-color: transparent;
 
     cursor: pointer;
+
+    z-index: 300;
 }

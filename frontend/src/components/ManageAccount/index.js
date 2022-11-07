@@ -35,12 +35,10 @@ const ManageAccount = () => {
             }}>Manage your Reviews</button></div>
             
             <div id={clicked ? 'account-reviews' : 'hide-account-reviews'}>
-                <div>
                     {
                         editMode === true ? <CreateReview type='edit' reviewId={reviewId} />
                         : <Reviews type='user' />
                     }
-                </div>
             </div>
         </div>
     );

@@ -124,15 +124,19 @@ const CreateSpot = () => {
 
         if (spotId && spotId.spotId) {
             dispatch(editSpotData({id: spotId.spotId, address, city, state, country, lat, lng, name, description, price, previewImage: url}));
+
             dispatch(fetchSpots());
             history.push(`/manage-listings`);
+            dispatch(fetchSpots());
             
             return;
         };
 
         dispatch(sendSpotData({address, city, state, country, lat, lng, name, description, price, previewImage: url}));
+        
         dispatch(fetchSpots());
         history.push(`/manage-listings`);
+        dispatch(fetchSpots());
     };
 
     document.body.style.overflowY = 'hidden';
@@ -277,7 +281,7 @@ const CreateSpot = () => {
                         type='text-area'
                         value={price}
                         onChange={e => setPrice(e.target.value)}
-                        placeholder='$ Price per night $'>
+                        placeholder='Price per night'>
                         </input>
                     </label>
 

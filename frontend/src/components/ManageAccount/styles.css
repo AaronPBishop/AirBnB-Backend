@@ -38,3 +38,8 @@
 #hide-account-reviews {
     display: none;
 }
+
+#review-component-container {
+    display: flex;
+    justify-content: center;
+}
