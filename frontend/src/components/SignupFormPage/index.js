@@ -36,75 +36,96 @@ const SignupFormPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
 
-      <ul>
-        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-      </ul>
+        {
+          errors.length > 0 && 
+          <ul style={{
+          fontWeight: 'Bold',
+          textAlign: 'left', 
+          position: 'relative', 
+          listStyle: 'none',
+          marginBottom: '15vh',
+          width: 'inherit'}}>
+            {errors.map((error, idx) => <li key={idx} style={{position: 'absolute'}}>{error}</li>)}
+          </ul>
+        }
 
-      <label>
-        First Name
-        <input
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-        />
-      </label>
+      <form onSubmit={handleSubmit}>
 
-      <label>
-        Last Name
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-      </label>
+        <label>
+          <input
+            type="text"
+            className="signup-form-inputs"
+            value={firstName}
+            placeholder='First Name'
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+        </label>
 
-      <label>
-        Email
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </label>
+        <label>
+          <input
+            type="text"
+            className="signup-form-inputs"
+            value={lastName}
+            placeholder='Last Name'
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </label>
 
-      <label>
-        Username
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </label>
+        <label>
+          <input
+            type="text"
+            className="signup-form-inputs"
+            value={email}
+            placeholder='Email'
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
 
-      <label>
-        Password
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
+        <label>
+          <input
+            type="text"
+            className="signup-form-inputs"
+            value={username}
+            placeholder='Username'
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </label>
 
-      <label>
-        Confirm Password
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-      </label>
+        <label>
+          <input
+            type="password"
+            className="signup-form-inputs"
+            value={password}
+            placeholder='Password'
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
 
-      <button type="submit">Sign Up</button>
-      
-    </form>
+        <label>
+          <input
+            type="password"
+            className="signup-form-inputs"
+            value={confirmPassword}
+            placeholder='Confirm Password'
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+        </label>
+
+      </form>
+
+      <div style={{display: 'flex', justifyContent: 'center', marginTop: '5vh', marginBottom: '2vh'}}>
+        <button type="submit" onClick={handleSubmit} className="signup-action-buttons">Sign Up</button>
+      </div>
+
+    </div>
   );
 };
 

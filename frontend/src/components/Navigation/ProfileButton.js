@@ -37,12 +37,13 @@ const ProfileButton = ({ user }) => {
   return (
     <div id='profile-button-container'>
       
-        <button id={!showMenu ? 'profile-button' : 'hide-profile-button'}
+      <button id={!showMenu ? 'profile-button' : 'hide-profile-button'}
         onClick={openMenu}>
       
         <i className="fas fa-user-circle" />
         {user.username}
       </button>
+      
       {showMenu && (
         <ul className="profile-dropdown">
           <li>{user.username}</li>
