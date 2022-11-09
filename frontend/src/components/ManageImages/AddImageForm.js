@@ -1,8 +1,9 @@
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 import { sendSpotImgData, feedImgFormData } from '../../store/spots.js';
 import { addTempReviewImg, addMoreReviewImages } from '../../store/reviews.js';
+import { displayImgForm } from '../../store/images.js';
 
 const AddImageForm = ({ type, spotId, reviewId }) => {
     const dispatch = useDispatch();
@@ -10,9 +11,21 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
     const [url, setUrl] = useState('');
     const [previewImage, setPreviewImage] = useState(false);
     const [clicked, setClicked] = useState(false);
+    const [visible, setVisible] = useState(true);
+
+    const imgState = useSelector(state => state.images);
+
+    let display;
+    if (imgState.displayImgForm) display = imgState.displayImgForm;
+
+    useEffect(() => {
+        setVisible(display);
+    }, [display]);
 
     return (
-        <div id={type !== 'createSpot' ? 'form-container' : 'new-spot-form-container'}>
+        <div 
+            id={type !== 'createSpot' ? 'form-container' : 'new-spot-form-container'}
+            style={{visibility: type !== 'createSpot' && type !== 'createReview' && visible === undefined ? 'hidden' : 'visible'}}>
 
             <form id={type !== 'createSpot' ? 'image-form' : 'new-spot-image-form'}>
 
@@ -63,9 +76,16 @@ const AddImageForm = ({ type, spotId, reviewId }) => {
 
                     if (type === 'createReview') dispatch(addTempReviewImg(url, previewImage));
 
-                    if (type === 'editSpot') dispatch(sendSpotImgData(spotId.spotId, url, previewImage));
+                    if (type === 'editSpot') {
+                        dispatch(sendSpotImgData(spotId.spotId, url, previewImage));
+                        dispatch(displayImgForm(false));
+                    };
 
-                    if (type === 'editReview') dispatch(addMoreReviewImages(url, previewImage, reviewId));
+
+                    if (type === 'editReview') {
+                        dispatch(addMoreReviewImages(url, previewImage, reviewId));
+                        dispatch(displayImgForm(false));
+                    };
                 }}>
                     {
                         type !== 'editSpot' && type !== 'editReview' && clicked === true ? 

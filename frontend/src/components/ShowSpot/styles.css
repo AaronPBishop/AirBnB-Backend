@@ -108,9 +108,9 @@
 }
 
 #exit-all-photos-button {
-    position: relative;
-    top: 1.5vh;
-    right: 44.3vw;
+    position: fixed;
+    top: 10.9vh;
+    left: 2vw;
 
     color: white;
 

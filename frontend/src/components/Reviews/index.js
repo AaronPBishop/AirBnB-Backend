@@ -1,18 +1,15 @@
-import { useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CreateReview from "../Reviews/CreateReview.js";
-import { fetchSpotReviews, toggleEditMode, deleteReviewData, fetchUserReviews, rerenderReviews } from '../../store/reviews.js';
-import DisplayReviewImages from './DisplayReviewImages.js';
+import IndividualReviews from './IndividualReviews.js';
+
+import { fetchSpotReviews, fetchUserReviews, rerenderReviews } from '../../store/reviews.js';
 
 import './styles.css';
 
 const Reviews = ({ spotId, avgRating, type }) => {
-    const history = useHistory();
     const dispatch = useDispatch();
-
-    const [clicked, setClicked] = useState(false);
 
     const submitted = useSelector(state => state.reviews.submitted);
 
@@ -30,15 +27,6 @@ const Reviews = ({ spotId, avgRating, type }) => {
         const currReview = reviews[key];
 
         if (key.match(/[0-9]/)) reviewsArr.push(currReview);
-    };
-
-    const formatDate = (date) => {
-        const dateArr = date.split('-')
-        const year = dateArr[0];
-        const splitYear = year.split('');
-        const month = dateArr[1].concat('/');
-        const dateString = dateArr[2].split('');
-        return month.concat(dateString[0]).concat(dateString[1]).concat('/' + splitYear[2]).concat(splitYear[3]);
     };
 
     document.body.style.overflowY = 'scroll';
@@ -61,58 +49,7 @@ const Reviews = ({ spotId, avgRating, type }) => {
 
             <div id='reviews-container'>
                 {reviewsArr.map((review, i) => {
-                    return <div id='individual-reviews' 
-                                key={i} 
-                                style={{
-                                    border: type === 'user' && '1px solid rgb(220, 220, 220)',
-                                    borderRadius: '8px',
-                                    paddingLeft: '7vw'
-                                }}>
-
-                                <p id='review-username'><b>{review.User.firstName}:</b></p> 
-
-                                {type === 'user' && <p>Spot: {review.spotId}</p>}
-
-                                <p>{review.review}</p>
-
-                                <p><i>{formatDate(review.createdAt)}</i></p>
-
-                                {
-                                    type !== 'user' && review.ReviewImages.length === 1 ? 
-                                    <button id='show-review-images' onClick={() => setClicked(true)}>... <i>{review.ReviewImages.length} image</i></button> 
-                                    : type !== 'user' && review.ReviewImages.length > 1 ?
-                                    <button id='show-review-images' onClick={() => setClicked(true)}>... <i>{review.ReviewImages.length} images</i></button>
-                                    : null
-                                }
-
-                                {
-                                    clicked &&
-                                    <div id='review-images-component-container' onClick={() => setClicked(false)}>
-                                        <DisplayReviewImages 
-                                            imgArray={review.ReviewImages} 
-                                            clicked={clicked} 
-                                            imgCount={review.ReviewImages.length} 
-                                            reviewId={review.id} 
-                                        />
-                                    </div>
-                                }
-
-                                {
-                                    type === 'user' && 
-                                    <div>
-
-                                        <button className='manage-user-review-buttons' 
-                                        onClick={() => dispatch(deleteReviewData(review.id))}>Delete</button>
-
-                                        <button className='manage-user-review-buttons'
-                                        onClick={() => dispatch(toggleEditMode(true, review.id))}>Edit</button>
-
-                                        <button className='manage-user-review-buttons' id='manage-photos' onClick={() => history.push(`/manage-photos/reviews/${review.id}`)}>Manage Photos</button>
-
-                                    </div>
-                                }
-
-                            </div>
+                    return <IndividualReviews review={review} i={i} type={type} />
                 })}
             </div>
         </div>

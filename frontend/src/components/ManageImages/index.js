@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { fetchSpotById, deleteSpotImgData } from '../../store/spots.js';
 import { deleteReviewImgData, fetchUserReviews, toggleEditMode } from '../../store/reviews.js';
+import { displayImgForm } from '../../store/images.js';
 
 import './styles.css';
 import AddImageForm from './AddImageForm.js';
@@ -21,6 +22,10 @@ const ManageImages = ({ type }) => {
             dispatch(toggleEditMode(true, typeId.reviewId));
         };
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(displayImgForm(true));
+    }, [clicked]);
 
     const selectType = useSelector(state => state[type + 's']);
 
@@ -42,11 +47,15 @@ const ManageImages = ({ type }) => {
             {
                 clicked && type === 'spot' ? 
 
-                <div style={{display: 'flex', position: 'absolute', top: '55vh', right: '36vw'}}><AddImageForm type='editSpot' spotId={typeId} /></div>
+                <div style={{display: 'flex', position: 'absolute', top: '55vh', right: '36vw'}}>
+                    <AddImageForm type='editSpot' spotId={typeId} />
+                </div>
                 
                 : clicked && type === 'review' && 
                 
-                <div style={{display: 'flex', position: 'absolute', top: '55vh', right: '36vw'}}><AddImageForm type='editReview' reviewId={typeId.reviewId} /></div>
+                <div style={{display: 'flex', position: 'absolute', top: '55vh', right: '36vw'}}>
+                    <AddImageForm type='editReview' reviewId={typeId.reviewId} />
+                </div>
             }
 
         </div>
@@ -68,12 +77,16 @@ const ManageImages = ({ type }) => {
 
                 {
                     clicked && type === 'spot' ? 
-                
-                    <div style={{display: 'flex', position: 'absolute', zIndex: '300', right: '12vw', top: '-5vh'}}><AddImageForm type='editSpot' spotId={typeId} /></div>
-                
+
+                    <div style={{display: 'flex', position: 'absolute', zIndex: '300', right: '12vw', top: '-5vh'}}>
+                        <AddImageForm type='editSpot' spotId={typeId} />
+                    </div>
+
                     : clicked && type === 'review' && 
-                
-                    <div style={{display: 'flex', position: 'absolute', zIndex: '300', right: '12vw', top: '-5vh'}}><AddImageForm type='editReview' reviewId={typeId.reviewId} /></div>
+
+                    <div style={{display: 'flex', position: 'absolute', zIndex: '300', right: '12vw', top: '-5vh'}}>
+                        <AddImageForm type='editReview' reviewId={typeId.reviewId} />
+                    </div>
                 }
 
                 {
@@ -109,15 +122,6 @@ const ManageImages = ({ type }) => {
                 }
             </div>
 
-            {/* {
-                clicked && type === 'spot' ? 
-
-                <div style={{display: 'flex', position: 'relative'}}><AddImageForm type='editSpot' spotId={typeId} /></div>
-
-                : clicked && type === 'review' && 
-
-                <div style={{display: 'flex', position: 'relative'}}><AddImageForm type='editReview' reviewId={typeId.reviewId} /></div>
-            } */}
         </div>
     )
 };

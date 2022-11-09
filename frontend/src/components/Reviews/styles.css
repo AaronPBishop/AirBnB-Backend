@@ -245,10 +245,6 @@
     max-height: 35vh;
 }
 
-#hide-review-images-container {
-    display: none;
-}
-
 #iterate-review-images-div {
     display: flex;
     justify-content: space-between;
