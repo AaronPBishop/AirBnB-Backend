@@ -1,0 +1,87 @@
+.react-calendar { 
+    font-family: 'Montserrat', sans-serif;
+
+    width: 400px;
+    max-width: 100%;
+
+    background-color: #fff;
+    color: #222;
+
+    border-radius: 8px;
+
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+
+    line-height: 1.125em;
+
+    padding: 4px;
+}
+
+.react-calendar__navigation button {
+    font-family: 'Montserrat', sans-serif;
+
+    position: relative;
+    left: 0.1vw;
+
+    color: #222;
+    font-weight: 800;
+
+    min-width: 2vw;
+    background: white;
+
+    border: none;
+
+    font-size: 16px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+
+    cursor: pointer;
+}
+
+
+.react-calendar__tile {
+    font-family: 'Montserrat', sans-serif;
+
+    color: #222;
+    font-weight: 800;
+
+    min-width: 2vw;
+    background: white;
+
+    border: none;
+
+    font-size: 16px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+
+    cursor: pointer;
+}
+
+abbr[title] {
+    text-decoration: none;
+}
+
+.react-calendar__tile--rangeStart {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+
+    background: #6f019c;
+    color: white;
+}
+
+.react-calendar__tile--rangeEnd {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+
+    background: #6f019c;
+    color: white;
+}
+
+.react-calendar__tile:enabled:hover {
+    background: #6f019c;
+    color: white;
+    border-radius: 6px;
+}

@@ -10,17 +10,22 @@ import './styles.css';
 const CreateBookingForm = ({ spotId, price }) => {
     const dispatch = useDispatch();
 
-    const [checkIn, setCheckIn] = useState(new Date());
+    const [calendarCheckInDate, setCalendarCheckInDate] = useState('');
+    const [calendarCheckOutDate, setCalendarCheckOutDate] = useState('');
+
+    const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
+    
+    const [totalDays, setTotalDays] = useState('');
 
     const [clickedReserve, setClickedReserve] = useState(0);
     const [clickedCheckIn, setClickedCheckIn] = useState(false);
     const [clickedCheckOut, setClickedCheckOut] = useState(false);
-    console.log(checkIn)
 
     return (
         <div id='create-booking-card'
         style={{
+            boxShadow: '0px 1px 10px -5px rgb(65, 65, 65)',
             backgroundColor: 'white',
             minWidth: '16vw',
             maxWidth: '18vw',
@@ -79,13 +84,50 @@ const CreateBookingForm = ({ spotId, price }) => {
             <div 
                 id='checkin-booking-calendar'
                 style={{display: clickedCheckIn ? 'flex' : 'none'}}>
-                    <Calendar value={checkIn} onChange={(e) => setCheckIn(e)}></Calendar>
+                    <Calendar 
+                    value={calendarCheckInDate} 
+                    onChange={(e) => {
+                        const year = e.getUTCFullYear();
+                        const month = e.getMonth() + 1;
+                        const day = e.getUTCDate();
+                        
+                        const newDate = year + "-" + month + "-" + day;
+
+                        setCalendarCheckInDate(e);
+                        setCheckIn(newDate);
+                    }} 
+                    className={'react-calendar'} 
+                    />
             </div>
 
             <div 
                 id='checkout-booking-calendar'
                 style={{display: clickedCheckOut ? 'flex' : 'none'}}>
-                    <Calendar value={checkOut} onChange={(e) => setCheckOut(e)}></Calendar>
+                    <Calendar 
+                    value={calendarCheckOutDate} 
+                    onChange={(e) => {
+                        const year = e.getUTCFullYear();
+                        const month = e.getMonth() + 1;
+                        const day = e.getUTCDate();
+                        
+                        const newDate = year + "-" + month + "-" + day;
+
+                        setCalendarCheckOutDate(e);
+                        setCheckOut(newDate);
+
+                        const oneDay = 24 * 60 * 60 * 1000;
+
+                        const [checkInYear, checkInMonth, checkInDay] = checkIn.split('-');
+                        const [checkOutYear, checkOutMonth, checkOutDay] = checkOut.split('-');
+
+                        const firstDate = new Date(checkInYear, checkInMonth, checkInDay);
+                        const secondDate = new Date(checkOutYear, checkOutMonth, checkOutDay);
+
+                        const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+
+                        setTotalDays(diffDays);
+                    }}
+                    />
             </div>
 
             <button
@@ -104,7 +146,7 @@ const CreateBookingForm = ({ spotId, price }) => {
                 onClick={() => {
                     setClickedReserve(clickedReserve + 1);
 
-                    if (clickedReserve === 2) dispatch(sendBookingData(spotId, {checkIn, checkOut}))
+                    if (clickedReserve === 2) dispatch(sendBookingData(spotId, {startDate: checkIn, endDate: checkOut}))
                 }}>
 
                 {
@@ -116,15 +158,15 @@ const CreateBookingForm = ({ spotId, price }) => {
             </button>
 
             <div id='booking-details'>
-                <p>${price} x {checkOut - checkIn} nights</p>
-                <p>${(checkOut - checkIn) * price}</p>
+                <p>${price} x {totalDays} nights</p>
+                <p>${(totalDays) * price}</p>
             </div>
 
             <div 
             style={{display: 'flex', justifyContent: 'space-evenly', borderTop: '1px solid rgb(220, 220, 220)', fontWeight: 'bold'}}
             id='booking-total'>
                 <p>Total before taxes: </p>
-                <p>${(checkOut - checkIn) * price}</p>
+                <p>${(totalDays) * price}</p>
             </div>
         </div>
     );
