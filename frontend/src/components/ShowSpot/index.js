@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import SpotImages from "./SpotImages.js";
 import Reviews from "../Reviews/index.js";
+import CreateBookingForm from "../Bookings/index.js";
 
 import { fetchSpotById } from "../../store/spots.js";
 
@@ -78,6 +79,17 @@ const ShowSpot = () => {
                         </li>
 
                     </ul>
+                </div>
+
+                <div 
+                id='bookings-component-holder'
+                style={{
+                    position: 'fixed',
+                    left: '78vw',
+                    bottom: '12vh',
+                    zIndex: '300'
+                }}>
+                    <CreateBookingForm spotId={spotId.spotId} price={spotData.price} />
                 </div>
 
                 <div id={'reviews'}>
