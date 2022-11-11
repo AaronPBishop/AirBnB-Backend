@@ -1,6 +1,7 @@
 import Calendar from 'react-calendar'
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 
 import { sendBookingData } from '../../store/bookings';
@@ -8,6 +9,7 @@ import { sendBookingData } from '../../store/bookings';
 import './styles.css';
 
 const CreateBookingForm = ({ spotId, price }) => {
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const [calendarCheckInDate, setCalendarCheckInDate] = useState('');
@@ -16,11 +18,31 @@ const CreateBookingForm = ({ spotId, price }) => {
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
     
-    const [totalDays, setTotalDays] = useState('');
+    const [totalDays, setTotalDays] = useState(0);
 
     const [clickedReserve, setClickedReserve] = useState(0);
     const [clickedCheckIn, setClickedCheckIn] = useState(false);
     const [clickedCheckOut, setClickedCheckOut] = useState(false);
+
+    const [completed, setCompleted] = useState(false);
+
+    useEffect(() => {
+        if (checkIn.length > 0 && checkOut.length > 0) {
+            setCompleted(true);
+
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            const [checkInYear, checkInMonth, checkInDay] = checkIn.split('-');
+            const [checkOutYear, checkOutMonth, checkOutDay] = checkOut.split('-');
+
+            const firstDate = new Date(checkInYear, checkInMonth, checkInDay);
+            const secondDate = new Date(checkOutYear, checkOutMonth, checkOutDay);
+
+            const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+
+            setTotalDays(diffDays);
+        };
+    }, [checkIn, checkOut]);
 
     return (
         <div id='create-booking-card'
@@ -31,7 +53,7 @@ const CreateBookingForm = ({ spotId, price }) => {
             maxWidth: '18vw',
             border: '1px solid rgb(220, 220, 220)',
             borderRadius: '8px',
-            padding: '20px'
+            padding: '20px',
         }}>
             <p style={{marginLeft: '1vw', fontSize: '20px'}}><b>${price}</b> night</p>
 
@@ -43,7 +65,8 @@ const CreateBookingForm = ({ spotId, price }) => {
                 border: '1px solid rgb(220, 220, 220)', 
                 borderRadius: '8px',
                 minHeight: '5vh',
-                maxWidth: '11.5vw'
+                maxWidth: '11.5vw',
+                paddingTop: checkIn && '2vh'
             }}
             id='booking-dates'>
 
@@ -54,13 +77,14 @@ const CreateBookingForm = ({ spotId, price }) => {
                     cursor: 'pointer', 
                     fontFamily: 'Montserrat', 
                     fontWeight: 'bold',
-                    borderBottom: clickedCheckIn ? '2px solid black' : 'none'
+                    borderBottom: clickedCheckIn ? '2px solid black' : 'none',
                 }}
                 onClick={() => {
                     setClickedCheckOut(false);
                     setClickedCheckIn(checked => !checked);
                 }}>
                     CHECK-IN
+                    {checkIn && <p>{checkIn.toString()}</p>}
                 </button>
 
                 <button 
@@ -77,6 +101,7 @@ const CreateBookingForm = ({ spotId, price }) => {
                     setClickedCheckOut(checked => !checked);
                 }}>
                     CHECKOUT
+                    {checkOut && <p>{checkOut.toString()}</p>}
                 </button>
 
             </div>
@@ -115,17 +140,17 @@ const CreateBookingForm = ({ spotId, price }) => {
                         setCalendarCheckOutDate(e);
                         setCheckOut(newDate);
 
-                        const oneDay = 24 * 60 * 60 * 1000;
+                        // const oneDay = 24 * 60 * 60 * 1000;
 
-                        const [checkInYear, checkInMonth, checkInDay] = checkIn.split('-');
-                        const [checkOutYear, checkOutMonth, checkOutDay] = checkOut.split('-');
+                        // const [checkInYear, checkInMonth, checkInDay] = checkIn.split('-');
+                        // const [checkOutYear, checkOutMonth, checkOutDay] = checkOut.split('-');
 
-                        const firstDate = new Date(checkInYear, checkInMonth, checkInDay);
-                        const secondDate = new Date(checkOutYear, checkOutMonth, checkOutDay);
+                        // const firstDate = new Date(checkInYear, checkInMonth, checkInDay);
+                        // const secondDate = new Date(checkOutYear, checkOutMonth, checkOutDay);
 
-                        const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+                        // const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
 
-                        setTotalDays(diffDays);
+                        // setTotalDays(diffDays);
                     }}
                     />
             </div>
@@ -141,13 +166,21 @@ const CreateBookingForm = ({ spotId, price }) => {
                     minWidth: '250px',
                     minHeight: '40px',
                     fontSize: '15px',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    cursor: clickedReserve < 1 ? 'cursor' : 'pointer'
                 }}
+
                 onClick={() => {
                     setClickedReserve(clickedReserve + 1);
 
-                    if (clickedReserve === 2) dispatch(sendBookingData(spotId, {startDate: checkIn, endDate: checkOut}))
-                }}>
+                    if (clickedReserve === 2) {
+                        dispatch(sendBookingData(spotId, {startDate: checkIn, endDate: checkOut}));
+                        history.push('/manage-account');
+                    };
+                }}
+                
+                disabled={completed === false}
+                >
 
                 {
                     clickedReserve < 1 ? 

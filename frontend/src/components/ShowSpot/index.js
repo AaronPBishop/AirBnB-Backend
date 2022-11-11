@@ -86,7 +86,7 @@ const ShowSpot = () => {
                 style={{
                     position: 'fixed',
                     left: '78vw',
-                    bottom: '12vh',
+                    bottom: '2vh',
                     zIndex: '300'
                 }}>
                     <CreateBookingForm spotId={spotId.spotId} price={spotData.price} />
