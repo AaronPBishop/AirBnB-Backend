@@ -181,7 +181,7 @@ const CreateBookingForm = ({ spotId, price }) => {
 
             <div 
             id={'bookings-errors'}
-            style={{display: showAllBookings === true ? 'flex' : 'none', marginTop: '-38vh', overflowX: 'auto', maxHeight: '20vh'}}>
+            style={{display: showAllBookings === true ? 'flex' : 'none', justifyContent: bookingsArr.length < 3 && 'center', marginTop: '-38vh', overflowX: 'auto', maxHeight: '20vh'}}>
                 {bookingsArr.map((booking, i) => {
                 return (
                     <div 
@@ -268,14 +268,14 @@ const CreateBookingForm = ({ spotId, price }) => {
 
             <div id='booking-details'>
                 <p>${price} x {totalDays} nights</p>
-                <p>${(totalDays) * price}</p>
+                <p>${(totalDays * price).toFixed(2)}</p>
             </div>
 
             <div 
             style={{display: 'flex', justifyContent: 'space-evenly', borderTop: '1px solid rgb(220, 220, 220)', fontWeight: 'bold'}}
             id='booking-total'>
                 <p>Total before taxes: </p>
-                <p>${(totalDays) * price}</p>
+                <p>${(totalDays * price).toFixed(2)}</p>
             </div>
         </div>
     );
