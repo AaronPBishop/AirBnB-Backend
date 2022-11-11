@@ -238,7 +238,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
     
     const nonOwnerBookingsData = await Booking.findAll({
         where: { spotId: req.params.spotId },
-        attributes: ['spotId', 'startDate', 'endDate']
+        attributes: ['id', 'spotId', 'startDate', 'endDate']
     });
 
     const ownerBookingsData = await Booking.findAll({

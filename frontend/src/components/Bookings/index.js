@@ -2,9 +2,9 @@ import Calendar from 'react-calendar'
 
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { sendBookingData } from '../../store/bookings';
+import { sendBookingData, getSpotBookingData, rerenderBookings } from '../../store/bookings';
 
 import './styles.css';
 
@@ -12,7 +12,7 @@ const CreateBookingForm = ({ spotId, price }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [calendarCheckInDate, setCalendarCheckInDate] = useState('');
+    const [calendarCheckInDate, setCalendarCheckInDate] = useState(new Date());
     const [calendarCheckOutDate, setCalendarCheckOutDate] = useState('');
 
     const [checkIn, setCheckIn] = useState('');
@@ -25,8 +25,27 @@ const CreateBookingForm = ({ spotId, price }) => {
     const [clickedCheckOut, setClickedCheckOut] = useState(false);
 
     const [completed, setCompleted] = useState(false);
+    const [errors, setErrors] = useState([]);
+
+    const [showAllBookings, setShowAllBookings] = useState(false);
 
     useEffect(() => {
+        dispatch(rerenderBookings());
+
+        dispatch(getSpotBookingData(spotId));
+    }, [dispatch]);
+
+    const spotBookings = useSelector(state => state.bookings);
+
+    const bookingsArr = [];
+    for (let key in spotBookings) {
+        const currBooking = spotBookings[key];
+        bookingsArr.push(currBooking)
+    };
+
+    useEffect(() => {
+        const errorsArr = [];
+
         if (checkIn.length > 0 && checkOut.length > 0) {
             setCompleted(true);
 
@@ -41,6 +60,17 @@ const CreateBookingForm = ({ spotId, price }) => {
             const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
 
             setTotalDays(diffDays);
+
+            for (let key in spotBookings) {
+                const currBooking = spotBookings[key];
+                const { startDate, endDate } = currBooking;
+                
+                if (startDate === checkIn && endDate === checkOut) errorsArr.push('This spot is already booked for those dates.')
+                if (new Date(checkIn) >= new Date(startDate) && new Date(checkIn) <= new Date(endDate)) errorsArr.push('Start date conflicts with an existing booking');
+                if (new Date(checkOut) <= new Date(endDate) && new Date(checkOut) >= new Date(startDate)) errorsArr.push('End date conflicts with an existing booking');
+            };
+
+            setErrors(errorsArr);
         };
     }, [checkIn, checkOut]);
 
@@ -55,7 +85,7 @@ const CreateBookingForm = ({ spotId, price }) => {
             borderRadius: '8px',
             padding: '20px',
         }}>
-            <p style={{marginLeft: '1vw', fontSize: '20px'}}><b>${price}</b> night</p>
+            <p style={{display: errors.length < 1 ? 'block' : 'none', marginLeft: '1vw', fontSize: '20px'}}><b>${price}</b> night</p>
 
             <div 
             style={{
@@ -108,7 +138,7 @@ const CreateBookingForm = ({ spotId, price }) => {
 
             <div 
                 id='checkin-booking-calendar'
-                style={{display: clickedCheckIn ? 'flex' : 'none'}}>
+                style={{display: clickedCheckIn ? 'flex' : 'none', visibility: showAllBookings === true ? 'hidden' : 'visible'}}>
                     <Calendar 
                     value={calendarCheckInDate} 
                     onChange={(e) => {
@@ -127,7 +157,7 @@ const CreateBookingForm = ({ spotId, price }) => {
 
             <div 
                 id='checkout-booking-calendar'
-                style={{display: clickedCheckOut ? 'flex' : 'none'}}>
+                style={{display: clickedCheckOut ? 'flex' : 'none', visibility: showAllBookings === true ? 'hidden' : 'visible',}}>
                     <Calendar 
                     value={calendarCheckOutDate} 
                     onChange={(e) => {
@@ -139,20 +169,45 @@ const CreateBookingForm = ({ spotId, price }) => {
 
                         setCalendarCheckOutDate(e);
                         setCheckOut(newDate);
-
-                        // const oneDay = 24 * 60 * 60 * 1000;
-
-                        // const [checkInYear, checkInMonth, checkInDay] = checkIn.split('-');
-                        // const [checkOutYear, checkOutMonth, checkOutDay] = checkOut.split('-');
-
-                        // const firstDate = new Date(checkInYear, checkInMonth, checkInDay);
-                        // const secondDate = new Date(checkOutYear, checkOutMonth, checkOutDay);
-
-                        // const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
-
-                        // setTotalDays(diffDays);
                     }}
                     />
+            </div>
+
+            <div 
+            id={'bookings-errors'}
+            style={{display: showAllBookings === true ? 'flex' : 'none', marginTop: 'none', overflowY: 'auto', maxHeight: '20vh'}}>
+                {bookingsArr.map((booking, i) => {
+                return (
+                    <ul 
+                    key={i}
+                    style={{display: 'flex', listStyle: 'none', fontWeight: 'bold', flexWrap: 'wrap'}}>
+                        <li>{booking.startDate}</li>
+                        <li>{booking.endDate}</li>
+                    </ul>
+                    )
+                })}
+            </div>
+
+            <div 
+            id='bookings-errors-functionality'
+            style={{display: errors.length > 0 ? 'block' : 'none', textAlign: 'center'}}>
+                <p>{errors[0]}</p>
+
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <button 
+                    style={{
+                        border: 'none', 
+                        backgroundColor: 'white', 
+                        fontFamily: 'Montserrat', 
+                        fontWeight: 'bold', 
+                        fontSize: '16px', 
+                        textDecoration: 'underline', 
+                        cursor: 'pointer'
+                    }}
+                    onClick={() => setShowAllBookings(show => !show)}>
+                        See All Bookings
+                    </button>
+                </div>
             </div>
 
             <button
@@ -175,11 +230,12 @@ const CreateBookingForm = ({ spotId, price }) => {
 
                     if (clickedReserve === 2) {
                         dispatch(sendBookingData(spotId, {startDate: checkIn, endDate: checkOut}));
+
                         history.push('/manage-account');
                     };
                 }}
                 
-                disabled={completed === false}
+                disabled={completed === false || errors.length > 0}
                 >
 
                 {
