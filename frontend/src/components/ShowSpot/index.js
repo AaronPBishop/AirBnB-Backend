@@ -21,14 +21,22 @@ const ShowSpot = () => {
     }, [dispatch]);
 
     const spotData = useSelector(state => state.spots.currSpot);
+    const userData = useSelector(state => state.session.user);
+
+    let spotOwner;
+    let userId;
+    if (spotData && spotData.Owner.id && userData && userData.id) {
+        spotOwner = spotData.Owner.id;
+        userId = userData.id;
+    };
 
     let spotImages;
     if (spotData && spotData.SpotImages) spotImages = spotData.SpotImages;
 
     document.body.style.overflowY = 'scroll';
 
-    if (!spotData) return <p className='no-content'>Nothing to show here!</p>
-    if (spotData) return (
+    if (!spotData || !userData) return <p className='no-content'>Nothing to show here!</p>
+    if (spotData && userData) return (
         <div style={{display: clicked && 'flex', justifyContent: 'center'}}>
         { 
             clicked === false ?
@@ -81,16 +89,20 @@ const ShowSpot = () => {
                     </ul>
                 </div>
 
-                <div 
-                id='bookings-component-holder'
-                style={{
-                    position: 'fixed',
-                    left: '78vw',
-                    bottom: '2vh',
-                    zIndex: '300'
-                }}>
-                    <CreateBookingForm spotId={spotId.spotId} price={spotData.price} />
-                </div>
+                {   
+                    spotOwner && userId && spotOwner !== userId &&
+
+                    <div 
+                    id='bookings-component-holder'
+                    style={{
+                        position: 'fixed',
+                        left: '78vw',
+                        bottom: '2vh',
+                        zIndex: '300'
+                    }}>
+                        <CreateBookingForm spotId={spotId.spotId} price={spotData.price} />
+                    </div>
+                }
 
                 <div id={'reviews'}>
                     <Reviews spotId={spotId.spotId} avgRating={spotData.avgRating} type='spot' />

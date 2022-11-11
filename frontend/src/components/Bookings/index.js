@@ -66,8 +66,14 @@ const CreateBookingForm = ({ spotId, price }) => {
                 const { startDate, endDate } = currBooking;
                 
                 if (startDate === checkIn && endDate === checkOut) errorsArr.push('This spot is already booked for those dates.')
+
                 if (new Date(checkIn) >= new Date(startDate) && new Date(checkIn) <= new Date(endDate)) errorsArr.push('Start date conflicts with an existing booking');
+
                 if (new Date(checkOut) <= new Date(endDate) && new Date(checkOut) >= new Date(startDate)) errorsArr.push('End date conflicts with an existing booking');
+
+                if (new Date(checkOut) <= new Date(checkIn)) errorsArr.push('Checkout date cannot be on or before checkin date');
+
+                if (new Date(checkIn).getTime() < new Date()) errorsArr.push('Checkin date cannot be on or before present day');
             };
 
             setErrors(errorsArr);
@@ -175,31 +181,45 @@ const CreateBookingForm = ({ spotId, price }) => {
 
             <div 
             id={'bookings-errors'}
-            style={{display: showAllBookings === true ? 'flex' : 'none', marginTop: 'none', overflowY: 'auto', maxHeight: '20vh'}}>
+            style={{display: showAllBookings === true ? 'flex' : 'none', marginTop: '-38vh', overflowX: 'auto', maxHeight: '20vh'}}>
                 {bookingsArr.map((booking, i) => {
                 return (
-                    <ul 
+                    <div 
                     key={i}
-                    style={{display: 'flex', listStyle: 'none', fontWeight: 'bold', flexWrap: 'wrap'}}>
+                    style={{
+                        display: 'flex', 
+                        justifyContent: 'center',
+                        minWidth: '6vw',
+                        maxWidth: '6vw',
+                        listStyle: 'none', 
+                        fontWeight: 'bold', 
+                        flexWrap: 'wrap',
+                        backgroundColor: '#6f019c',
+                        border: 'none',
+                        borderRadius: '8px',
+                        color: 'white',
+                        margin: '6px',
+                        padding: '6px'
+                    }}>
                         <li>{booking.startDate}</li>
+                        <p style={{fontWeight: '400', fontStyle: 'italic'}}>thru</p>
                         <li>{booking.endDate}</li>
-                    </ul>
+                    </div>
                     )
                 })}
             </div>
 
             <div 
             id='bookings-errors-functionality'
-            style={{display: errors.length > 0 ? 'block' : 'none', textAlign: 'center'}}>
-                <p>{errors[0]}</p>
+            style={{display: errors.length > 0 ? 'block' : 'none', textAlign: 'center', fontWeight: 'bold'}}>
+                <p style={{position: 'relative', top: '0.5vh'}}>{errors[0]}</p>
 
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                     <button 
                     style={{
                         border: 'none', 
                         backgroundColor: 'white', 
-                        fontFamily: 'Montserrat', 
-                        fontWeight: 'bold', 
+                        fontFamily: 'Montserrat',
                         fontSize: '16px', 
                         textDecoration: 'underline', 
                         cursor: 'pointer'

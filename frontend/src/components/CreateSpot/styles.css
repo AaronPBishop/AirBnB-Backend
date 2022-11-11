@@ -361,7 +361,8 @@
 }
 
 ::-webkit-scrollbar {
-    width: 1px;
+    width: 2px;
+    height: 4px;
 	background-color: #F5F5F5;
 }
 
