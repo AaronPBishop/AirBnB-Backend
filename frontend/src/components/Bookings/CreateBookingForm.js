@@ -115,6 +115,7 @@ const CreateBookingForm = ({ spotId, price }) => {
                     fontWeight: 'bold',
                     borderBottom: clickedCheckIn ? '2px solid black' : 'none',
                 }}
+                disabled={showAllBookings === true}
                 onClick={() => {
                     setClickedCheckOut(false);
                     setClickedCheckIn(checked => !checked);
@@ -132,6 +133,7 @@ const CreateBookingForm = ({ spotId, price }) => {
                     fontWeight: 'bold',
                     borderBottom: clickedCheckOut ? '2px solid black' : 'none'
                 }}
+                disabled={showAllBookings === true}
                 onClick={() => {
                     setClickedCheckIn(false);
                     setClickedCheckOut(checked => !checked);
@@ -225,7 +227,11 @@ const CreateBookingForm = ({ spotId, price }) => {
                         cursor: 'pointer'
                     }}
                     onClick={() => setShowAllBookings(show => !show)}>
-                        See All Bookings
+                        {
+                            showAllBookings ?
+                            'Back to Dates' :
+                            'See All Bookings'
+                        }
                     </button>
                 </div>
             </div>
