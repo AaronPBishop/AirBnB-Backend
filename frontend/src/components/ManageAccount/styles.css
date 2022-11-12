@@ -1,10 +1,13 @@
 #welcome-header {
     display: flex;
     justify-content: center;
-    font-size: 25px;
+
+    color: white;
+
+    font-size: 35px;
     font-weight: 800;
 
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid white;
 
     margin-left: 25vw;
     margin-right: 25vw;
@@ -24,14 +27,11 @@
     margin: 2px;
     margin-top: 20px;
 
-    color: white;
-    border: 1px solid black;
-    border-radius: 8px;
+    color: #222222;
 
-    background-color: #6f019c;
-    border: 1px solid #6f019c;
-    border-bottom: 3px solid #460062;
-    border-radius: 6px;
+    background-color: white;
+    border: 1px solid #222222;
+    border-radius: 8px;
 
     min-height: 50px;
     max-height: 50px;
@@ -40,15 +40,7 @@
     max-width: 20vw;
 
     position: relative;
-    bottom: 2.3vh;
-}
+    bottom: 3vh;
 
-#account-reviews {
-    position: relative;
-    top: 10vh;
-}
-
-#review-component-container {
-    display: flex;
-    justify-content: center;
+    cursor: pointer;
 }

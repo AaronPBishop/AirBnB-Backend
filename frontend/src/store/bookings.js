@@ -18,6 +18,13 @@ export const rerenderBookings = () => {
     };
 };
 
+export const deleteBooking = (bookingId) => {
+    return {
+        type: 'DELETE_BOOKING',
+        payload: bookingId
+    };
+};
+
 export const getSpotBookingData = (spotId) => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots/${spotId}/bookings`, {
         method: 'GET'
@@ -81,12 +88,26 @@ export const sendBookingData = (spotId, bookingData) => async (dispatch) => {
     dispatch(createBooking(res.id, startDate, endDate));
 };
 
+export const deleteBookingData = (bookingId) => async (dispatch) => {
+    await csrfFetch(`/api/bookings/${bookingId}`, {
+        method: 'DELETE'
+    });
+
+    dispatch(deleteBooking(bookingId));
+};
+
 const bookingsReducer = (state = initialState, action) => {
     const currentState = { ...state };
 
     switch (action.type) {
         case 'CREATE_BOOKING': {
-            currentState[action.payload1] = {startDate: action.payload2, endDate: action.payload3, spotId: action.payload4}
+            currentState[action.payload1] = {bookingId: action.payload1, startDate: action.payload2, endDate: action.payload3, spotId: action.payload4}
+
+            return currentState;
+        };
+
+        case 'DELETE_BOOKING': {
+            delete currentState[action.payload];
 
             return currentState;
         };
