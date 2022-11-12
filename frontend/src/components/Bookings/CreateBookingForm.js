@@ -163,7 +163,7 @@ const CreateBookingForm = ({ spotId, price }) => {
 
             <div 
                 id='checkout-booking-calendar'
-                style={{display: clickedCheckOut ? 'flex' : 'none', visibility: showAllBookings === true ? 'hidden' : 'visible',}}>
+                style={{display: clickedCheckOut ? 'flex' : 'none', visibility: showAllBookings === true ? 'hidden' : 'visible'}}>
                     <Calendar 
                     value={calendarCheckOutDate} 
                     onChange={(e) => {

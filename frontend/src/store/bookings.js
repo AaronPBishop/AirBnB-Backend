@@ -2,12 +2,13 @@ import { csrfFetch } from "./csrf";
 
 const initialState = {};
 
-export const createBooking = (bookingId, startDate, endDate) => {
+export const createBooking = (bookingId, startDate, endDate, spotId) => {
     return {
         type: 'CREATE_BOOKING',
         payload1: bookingId,
         payload2: startDate,
-        payload3: endDate
+        payload3: endDate,
+        payload4: spotId
     };
 };
 
@@ -38,7 +39,31 @@ export const getSpotBookingData = (spotId) => async (dispatch) => {
         const endDay = endDateObj.getUTCDate();
         const endDate = endYear + "-" + endMonth + "-" + endDay;
 
-        dispatch(createBooking(booking.id, startDate, endDate));
+        dispatch(createBooking(booking.id, startDate, endDate, spotId));
+    });
+};
+
+export const getUserBookingData = () => async (dispatch) => {
+    const fetchReq = await csrfFetch(`/api/bookings/current`, {
+        method: 'GET'
+    });
+
+    const res = await fetchReq.json();
+
+    res.forEach(booking => {
+        const startDateObj = new Date(booking.startDate);
+        const startYear = startDateObj.getUTCFullYear();
+        const startMonth = startDateObj.getMonth() + 1;
+        const startDay = startDateObj.getUTCDate();
+        const startDate = startYear + "-" + startMonth + "-" + startDay;
+
+        const endDateObj = new Date(booking.endDate);
+        const endYear = endDateObj.getUTCFullYear();
+        const endMonth = endDateObj.getMonth() + 1;
+        const endDay = endDateObj.getUTCDate();
+        const endDate = endYear + "-" + endMonth + "-" + endDay;
+
+        dispatch(createBooking(booking.id, startDate, endDate, booking.spotId));
     });
 };
 
@@ -61,7 +86,7 @@ const bookingsReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'CREATE_BOOKING': {
-            currentState[action.payload1] = {startDate: action.payload2, endDate: action.payload3}
+            currentState[action.payload1] = {startDate: action.payload2, endDate: action.payload3, spotId: action.payload4}
 
             return currentState;
         };

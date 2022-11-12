@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import SpotImages from "./SpotImages.js";
 import Reviews from "../Reviews/index.js";
-import CreateBookingForm from "../Bookings/index.js";
+import CreateBookingForm from "../Bookings/CreateBookingForm.js";
 
 import { fetchSpotById } from "../../store/spots.js";
 
@@ -35,8 +35,8 @@ const ShowSpot = () => {
 
     document.body.style.overflowY = 'scroll';
 
-    if (!spotData || !userData) return <p className='no-content'>Nothing to show here!</p>
-    if (spotData && userData) return (
+    if (!spotData) return <p className='no-content'>Nothing to show here!</p>
+    if (spotData) return (
         <div style={{display: clicked && 'flex', justifyContent: 'center'}}>
         { 
             clicked === false ?
