@@ -19,50 +19,31 @@
     letter-spacing: -2px;
 }
 
-#profile-button-container {
-    display: flex;
-    justify-content: flex-end;
-
-    position: relative;
-    left: 35vw;
-    bottom: 0.5vh;
-    margin-left: 20vw;
-}
-
 #profile-button {
-    color: white;
-    border: 1px solid black;
-    border-radius: 8px;
-
-    background-color: #FF385C;
-    border: 1px solid #FF385C;
-    border-bottom: 3px solid #a6223a;
-    border-radius: 6px;
-
-    min-height: 30px;
-    max-height: 30px;
-
-    cursor: pointer;
-}
-
-#hide-profile-button {
-    display: none;
+    background-image: url('../../menu_FILL0_wght300_GRAD200_opsz48.png');
+    background-position: bottom 6px left 10px;
+    background-repeat: no-repeat;
+    background-size: 3vh;
 }
 
 #logout-button {
     color: white;
-    border: 1px solid black;
-    border-radius: 8px;
 
-    background-color: #FF385C;
-    border: 1px solid #FF385C;
-    border-bottom: 3px solid #a6223a;
+    background-color: #6F019C;
+    border: 1px solid #6F019C;
+
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+
+    min-width: 100px;
+    min-height: 35px;
+
+    border: none;
     border-radius: 6px;
 
-    min-height: 30px;
-    max-height: 30px;
-
     cursor: pointer;
+    margin-top: 1vh;
 }
 
 .profile-dropdown {
@@ -86,4 +67,35 @@
     max-height: 35px;
 
     cursor: pointer;
+}
+
+.profile-menu-buttons {
+    font-family: 'Montserrat', sans-serif;
+
+    font-weight: 800;
+    font-size: 16px;
+
+    color: #222222;
+
+    background-color: white;
+    border: 1px solid #222222;
+    border-radius: 8px;
+
+    min-height: 35px;
+    max-height: 35px;
+
+    min-width: 14vw;
+    max-width: 14vw;
+    
+    margin-bottom: 2vh;
+
+    cursor: pointer;
+}
+
+.profile-menu-buttons:hover {
+    box-shadow: 0px 1px 10px -5px rgb(65 65 65);
+}
+
+#profile-button:hover {
+    box-shadow: 0px 1px 10px -5px rgb(65 65 65);
 }

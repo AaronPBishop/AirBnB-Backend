@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import '../../'
 
 import './styles.css';
+import ProfileMenu from "./ProfileMenu";
 
 const ProfileButton = ({ user }) => {
-  const history = useHistory();
-  
-  const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   
   const openMenu = () => {
@@ -29,39 +27,47 @@ const ProfileButton = ({ user }) => {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.logout());
-  };
-
   return (
-    <div id='profile-button-container'>
+    <div id='profile-button-container' style={{fontWeight: 'bold'}}>
       
-      <button id={!showMenu ? 'profile-button' : 'hide-profile-button'}
-        onClick={openMenu}>
-      
+      <button 
+      id={'profile-button'}
+      onClick={openMenu}
+      style={{
+        position: 'relative',
+        left: '45vw',
+        border: '1px solid rgb(220, 220, 220)',
+        backgroundColor: 'white',
+        minWidth: '5vw',
+        minHeight: '5vh',
+        borderRadius: '24px',
+        cursor: 'pointer'
+      }}>
         <i className="fas fa-user-circle" />
-        {user.username}
+        <div 
+        style={{
+          position: 'relative',
+          bottom: '0.1px',
+          left: '2.41vw',
+          paddingTop: '6px',
+          border: 'none', 
+          borderRadius: '24px', 
+          fontFamily: 'Montserrat', 
+          fontWeight: 'bold',
+          color: 'white', 
+          backgroundColor: '#FF385C',
+          maxWidth: '2vw',
+          minHeight: '3.2vh',
+        }}>
+          {user.firstName[0].concat(user.lastName[0])}
+        </div>
       </button>
       
-      {showMenu && (
-        <ul className="profile-dropdown">
-          <li>{user.username}</li>
-          <li>{user.email}</li>
-          <NavLink to='/create-spot' className='navlinks'>Host your Home</NavLink>
-          <br/>
-          <NavLink to='/manage-listings' className='navlinks'>Manage your Listings</NavLink>
-          <br/>
-          <NavLink to='/manage-account' className='navlinks'>Manage your Account</NavLink>
-          <li>
-            <button id='logout-button' onClick={e => {
-              logout(e);
+      {
+        showMenu && 
+          <ProfileMenu showMenu={showMenu} userName={user.username} email={user.email} />
+      }
 
-              history.push('/');
-            }}>Log Out</button>
-          </li>
-        </ul>
-      )}
     </div>
   );
 };
