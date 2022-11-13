@@ -1,7 +1,4 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session';
-import '../../'
 
 import './styles.css';
 import ProfileMenu from "./ProfileMenu";

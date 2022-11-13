@@ -1,10 +1,13 @@
-import { NavLink, useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 
-const ProfileMenu = ({ showMenu, userName, email }) => { 
+const ProfileMenu = ({ userName, email }) => { 
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const [clicked, setClicked] = useState(false);
 
     const logout = (e) => {
         e.preventDefault();
@@ -15,6 +18,7 @@ const ProfileMenu = ({ showMenu, userName, email }) => {
         <div 
         id='profile-menu-container'
         style={{
+            visibility: clicked ? 'hidden' : 'visible',
             display: 'flex',
             justifyContent: 'flex-end',
             backgroundColor: 'white',
@@ -31,16 +35,35 @@ const ProfileMenu = ({ showMenu, userName, email }) => {
               <li>{userName}</li>
               <li>{email}</li>
 
-              <button className='profile-menu-buttons' style={{marginTop: '2vh'}}>
-                <NavLink to='/create-spot' className='navlinks'>Host your Home</NavLink>
+              <button 
+              className='profile-menu-buttons' 
+              style={{marginTop: '2vh'}}
+              onClick={e => {
+                e.stopPropagation();
+                setClicked(true);
+                history.push('/create-spot');
+              }}>
+                Host your Home
               </button>
 
-              <button className='profile-menu-buttons'>
-                <NavLink to='/manage-listings' className='navlinks'>Manage your Listings</NavLink>
+              <button 
+              className='profile-menu-buttons'
+              onClick={e => {
+                e.stopPropagation();
+                setClicked(true);
+                history.push('/manage-listings')
+              }}>
+                Manage your Listings
               </button>
 
-              <button className='profile-menu-buttons'>
-                <NavLink to='/manage-account' className='navlinks'>Manage your Account</NavLink>
+              <button 
+              className='profile-menu-buttons'
+              onClick={e => {
+                e.stopPropagation();
+                setClicked(true);
+                history.push('/manage-account')
+              }}>
+                Manage your Account
               </button>
 
               <li>

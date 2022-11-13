@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { rerenderBookings, getUserBookingData, deleteBookingData } from "../../store/bookings";
+import { rerenderBookings, getUserBookingData, deleteBookingData, editBookingMode } from "../../store/bookings";
 import { setCurrSpotId } from '../../store/spots.js';
 
 const UserBookings = () => {
@@ -20,9 +20,8 @@ const UserBookings = () => {
     for (let key in bookings) {
         const currBooking = bookings[key];
 
-        bookingsArr.push(currBooking)
+        if (key.match(/[0-9]/)) bookingsArr.push(currBooking)
     };
-    console.log(bookingsArr)
 
     if (bookings) return (
         <div 
@@ -85,7 +84,8 @@ const UserBookings = () => {
                                     borderBottom: '#a6223a', 
                                     borderRadius: '6px',
                                     cursor: 'pointer'
-                                }}>
+                                }}
+                                onClick={() => dispatch(editBookingMode(true, booking.bookingId, booking.spotId))}>
                                     Edit
                                 </button>
 

@@ -7,6 +7,7 @@ import Reviews from '../Reviews/index.js';
 import CreateReview from '../Reviews/CreateReview.js'
 
 import UserBookings from '../Bookings/UserBookings.js';
+import CreateBookingForm from '../Bookings/CreateBookingForm.js';
 
 import './styles.css';
 
@@ -18,12 +19,22 @@ const ManageAccount = () => {
     const [clickedMngBookings, setClickedMngBookings] = useState(false);
 
     const reviews = useSelector(state => state.reviews);
+    const bookings = useSelector(state => state.bookings);
 
     let editMode;
     let reviewId;
     if (reviews.editMode) {
         editMode = reviews.editMode.boolean;
         reviewId = reviews.editMode.reviewId
+    };
+
+    let editBookingMode;
+    let bookingId;
+    let spotId;
+    if (bookings.editBookingMode) {
+        editBookingMode = bookings.editBookingMode.boolean;
+        bookingId = bookings.editBookingMode.bookingId;
+        spotId = bookings.editBookingMode.spotId;
     };
 
     document.body.style.overflowY = 'scroll';
@@ -66,7 +77,7 @@ const ManageAccount = () => {
             
             <div 
             id={'account-reviews'}
-            style={{visibility: clickedMngReviews ? 'visible' : 'hidden', position: 'relative', top: '2vh'}}>
+            style={{visibility: clickedMngReviews ? 'visible' : 'hidden', position: 'relative', top: '2vh', left: '1vw'}}>
                     {
                         editMode === true ? <CreateReview type='edit' reviewId={reviewId} />
                         : <Reviews type='user' />
@@ -75,9 +86,16 @@ const ManageAccount = () => {
 
             <div 
             id={'account-bookings'}
-            style={{visibility: clickedMngBookings ? 'visible' : 'hidden'}}>
+            style={{
+                visibility: clickedMngBookings ? 'visible' : 'hidden',
+                display: 'flex',
+                justifyContent: 'center',
+                position: 'relative',
+                bottom: editBookingMode === true && '40vh'
+                }}>
                     {
-                        <UserBookings />
+                        editBookingMode === true ? <CreateBookingForm spotId={spotId} type='edit' bookingId={bookingId} />
+                        : <UserBookings />
                     }
             </div>
         </div>

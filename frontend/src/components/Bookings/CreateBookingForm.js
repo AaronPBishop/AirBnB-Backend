@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 
-import { sendBookingData, getSpotBookingData, rerenderBookings } from '../../store/bookings';
+import { sendBookingData, getSpotBookingData, rerenderBookings, editBookingData } from '../../store/bookings';
+import { fetchSpotById } from '../../store/spots.js';
 
 import './styles.css';
 
-const CreateBookingForm = ({ spotId, price }) => {
+const CreateBookingForm = ({ spotId, price, type, bookingId }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -30,12 +31,18 @@ const CreateBookingForm = ({ spotId, price }) => {
     const [showAllBookings, setShowAllBookings] = useState(false);
 
     useEffect(() => {
-        dispatch(rerenderBookings());
+        if (!type) dispatch(rerenderBookings());
+        if (type) dispatch(fetchSpotById(spotId));
 
         dispatch(getSpotBookingData(spotId));
     }, [dispatch]);
 
     const spotBookings = useSelector(state => state.bookings);
+    const spotData = useSelector(state => state.spots);
+
+    let currSpot;
+    if (type) currSpot = spotData.currSpot;
+    if (!price && currSpot) price = currSpot.price;
 
     const bookingsArr = [];
     for (let key in spotBookings) {
@@ -255,6 +262,12 @@ const CreateBookingForm = ({ spotId, price }) => {
                     setClickedReserve(clickedReserve + 1);
 
                     if (clickedReserve === 2) {
+                        if (type === 'edit') {
+                            dispatch(editBookingData(bookingId, {startDate: checkIn, endDate: checkOut}));
+                            window.location.reload(false);
+                            return;
+                        };
+                        
                         dispatch(sendBookingData(spotId, {startDate: checkIn, endDate: checkOut}));
 
                         history.push('/manage-account');

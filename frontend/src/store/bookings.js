@@ -25,6 +25,15 @@ export const deleteBooking = (bookingId) => {
     };
 };
 
+export const editBookingMode = (boolean, bookingId, spotId) => {
+    return {
+        type: 'EDIT_BOOKING',
+        payload1: boolean,
+        payload2: bookingId,
+        payload3: spotId
+    };
+};
+
 export const getSpotBookingData = (spotId) => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots/${spotId}/bookings`, {
         method: 'GET'
@@ -88,6 +97,18 @@ export const sendBookingData = (spotId, bookingData) => async (dispatch) => {
     dispatch(createBooking(res.id, startDate, endDate));
 };
 
+export const editBookingData = (bookingId, bookingData) => async (dispatch) => {
+    await csrfFetch(`/api/bookings/${bookingId}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(bookingData)
+    });
+
+    const { startDate, endDate } = bookingData;
+
+    dispatch(createBooking(bookingId, startDate, endDate));
+};
+
 export const deleteBookingData = (bookingId) => async (dispatch) => {
     await csrfFetch(`/api/bookings/${bookingId}`, {
         method: 'DELETE'
@@ -108,6 +129,12 @@ const bookingsReducer = (state = initialState, action) => {
 
         case 'DELETE_BOOKING': {
             delete currentState[action.payload];
+
+            return currentState;
+        };
+
+        case 'EDIT_BOOKING': {
+            currentState['editBookingMode'] = {boolean: action.payload1, bookingId: action.payload2, spotId: action.payload3}
 
             return currentState;
         };
