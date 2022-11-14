@@ -94,6 +94,8 @@
 
     min-width: 75px;
     max-width: 75px;
+
+    cursor: pointer;
 }
 
 #form-navigate-back-button {
@@ -135,6 +137,8 @@
 
     min-width: 150px;
     max-width: 150px;
+
+    cursor: pointer;
 }
 
 .create-spot-input {
@@ -350,8 +354,6 @@
     position: relative;
     top: 5vh;
     right: 7vw;
-
-    text-align: center;
 }
 
 #review-spot-ul {

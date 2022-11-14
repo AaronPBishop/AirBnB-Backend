@@ -2,7 +2,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { sendSpotData, fetchSpots, editSpotData, rerenderSpots } from '../../store/spots.js';
+import { sendSpotData, fetchSpots, editSpotData } from '../../store/spots.js';
 
 import CheckoutListing from './CheckoutListing.js';
 import AddImageForm from '../ManageImages/AddImageForm.js';

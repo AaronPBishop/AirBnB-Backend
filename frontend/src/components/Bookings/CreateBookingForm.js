@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 
-import { sendBookingData, getSpotBookingData, rerenderBookings, editBookingData } from '../../store/bookings';
+import { sendBookingData, getSpotBookingData, rerenderBookings, editBookingMode, editBookingData } from '../../store/bookings';
 import { fetchSpotById } from '../../store/spots.js';
 
 import './styles.css';
@@ -265,6 +265,7 @@ const CreateBookingForm = ({ spotId, price, type, bookingId }) => {
                         if (type === 'edit') {
                             dispatch(editBookingData(bookingId, {startDate: checkIn, endDate: checkOut}));
                             window.location.reload(false);
+                            dispatch(editBookingMode(false, null, null))
                             return;
                         };
                         

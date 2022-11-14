@@ -19,21 +19,19 @@ const ProfileMenu = ({ userName, email }) => {
         id='profile-menu-container'
         style={{
             visibility: clicked ? 'hidden' : 'visible',
-            display: 'flex',
-            justifyContent: 'flex-end',
             backgroundColor: 'white',
-            width: '18vw',
+            width: '16vw',
             position: 'absolute', 
             zIndex: '300',
             top: '6vh',
-            left: '58.5vw',
+            left: '60.5vw',
             border: 'none',
             boxShadow: '0px 1px 10px -5px rgb(65 65 65)',
             borderRadius: '8px'
         }}>
-            <ul style={{listStyle: 'none', lineHeight: '30px'}}>
+            <ul style={{position: 'relative', right: '1.5vw', listStyle: 'none', lineHeight: '30px'}}>
               <li>{userName}</li>
-              <li>{email}</li>
+              <li style={{borderBottom: '1px solid rgb(220, 220, 220)'}}>{email}</li>
 
               <button 
               className='profile-menu-buttons' 
@@ -66,13 +64,15 @@ const ProfileMenu = ({ userName, email }) => {
                 Manage your Account
               </button>
 
-              <li>
+              <div style={{borderTop: '1px solid rgb(220, 220, 220)'}}>
                 <button id='logout-button' onClick={e => {
                   logout(e);
 
                   history.push('/');
-                }}>Log Out</button>
-              </li>
+                }}>
+                  Log Out
+                </button>
+              </div>
             </ul>
         </div>
     )
