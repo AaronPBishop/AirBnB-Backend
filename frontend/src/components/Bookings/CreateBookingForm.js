@@ -40,6 +40,13 @@ const CreateBookingForm = ({ spotId, price, type, bookingId }) => {
     const spotBookings = useSelector(state => state.bookings);
     const spotData = useSelector(state => state.spots);
 
+    useEffect(() => {
+        if (type && spotBookings && spotBookings[spotBookings.editBookingMode.bookingId]) {
+            setCheckIn(`${spotBookings[spotBookings.editBookingMode.bookingId].startDate}`);
+            setCheckOut(`${spotBookings[spotBookings.editBookingMode.bookingId].endDate}`)
+        };
+    }, []);
+
     let currSpot;
     if (type) currSpot = spotData.currSpot;
     if (!price && currSpot) price = currSpot.price;
@@ -47,6 +54,7 @@ const CreateBookingForm = ({ spotId, price, type, bookingId }) => {
     const bookingsArr = [];
     for (let key in spotBookings) {
         const currBooking = spotBookings[key];
+
         bookingsArr.push(currBooking)
     };
 
@@ -71,12 +79,20 @@ const CreateBookingForm = ({ spotId, price, type, bookingId }) => {
             for (let key in spotBookings) {
                 const currBooking = spotBookings[key];
                 const { startDate, endDate } = currBooking;
-                
-                if (startDate === checkIn && endDate === checkOut) errorsArr.push('This spot is already booked for those dates.')
 
-                if (new Date(checkIn) >= new Date(startDate) && new Date(checkIn) <= new Date(endDate)) errorsArr.push('Start date conflicts with an existing booking');
+                if (type && currBooking.bookingId !== bookingId) {
+                    if (startDate === checkIn && endDate === checkOut) errorsArr.push('This spot is already booked for those dates.')
 
-                if (new Date(checkOut) <= new Date(endDate) && new Date(checkOut) >= new Date(startDate)) errorsArr.push('End date conflicts with an existing booking');
+                    if (new Date(checkIn) >= new Date(startDate) && new Date(checkIn) <= new Date(endDate)) errorsArr.push('Start date conflicts with an existing booking');
+
+                    if (new Date(checkOut) <= new Date(endDate) && new Date(checkOut) >= new Date(startDate)) errorsArr.push('End date conflicts with an existing booking');
+                } else if (!type) {
+                    if (startDate === checkIn && endDate === checkOut) errorsArr.push('This spot is already booked for those dates.')
+
+                    if (new Date(checkIn) >= new Date(startDate) && new Date(checkIn) <= new Date(endDate)) errorsArr.push('Start date conflicts with an existing booking');
+
+                    if (new Date(checkOut) <= new Date(endDate) && new Date(checkOut) >= new Date(startDate)) errorsArr.push('End date conflicts with an existing booking');
+                };
 
                 if (new Date(checkOut) <= new Date(checkIn)) errorsArr.push('Checkout date cannot be on or before checkin date');
 

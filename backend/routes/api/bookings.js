@@ -24,11 +24,11 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     const endDateObj = new Date(endDate);
 
     for (let booking of allBookings) {
-        if (startDateObj.getTime() === booking.startDate.getTime() && endDateObj.getTime() === booking.endDate.getTime()) return res.status(403).json({"message": "Sorry, this spot is already booked for the specified dates", "statusCode": 403});
+        if (booking.id !== bookingToUpdate.id && startDateObj.getTime() === booking.startDate.getTime() && endDateObj.getTime() === booking.endDate.getTime()) return res.status(403).json({"message": "Sorry, this spot is already booked for the specified dates", "statusCode": 403});
 
-        if (startDateObj >= booking.startDate && startDateObj <= booking.endDate) return res.status(403).json({"message": "Start date conflicts with an existing booking", "statusCode": 403});
+        if (booking.id !== bookingToUpdate.id && startDateObj >= booking.startDate && startDateObj <= booking.endDate) return res.status(403).json({"message": "Start date conflicts with an existing booking", "statusCode": 403});
 
-        if (endDateObj <= booking.endDate && endDateObj >= booking.startDate) return res.status(403).json({"message": "End date conflicts with an existing booking", "statusCode": 403});
+        if (booking.id !== bookingToUpdate.id && endDateObj <= booking.endDate && endDateObj >= booking.startDate) return res.status(403).json({"message": "End date conflicts with an existing booking", "statusCode": 403});
     };
 
     try {
