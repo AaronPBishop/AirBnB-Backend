@@ -45,6 +45,8 @@
 
     position: relative;
     bottom: 2.3vh;
+
+    cursor: pointer;
 }
 
 #manage-photos {

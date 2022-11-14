@@ -20,7 +20,8 @@
 }
 
 #spot-images {
-    border: 1px solid black;
+    box-shadow: rgb(65 65 65) 0px 1px 10px -5px;
+
     border-radius: 8px;
     
     min-width: 300px;
@@ -33,7 +34,8 @@
 }
 
 #main-spot-img {
-    border: 1px solid black;
+    box-shadow: rgb(65 65 65) 0px 1px 10px -5px;
+
     border-radius: 8px;
     
     min-width: 600px;
@@ -56,12 +58,13 @@
     max-width: 50vw;
 
     position: relative;
-    bottom: 58.4vh;
+    bottom: 57.9vh;
     left: 11vw;
 }
 
 .many-spot-images {
-    border: 1px solid black;
+    box-shadow: rgb(65 65 65) 0px 1px 10px -5px;
+
     border-radius: 8px;
     
     min-width: 250px;
@@ -74,7 +77,8 @@
 }
 
 .view-all-spot-images {
-    border: 1px solid black;
+    box-shadow: rgb(65 65 65) 0px 1px 10px -5px;
+
     border-radius: 8px;
     
     min-width: 500px;
@@ -88,7 +92,7 @@
 
 #all-photos-button {
     position: absolute;
-    top: 60.7vh;
+    top: 61vh;
     left: 74.4vw;
 
     color: #222222;

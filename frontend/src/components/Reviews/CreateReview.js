@@ -94,7 +94,7 @@ const CreateReview = ({ spotId, reviewId, type }) => {
               <button 
                 id={clicked ? 'hide-create-review-button' : 'create-review-button'} 
                 onClick={() => setClicked(true)}
-                style={{visibility: hasReviewed === true && 'hidden' || !session.user && 'hidden'}}
+                style={{visibility: hasReviewed === true && 'hidden' || !session.user && 'hidden', cursor: 'pointer'}}
                 disabled={hasReviewed === true || !session.user}>
                   Add a Review
                 </button>}
@@ -120,6 +120,7 @@ const CreateReview = ({ spotId, reviewId, type }) => {
                     <label>
                         <textarea
                         id='review-textarea'
+                        style={{boxShadow: '0px 1px 10px -5px rgb(65, 65, 65)'}}
                         type='textarea'
                         value={review}
                         onChange={e => setReview(e.target.value)}

@@ -5,8 +5,8 @@
     flex-wrap: wrap;
     box-sizing: content-box;
 
-    min-width: 900px;
-    max-width: 900px;
+    min-width: 1000px;
+    max-width: 1000px;
 
     position: relative;
     right: 4.5vw;
@@ -24,11 +24,12 @@
     min-height: 290px;
     max-height: 290px;
 
-    margin: 15px;
+    margin: 26px;
 }
 
 #preview-image {
-    border: 1px solid black;
+    box-shadow: rgb(65 65 65) 0px 1px 10px -5px;
+    
     border-radius: 8px;
     min-width: 300px;
     max-width: 300px;

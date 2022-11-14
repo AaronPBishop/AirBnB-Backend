@@ -27,6 +27,15 @@ const ManageImages = ({ type }) => {
         dispatch(displayImgForm(true));
     }, [clicked]);
 
+    const imgState = useSelector(state => state.images);
+
+    let display;
+    if (imgState.displayImgForm) display = imgState.displayImgForm;
+
+    useEffect(() => {
+        if (display === undefined) setClicked(false);
+    }, [display]);
+
     const selectType = useSelector(state => state[type + 's']);
 
     let spotImgs;
@@ -38,90 +47,121 @@ const ManageImages = ({ type }) => {
     document.body.style.overflowY = 'scroll';
 
     if (type === 'spot' && (spotImgs === undefined || !spotImgs.length || spotImgs.length < 1) || type === 'review' && (reviewImgs === undefined || !reviewImgs.length || reviewImgs.length < 1)) return (
-        <div id='manage-images' style={{display: 'flex', justifyContent: 'center', margin: 'auto', width: '20vw', flexWrap: 'wrap'}}>
+        <div>
 
-            <p className='no-content'>Nothing to show here!</p>
+            <div
+            style={{
+                    display: 'flex', 
+                    justifyContent: 'center',
+                    background: 'linear-gradient(to left, rgb(215, 4, 102) 0%, rgb(189, 30, 89) 30%, rgb(146, 23, 77) 55%, rgb(134, 20, 83) 72.5%, rgb(108, 13, 99) 90%, rgb(108, 13, 99) 100%)', 
+                    minHeight: '30vh',
+                    borderRadius: '8px',
+                    marginBottom: '2vh'
+            }}>
 
-            <button id='add-image-button' onClick={() => setClicked(clicked => !clicked)}>Add an Image</button>
-
-            {
-                clicked && type === 'spot' ? 
-
-                <div style={{display: 'flex', position: 'absolute', top: '55vh', right: '36vw'}}>
-                    <AddImageForm type='editSpot' spotId={typeId} />
-                </div>
-                
-                : clicked && type === 'review' && 
-                
-                <div style={{display: 'flex', position: 'absolute', top: '55vh', right: '36vw'}}>
-                    <AddImageForm type='editReview' reviewId={typeId.reviewId} />
-                </div>
-            }
-
-        </div>
-    );
-
-    if (type === 'spot' && (spotImgs !== undefined && spotImgs.length && spotImgs.length > 0) || type ==='review' && (reviewImgs !== undefined && reviewImgs.length && reviewImgs.length > 0)) return (
-        <div id='manage-images' style={{display: 'flex', justifyContent: 'center', margin: 'auto', width: '60%', flexWrap: 'wrap'}}>
-
-            <button 
-                style={{position: 'relative', 
-                        top: '-3vh'
-                    }} 
+                <button 
                 id='add-image-button' 
+                style={{marginTop: clicked ? '1vh' : '10vh'}}
                 onClick={() => setClicked(clicked => !clicked)}>
                     Add an Image
-            </button>
-
-            <div id='manage-spot-images-container'>
+                </button>
 
                 {
                     clicked && type === 'spot' ? 
 
-                    <div style={{display: 'flex', position: 'absolute', zIndex: '300', right: '12vw', top: '-5vh'}}>
+                    <div style={{display: 'flex', position: 'absolute', top: '17vh'}}>
                         <AddImageForm type='editSpot' spotId={typeId} />
                     </div>
 
                     : clicked && type === 'review' && 
 
-                    <div style={{display: 'flex', position: 'absolute', zIndex: '300', right: '12vw', top: '-5vh'}}>
+                    <div style={{display: 'flex', position: 'absolute', top: '17vh'}}>
                         <AddImageForm type='editReview' reviewId={typeId.reviewId} />
                     </div>
                 }
+
+            </div>
+
+            <p className='no-content'>Nothing to show here!</p>
+
+        </div>
+    );
+
+    if (type === 'spot' && (spotImgs !== undefined && spotImgs.length && spotImgs.length > 0) || type ==='review' && (reviewImgs !== undefined && reviewImgs.length && reviewImgs.length > 0)) return (
+        <div>
+            <div 
+            style={{
+                    display: 'flex', 
+                    justifyContent: 'center',
+                    background: 'linear-gradient(to left, rgb(215, 4, 102) 0%, rgb(189, 30, 89) 30%, rgb(146, 23, 77) 55%, rgb(134, 20, 83) 72.5%, rgb(108, 13, 99) 90%, rgb(108, 13, 99) 100%)', 
+                    minHeight: '30vh',
+                    borderRadius: '8px',
+                    marginBottom: '2vh'
+                }}>
+                    <button 
+                        id='add-image-button' 
+                        style={{marginTop: clicked ? '1vh' : '10vh'}}
+                        onClick={() => setClicked(clicked => !clicked)}>
+                            Add an Image
+                    </button>
+
+                    {
+                        clicked && type === 'spot' ? 
+
+                        <div style={{position: 'absolute', top: '17vh'}}>
+                            <AddImageForm type='editSpot' spotId={typeId} />
+                        </div>
+
+                        : clicked && type === 'review' && 
+
+                        <div style={{position: 'absolute', top: '17vh'}}>
+                            <AddImageForm type='editReview' reviewId={typeId.reviewId} />
+                        </div>
+                    }
+            </div>
+
+            <div id='manage-spot-images-container'>
 
                 {
                     type === 'spot' && spotImgs.length > 0 ?
                     spotImgs.map((img, i) => {
                         return (
-                            <div id='spot-images-div' key={i}>
-                                <div>
-                                    <img src={img.url} id='manage-spot-images'></img>
-                                </div>
-                                <div id='delete-image-div'><button id='delete-image-button' 
+                            <div
+                            key={i}>
+                                <img src={img.url} id='manage-spot-images'></img>
+                                
+                                
+                                <button 
+                                id='delete-image-button' 
                                 onClick={() => {
                                     dispatch(deleteSpotImgData(typeId.spotId, i, spotImgs[i].id)) 
-                                    }}>Delete</button></div>
+                                    }}>
+                                        Delete
+                                </button>
+                                
                             </div>
                         )
                     }) 
                     : type === 'review' && reviewImgs.length > 0 ?
                     reviewImgs.map((img, i) => {
                         return (
-                            <div id='spot-images-div' key={i}>
-                                <div>
-                                    <img src={img.url} id='manage-spot-images'></img>
-                                </div>
-                                <div id='delete-image-div'><button id='delete-image-button' 
+                            <div key={i}>
+                                <img src={img.url} id='manage-spot-images'></img>
+                                
+                                <button 
+                                id='delete-image-button' 
                                 onClick={() => {
                                     dispatch(deleteReviewImgData(typeId.reviewId, i, img.id)) 
-                                    }}>Delete</button></div>
+                                }}>
+                                    Delete
+                                </button>
                             </div>
                         )
                     })
                     : <p className='no-content'>Nothing to show here!</p>
                 }
-            </div>
 
+            </div>
         </div>
     )
 };
