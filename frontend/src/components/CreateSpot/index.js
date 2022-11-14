@@ -9,7 +9,7 @@ import AddImageForm from '../ManageImages/AddImageForm.js';
 
 import './styles.css';
 
-const CreateSpot = () => {
+const CreateSpot = ({ type }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -41,6 +41,20 @@ const CreateSpot = () => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
 
         dispatch(fetchSpots());
+
+        if (type === 'edit' && spotState[spotId.spotId]) {
+            const currSpot = spotState[spotId.spotId];
+            
+            setAddress(`${currSpot.address}`);
+            setCity(`${currSpot.city}`);
+            setState(`${currSpot.state}`);
+            setCountry(`${currSpot.country}`);
+            setLat(`${currSpot.lat}`);
+            setLng(`${currSpot.lng}`);
+            setName(`${currSpot.name}`);
+            setDescription(`${currSpot.description}`);
+            setPrice(`${currSpot.price}`);
+        };
     }, []);
 
     useEffect(() => {
@@ -72,7 +86,7 @@ const CreateSpot = () => {
         
         if (!address.length && currPrompt === 2) errorsArr.push(errorMessages.address[0]) 
 
-        if (spotAddresses && spotAddresses.includes(flattenedAddress.join('')) && currPrompt === 2) errorsArr.push(errorMessages.address[1]);
+        if (spotAddresses && spotAddresses.includes(flattenedAddress.join('')) && type !== 'edit' && currPrompt === 2) errorsArr.push(errorMessages.address[1]);
 
         // City
         if (!city.length && currPrompt === 2) errorsArr.push(errorMessages.city);

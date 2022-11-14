@@ -58,7 +58,7 @@ const App = () => {
           </Route>
 
           <Route path='/edit-spot/:spotId'>
-            <CreateSpot />
+            <CreateSpot type='edit' />
           </Route>
           
         </Switch>
