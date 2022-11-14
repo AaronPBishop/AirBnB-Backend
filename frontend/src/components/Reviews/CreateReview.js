@@ -21,6 +21,13 @@ const CreateReview = ({ spotId, reviewId, type }) => {
     const reviews = useSelector(state => state.reviews);
     const isSubmitted = reviews.submitted;
 
+    useEffect(() => {
+      if (type === 'edit' && reviews && reviews[reviews.editMode.reviewId].review) {
+        setReview(`${reviews[reviews.editMode.reviewId].review}`);
+        setRating(reviews[reviews.editMode.reviewId].stars)
+      };
+    }, []);
+
     let hasReviewed;
     if (session && session.user && reviews) for (let key in reviews) if (reviews[key].User && reviews[key].User.id) reviews[key].User.id === session.user.id ? hasReviewed = true : hasReviewed = false;
 
