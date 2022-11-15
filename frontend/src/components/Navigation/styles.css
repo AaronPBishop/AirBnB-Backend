@@ -99,3 +99,18 @@
 #profile-button:hover {
     box-shadow: 0px 1px 10px -5px rgb(65 65 65);
 }
+
+#search-icon {
+    background-image: url('../../search_FILL1_wght400_GRAD200_opsz48 (1).png');
+    background-position: bottom 3px left 4px;
+    background-repeat: no-repeat;
+    background-size: 3vh;
+}
+
+#search-icon:hover {
+    box-shadow: 0px 1px 10px -5px rgb(65 65 65);
+}
+
+#final-search-icon {
+    background: linear-gradient(to right, #FF385C 0%, #E61E4D 27.5%, #E31C5F 40%, #D70466 57.5%, #BD1E59 75%, #BD1E59 100%);
+}

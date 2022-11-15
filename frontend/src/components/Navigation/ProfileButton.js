@@ -26,13 +26,12 @@ const ProfileButton = ({ user }) => {
 
   return (
     <div id='profile-button-container' style={{fontWeight: 'bold'}}>
-      
       <button 
       id={'profile-button'}
       onClick={openMenu}
       style={{
         position: 'relative',
-        left: '45vw',
+        left: '56vw',
         border: '1px solid rgb(220, 220, 220)',
         backgroundColor: 'white',
         minWidth: '5vw',
@@ -40,12 +39,14 @@ const ProfileButton = ({ user }) => {
         borderRadius: '24px',
         cursor: 'pointer'
       }}>
+
         <i className="fas fa-user-circle" />
+
         <div 
         style={{
           position: 'relative',
           bottom: '0.1px',
-          left: '2.41vw',
+          left: '2.4vw',
           paddingTop: '6px',
           border: 'none', 
           borderRadius: '24px', 
@@ -62,7 +63,8 @@ const ProfileButton = ({ user }) => {
       
       {
         showMenu && 
-          <ProfileMenu showMenu={showMenu} userName={user.username} email={user.email} />
+          
+        <ProfileMenu showMenu={showMenu} userName={user.username} email={user.email} />
       }
 
     </div>

@@ -30,7 +30,7 @@ const App = () => {
         <Switch>
 
           <Route exact path='/'>
-            <ShowAllSpots />
+            <ShowAllSpots type='show-all' />
           </Route>
 
           <Route path='/create-spot'>
@@ -45,12 +45,16 @@ const App = () => {
             <ManageAccount />
           </Route>
 
+          <Route exact path='/:city'>
+            <ShowAllSpots type='city' />
+          </Route>
+
           <Route path='/manage-photos/spots/:spotId'>
-            <ManageImages type={'spot'} />
+            <ManageImages type='spot' />
           </Route>
 
           <Route path='/manage-photos/reviews/:reviewId'>
-            <ManageImages type={'review'} />
+            <ManageImages type='review' />
           </Route>
 
           <Route path='/spots/:spotId'>

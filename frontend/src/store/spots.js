@@ -81,6 +81,17 @@ export const fetchSpotById = (spotId) => async (dispatch) => {
     dispatch(setCurrSpot(data[0]));
 };
 
+export const fetchSpotByCity = (city) => async (dispatch) => {
+    const fetchReq = await csrfFetch(`/api/spots/${city}/cities`, {
+        method: 'GET'
+    });
+    
+    const fetchJSON = await fetchReq.json();
+    const data = [fetchJSON];
+    
+    data.forEach(spot => spot.forEach((obj => dispatch(createSpotData(obj)))));
+};
+
 export const fetchUserSpots = () => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots/current`, {
         method: 'GET'

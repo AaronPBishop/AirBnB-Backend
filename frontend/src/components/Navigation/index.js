@@ -9,6 +9,7 @@ import LoginFormPage from '../LoginFormPage';
 import SignupFormPage from '../SignupFormPage'
 
 import './styles.css';
+import SearchBar from './SearchBar';
 
 const Navigation = ({ isLoaded }) => {
   const sessionUser = useSelector(state => state.session.user);
@@ -107,13 +108,19 @@ const Navigation = ({ isLoaded }) => {
     <div id='navigation'>
         <NavLink to="/" id='home-navlink' className='navlinks'>airbnb</NavLink>
 
-        {isLoaded && <div style={{
-          display: 'flex', 
-          justifyContent: 'space-evenly', 
-          position: 'relative', 
-          bottom: '1.5vh',
-          marginRight: '20vw',
-          marginLeft: '20vw'}}>{sessionLinks}</div>}
+        { isLoaded && 
+          <div 
+          style={{
+            display: 'flex', 
+            justifyContent: 'center', 
+            position: 'relative', 
+            bottom: '1.5vh'}}>
+
+            {sessionLinks}
+
+            <SearchBar />
+            
+          </div>}
     </div>
   );
 };

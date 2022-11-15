@@ -144,6 +144,7 @@ router.get('/current', requireAuth, async (req, res) => {
     return res.json({ Spots: userSpots });
 });
 
+
 // Get a spot based on spotId
 router.get('/:spotId', async (req, res) => {
     const spotId = await Spot.findByPk(req.params.spotId);
@@ -229,6 +230,30 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
     return res.status(200).json({"message": "Successfully deleted", "statusCode": 200});
 });
+
+
+// Get a spot based on City
+router.get('/:spotCity/cities', async (req, res) => {
+    const citySpots = await Spot.findAll({
+        where: {city: {[Op.like]: `%${req.params.spotCity.toLowerCase()}%`}},
+        attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage']
+    });
+
+    for (let spot of citySpots) {
+        const reviews = await Review.findAll({ where: { spotId: spot.id } });
+
+        let avgRating = 0;
+
+        reviews.forEach(review => avgRating += review.stars);
+
+        avgRating = (avgRating / reviews.length);
+
+        spot.avgRating = Number(avgRating.toFixed(1));
+    };
+
+    return res.json(citySpots);
+});
+
 
 // Get all bookings for a spot based on spotId
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {

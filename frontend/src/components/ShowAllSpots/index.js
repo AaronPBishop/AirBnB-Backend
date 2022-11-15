@@ -1,20 +1,25 @@
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { fetchSpots, rerenderSpots, setCurrSpotId } from '../../store/spots.js';
+import { fetchSpots, rerenderSpots, setCurrSpotId, fetchSpotByCity } from '../../store/spots.js';
 
 import './styles.css';
 
-const ShowAllSpots = () => {
+const ShowAllSpots = ({ type }) => {
     const dispatch = useDispatch();
+    const city = useParams();
     
     useEffect (() => {
-        dispatch(rerenderSpots());
+        if (type === 'city') dispatch(fetchSpotByCity(city.city));
+
+        if (type === 'show-all') {
+            dispatch(rerenderSpots());
         
-        dispatch(fetchSpots());
-    }, [dispatch]);
+            dispatch(fetchSpots());
+        };
+    }, [dispatch, city]);
 
     const allSpots = useSelector(state => state.spots);
     
