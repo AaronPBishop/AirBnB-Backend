@@ -56,7 +56,7 @@ const ManageImages = ({ type }) => {
                     background: 'linear-gradient(to left, rgb(215, 4, 102) 0%, rgb(189, 30, 89) 30%, rgb(146, 23, 77) 55%, rgb(134, 20, 83) 72.5%, rgb(108, 13, 99) 90%, rgb(108, 13, 99) 100%)', 
                     minHeight: '30vh',
                     borderRadius: '8px',
-                    marginBottom: '2vh'
+                    marginBottom: '4vh'
             }}>
 
                 <button 
@@ -69,13 +69,13 @@ const ManageImages = ({ type }) => {
                 {
                     clicked && type === 'spot' ? 
 
-                    <div style={{display: 'flex', position: 'absolute', top: '17vh'}}>
+                    <div style={{display: 'flex', position: 'absolute', top: '22vh'}}>
                         <AddImageForm type='editSpot' spotId={typeId} />
                     </div>
 
                     : clicked && type === 'review' && 
 
-                    <div style={{display: 'flex', position: 'absolute', top: '17vh'}}>
+                    <div style={{display: 'flex', position: 'absolute', top: '22vh'}}>
                         <AddImageForm type='editReview' reviewId={typeId.reviewId} />
                     </div>
                 }
@@ -96,7 +96,7 @@ const ManageImages = ({ type }) => {
                     background: 'linear-gradient(to left, rgb(215, 4, 102) 0%, rgb(189, 30, 89) 30%, rgb(146, 23, 77) 55%, rgb(134, 20, 83) 72.5%, rgb(108, 13, 99) 90%, rgb(108, 13, 99) 100%)', 
                     minHeight: '30vh',
                     borderRadius: '8px',
-                    marginBottom: '2vh'
+                    marginBottom: '4vh'
                 }}>
                     <button 
                         id='add-image-button' 
@@ -108,13 +108,13 @@ const ManageImages = ({ type }) => {
                     {
                         clicked && type === 'spot' ? 
 
-                        <div style={{position: 'absolute', top: '17vh'}}>
+                        <div style={{position: 'absolute', top: '22vh'}}>
                             <AddImageForm type='editSpot' spotId={typeId} />
                         </div>
 
                         : clicked && type === 'review' && 
 
-                        <div style={{position: 'absolute', top: '17vh'}}>
+                        <div style={{position: 'absolute', top: '22vh'}}>
                             <AddImageForm type='editReview' reviewId={typeId.reviewId} />
                         </div>
                     }

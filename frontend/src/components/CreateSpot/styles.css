@@ -15,7 +15,7 @@
     height: 100vh;
     width: 100vh;
 
-    margin-top: -16px;
+    margin-top: -6.17vh;
     padding-left: 5vh;
 };
 
@@ -27,7 +27,7 @@
 #create-spot-forms {
     position: relative;
     left: 50vh;
-    top: 53.5vh;
+    top: 48.5vh;
 }
 
 #form-navigation-1 {
