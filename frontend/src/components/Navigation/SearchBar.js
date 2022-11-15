@@ -3,19 +3,18 @@ import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 
-const SearchBar = () => {
+const SearchBar = ({ clicked }) => {
     const history = useHistory();
     
     const [city, setCity] = useState('Anywhere');
-    const [clicked, setClicked] = useState(false);
 
     return (
-        <div style={{}}>
+        <div>
             <div
             style={{
                 display: clicked === false ? 'flex' : 'none',
                 border: '1px solid rgb(220, 220, 220)',
-                justifyContent: 'flex-end',
+                justifyContent: 'space-between',
                 fontFamily: 'Montserrat',
                 fontWeight: 'bold',
                 backgroundColor: 'white',
@@ -27,8 +26,24 @@ const SearchBar = () => {
                 cursor: 'pointer',
                 borderRadius: '48px'
             }}
-            onClick={() => setClicked(true)}>
-                <p style={{fontSize: '14px', position: 'fixed', left: '44vw', top: '1.3vh'}}>{city}</p>
+            >
+
+                
+                <p 
+                style={{
+                    fontSize: '14px', 
+                    position: 'relative',
+                    bottom: '0.55vh',
+                    left: '2vw'
+                }}>
+                        {city}
+                </p>
+
+                <i style={{
+                    borderRight: '1px solid rgb(220, 220, 220',
+                    marginTop: '0.8vh',
+                    marginBottom: '0.8vh'
+                }}></i>
 
                 
                 <button 
@@ -44,7 +59,6 @@ const SearchBar = () => {
                     height: '4vh',
                     cursor: 'pointer'
                 }}>
-                    
                 </button>
             </div>
 

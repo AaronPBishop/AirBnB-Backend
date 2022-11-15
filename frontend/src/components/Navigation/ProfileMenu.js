@@ -23,8 +23,8 @@ const ProfileMenu = ({ userName, email }) => {
             width: '16vw',
             position: 'absolute', 
             zIndex: '300',
-            top: '6.5vh',
-            left: '82vw',
+            top: '14.5vh',
+            left: '80.2vw',
             border: 'none',
             boxShadow: '0px 1px 10px -5px rgb(65 65 65)',
             borderRadius: '8px'

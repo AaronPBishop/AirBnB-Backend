@@ -30,13 +30,15 @@ const ProfileButton = ({ user }) => {
       id={'profile-button'}
       onClick={openMenu}
       style={{
-        position: 'relative',
-        left: '56vw',
         border: '1px solid rgb(220, 220, 220)',
         backgroundColor: 'white',
         minWidth: '5vw',
         minHeight: '5vh',
         borderRadius: '24px',
+        position: 'relative',
+        top: '3vh',
+        right: '1vw',
+        zIndex: '600',
         cursor: 'pointer'
       }}>
 

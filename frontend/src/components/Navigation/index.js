@@ -16,6 +16,7 @@ const Navigation = ({ isLoaded }) => {
 
   const [clickedLogin, setClickedLogin] = useState(false);
   const [clickedSignUp, setClickedSignUp] = useState(false);
+  const [clickedSearch, setClickedSearch] = useState(false);
 
   useEffect(() => {
     setClickedLogin(false);
@@ -106,21 +107,29 @@ const Navigation = ({ isLoaded }) => {
 
   return (
     <div id='navigation'>
-        <NavLink to="/" id='home-navlink' className='navlinks'>airbnb</NavLink>
+        <div onClick={() => setClickedSearch(false)}>
+          <NavLink to="/" id='home-navlink' className='navlinks'>airbnb</NavLink>
+        </div>
 
-        { isLoaded && 
-          <div 
-          style={{
-            display: 'flex', 
-            justifyContent: 'center', 
-            position: 'relative', 
-            bottom: '1.5vh'}}>
+        { 
+          isLoaded && 
+          
+          <div>
+              <div 
+              onClick={() => setClickedSearch(false)}
+              style={{display: 'flex', justifyContent: 'flex-end'}}>
+                {sessionLinks}
+              </div>
 
-            {sessionLinks}
-
-            <SearchBar />
-            
-          </div>}
+              <div 
+              onClick={() => setClickedSearch(true)}
+              style={{
+                display: 'flex', justifyContent: 'center', position: 'relative', bottom: '2.4vh'
+              }}>
+                <SearchBar clicked={clickedSearch} />
+              </div>
+          </div>
+        }
     </div>
   );
 };
