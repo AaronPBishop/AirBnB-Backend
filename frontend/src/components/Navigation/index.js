@@ -32,7 +32,9 @@ const Navigation = ({ isLoaded }) => {
   } else {
     sessionLinks = (
       <>
-        <button className='navigation-buttons' onClick={() => {
+        <button 
+        className='navigation-buttons' 
+        onClick={() => {
           setClickedLogin(clicked => !clicked);
           setClickedSignUp(false);
         }}>
@@ -65,9 +67,12 @@ const Navigation = ({ isLoaded }) => {
 
           <LoginFormPage />
 
+
         </div>
 
-        <button className='navigation-buttons' onClick={() => {
+        <button 
+        className='navigation-buttons' 
+        onClick={() => {
           setClickedSignUp(clicked => !clicked);
           setClickedLogin(false);
         }}>
