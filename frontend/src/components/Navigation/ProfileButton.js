@@ -40,8 +40,6 @@ const ProfileButton = ({ user }) => {
         cursor: 'pointer'
       }}>
 
-        <i className="fas fa-user-circle" />
-
         <div 
         style={{
           position: 'relative',

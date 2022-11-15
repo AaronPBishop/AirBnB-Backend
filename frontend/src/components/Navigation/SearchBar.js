@@ -14,11 +14,11 @@ const SearchBar = () => {
             <div
             style={{
                 display: clicked === false ? 'flex' : 'none',
+                border: '1px solid rgb(220, 220, 220)',
                 justifyContent: 'flex-end',
                 fontFamily: 'Montserrat',
                 fontWeight: 'bold',
                 backgroundColor: 'white',
-                border: 'none',
                 boxShadow: '0px 1px 10px -5px rgb(65, 65, 65)',
                 minWidth: '20vw',
                 maxWidth: '20vw',
@@ -28,7 +28,7 @@ const SearchBar = () => {
                 borderRadius: '48px'
             }}
             onClick={() => setClicked(true)}>
-                <p style={{fontSize: '15px', position: 'fixed', left: '44vw', top: '0.8vh'}}>{city}</p>
+                <p style={{fontSize: '14px', position: 'fixed', left: '44vw', top: '1.3vh'}}>{city}</p>
 
                 
                 <button 
@@ -44,6 +44,7 @@ const SearchBar = () => {
                     height: '4vh',
                     cursor: 'pointer'
                 }}>
+                    
                 </button>
             </div>
 

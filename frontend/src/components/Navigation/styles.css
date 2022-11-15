@@ -101,10 +101,10 @@
 }
 
 #search-icon {
-    background-image: url('../../search_FILL1_wght400_GRAD200_opsz48 (1).png');
-    background-position: bottom 3px left 4px;
+    background-image: url('../../search (1).png');
+    background-position: bottom 1.3vh left 0.54vw;
     background-repeat: no-repeat;
-    background-size: 3vh;
+    background-size: 1.6vh;
 }
 
 #search-icon:hover {
