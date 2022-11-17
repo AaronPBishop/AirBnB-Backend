@@ -13,11 +13,7 @@ const ShowAllSpots = ({ type }) => {
     const city = useParams();
     
     useEffect (() => {
-        if (type === 'city') {
-            dispatch(rerenderSpots());
-
-            dispatch(fetchSpotByCity(city.city));
-        };
+        if (type === 'city') dispatch(fetchSpotByCity(city.city));
 
         if (type === 'show-all') {
             dispatch(rerenderSpots());
@@ -27,6 +23,9 @@ const ShowAllSpots = ({ type }) => {
     }, [dispatch, city]);
 
     const allSpots = useSelector(state => state.spots);
+
+    let spotData;
+    if (allSpots && allSpots.spotAddresses) spotData = allSpots.spotAddresses;
     
     const spotsArr = [];
     for (let key in allSpots) {
@@ -37,8 +36,8 @@ const ShowAllSpots = ({ type }) => {
 
     document.body.style.overflowY = 'scroll';
 
-    if (!allSpots) return <p className='no-content'>No results found</p>
-    if (allSpots) return (
+    if (!spotData) return <p className='no-content'>No results found</p>
+    if (spotData) return (
         <div id='all-spots'>
             {spotsArr.map((spot, i) => 
             <div className='spot-divs' key={i}>
