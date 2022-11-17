@@ -13,7 +13,11 @@ const ShowAllSpots = ({ type }) => {
     const city = useParams();
     
     useEffect (() => {
-        if (type === 'city') dispatch(fetchSpotByCity(city.city));
+        if (type === 'city') {
+            dispatch(rerenderSpots());
+
+            dispatch(fetchSpotByCity(city.city));
+        };
 
         if (type === 'show-all') {
             dispatch(rerenderSpots());
