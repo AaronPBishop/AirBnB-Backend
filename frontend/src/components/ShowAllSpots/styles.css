@@ -1,12 +1,14 @@
 #all-spots {
     display: flex;
     justify-content: space-between;
+    
     margin: auto;
+
     flex-wrap: wrap;
     box-sizing: content-box;
 
-    min-width: 1000px;
-    max-width: 1000px;
+    min-width: 80vw;
+    max-width: 80vw;
 
     position: relative;
     right: 4.5vw;
