@@ -35,7 +35,7 @@ const ShowSpot = () => {
 
     document.body.style.overflowY = 'scroll';
 
-    if (!spotData) return <p className='no-content'>Nothing to show here!</p>
+    if (!spotData) return <p className='no-content'>Loading...</p>
     if (spotData) return (
         <div style={{display: clicked && 'flex', justifyContent: 'center'}}>
         { 

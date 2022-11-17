@@ -52,7 +52,7 @@ const Navigation = ({ isLoaded }) => {
             boxSizing: 'content-box',
 
             backgroundColor: 'white',
-            border: '2px solid black',
+            border: '1px solid rgb(220, 220, 200)',
             borderRadius: '8px',
 
             minWidth: '19vw',
@@ -62,7 +62,7 @@ const Navigation = ({ isLoaded }) => {
             top: '15vh',
             zIndex: '200',
 
-            boxShadow: '0px 0px 3px 3px black'
+            boxShadow: '0px 2px 15px -5px rgb(65 65 65)'
           }}>
 
           <LoginFormPage />
@@ -90,7 +90,7 @@ const Navigation = ({ isLoaded }) => {
             boxSizing: 'content-box',
 
             backgroundColor: 'white',
-            border: '2px solid black',
+            border: '1px solid rgb(220, 220, 200)',
             borderRadius: '8px',
 
             minWidth: '23vw',
@@ -100,10 +100,10 @@ const Navigation = ({ isLoaded }) => {
             top: '13vh',
             zIndex: '200',
 
-            boxShadow: '0px 0px 3px 3px black'
+            boxShadow: '0px 2px 15px -5px rgb(65 65 65)'
           }}>
 
-          <SignupFormPage />
+            <SignupFormPage />
 
         </div>
       </>

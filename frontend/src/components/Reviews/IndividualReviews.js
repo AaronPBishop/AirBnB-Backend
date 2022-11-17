@@ -31,6 +31,8 @@ const IndividualReviews = ({ review, i, type }) => {
 
                                 <p id='review-username'><b>{review.User.firstName}:</b></p> 
 
+                                <p style={{fontWeight: 'bold'}}>⭐ {review.stars}</p>
+
                                 {type === 'user' && <p>Spot: {review.spotId}</p>}
 
                                 <p>{review.review}</p>

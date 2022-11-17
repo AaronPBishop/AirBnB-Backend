@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
@@ -8,6 +8,7 @@ import { fetchSpots, rerenderSpots, setCurrSpotId, fetchSpotByCity } from '../..
 import './styles.css';
 
 const ShowAllSpots = ({ type }) => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const city = useParams();
     
@@ -32,7 +33,8 @@ const ShowAllSpots = ({ type }) => {
 
     document.body.style.overflowY = 'scroll';
 
-    return (
+    if (spotsArr.length === 0) return <p className='no-content'>No results found.</p>
+    if (spotsArr.length > 0) return (
         <div id='all-spots'>
             {spotsArr.map((spot, i) => 
             <div className='spot-divs' key={i}>
@@ -40,13 +42,20 @@ const ShowAllSpots = ({ type }) => {
                 <div id='preview-image-container'>
                     {
                         spot.previewImage !== null ? 
-                        <img src={spot.previewImage} id='preview-image'></img> : 
+                        <img 
+                        src={spot.previewImage} 
+                        onClick={() => {
+                            dispatch(setCurrSpotId(spot.id));
+                            history.push(`/spots/${spot.id}`);
+                        }}
+                        style={{cursor: 'pointer'}}
+                        id='preview-image'></img> : 
                         <p><i>No Image</i></p>
                     }
                 </div>
 
                 <NavLink to={`/spots/${spot.id}`} className='navlinks' onClick={() => dispatch(setCurrSpotId(spot.id))}>
-                    <p id='spot-details-name'>{spot.name}</p>
+                    <p style={{fontWeight: 'bold', color: 'black'}} id='spot-details-name'>{spot.name}</p>
                 </NavLink>
 
                 <p className='spot-details'>{spot.city}</p>
