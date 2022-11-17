@@ -36,8 +36,8 @@ const ShowAllSpots = ({ type }) => {
 
     document.body.style.overflowY = 'scroll';
 
-    if (!spotData) return <p className='no-content'>No results found</p>
-    if (spotData) return (
+    if (!spotData && !Object.keys(allSpots).length) return <p className='no-content'>No results found</p>
+    if (spotData && Object.keys(allSpots).length) return (
         <div id='all-spots'>
             {spotsArr.map((spot, i) => 
             <div className='spot-divs' key={i}>
