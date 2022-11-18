@@ -1,13 +1,13 @@
 import { useState } from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-// import { setSpotsCity } from '../../store/spots.js';
+import { setSpotsCity } from '../../store/spots.js';
 
 import './styles.css';
 
 const SearchBar = ({ clicked }) => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const history = useHistory();
     
     const [city, setCity] = useState('Anywhere');
@@ -70,7 +70,7 @@ const SearchBar = ({ clicked }) => {
             onSubmit={e => {
                 e.preventDefault();
 
-                // dispatch(setSpotsCity(city));
+                dispatch(setSpotsCity(city));
                 history.push(`/${city}`);
             }}
             style={{

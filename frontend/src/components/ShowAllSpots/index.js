@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { NavLink, useParams, useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
@@ -11,17 +11,16 @@ const ShowAllSpots = ({ type }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const city = useParams();
     const allSpots = useSelector(state => state.spots);
 
-    // let cityData;
-    // if (allSpots && allSpots.city) cityData = allSpots.city;
+    let cityData;
+    if (allSpots && allSpots.city) cityData = allSpots.city;
     
     useEffect (() => {
         if (type === 'city') {
             dispatch(rerenderSpots());
 
-            dispatch(fetchSpotByCity(city.city));
+            dispatch(fetchSpotByCity(cityData));
         };
 
 
@@ -30,7 +29,7 @@ const ShowAllSpots = ({ type }) => {
         
             dispatch(fetchSpots());
         };
-    }, [dispatch, city, type]);
+    }, [dispatch, type, cityData]);
     
     const spotsArr = [];
     for (let key in allSpots) {
@@ -41,8 +40,8 @@ const ShowAllSpots = ({ type }) => {
 
     document.body.style.overflowY = 'scroll';
 
-    if (!Object.keys(allSpots).length) return <p className='no-content'>No results found</p>
-    if (Object.keys(allSpots).length) return (
+    if (!spotsArr.length) return <p className='no-content'>No results found</p>
+    if (spotsArr.length) return (
         <div id='all-spots'>
             {spotsArr.map((spot, i) => 
             <div className='spot-divs' key={i}>

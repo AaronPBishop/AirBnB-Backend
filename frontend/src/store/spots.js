@@ -59,12 +59,12 @@ export const rerenderSpots = () => {
     };
 };
 
-// export const setSpotsCity = (city) => {
-//     return {
-//         type: 'SET_CITY',
-//         payload: city
-//     };
-// };
+export const setSpotsCity = (city) => {
+    return {
+        type: 'SET_CITY',
+        payload: city
+    };
+};
 
 
 export const fetchSpots = () => async (dispatch) => {
@@ -229,13 +229,20 @@ const spotsReducer = (state = initialState, action) => {
             return currentState;
         };
 
-        case 'RERENDER_SPOTS': return initialState;
+        case 'RERENDER_SPOTS': {
+            let city;
+            if (currentState.city) city = currentState.city;
 
-        // case 'SET_CITY': {
-        //     currentState['city'] = action.payload;
+            for (let key in currentState) if (key !== 'city') delete currentState[key];
 
-        //     return currentState;
-        // };
+            return currentState;
+        };
+
+        case 'SET_CITY': {
+            currentState['city'] = action.payload;
+
+            return currentState;
+        };
 
         default: return currentState;
     };
