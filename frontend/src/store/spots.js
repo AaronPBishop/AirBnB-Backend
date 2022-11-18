@@ -59,6 +59,14 @@ export const rerenderSpots = () => {
     };
 };
 
+// export const setSpotsCity = (city) => {
+//     return {
+//         type: 'SET_CITY',
+//         payload: city
+//     };
+// };
+
+
 export const fetchSpots = () => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots`, {
         method: 'GET'
@@ -167,7 +175,6 @@ const spotsReducer = (state = initialState, action) => {
                 let splitAddress;
                 if (currAddress !== undefined) splitAddress = currAddress.split('');
                 
-
                 const flattenedAddress = [];
                 if (splitAddress) splitAddress.map(char => char.match(/[A-Za-z0-9 ]/) && flattenedAddress.push(char.toLowerCase()));
                 
@@ -223,6 +230,12 @@ const spotsReducer = (state = initialState, action) => {
         };
 
         case 'RERENDER_SPOTS': return initialState;
+
+        // case 'SET_CITY': {
+        //     currentState['city'] = action.payload;
+
+        //     return currentState;
+        // };
 
         default: return currentState;
     };

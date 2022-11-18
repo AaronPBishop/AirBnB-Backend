@@ -10,22 +10,27 @@ import './styles.css';
 const ShowAllSpots = ({ type }) => {
     const history = useHistory();
     const dispatch = useDispatch();
+
     const city = useParams();
+    const allSpots = useSelector(state => state.spots);
+
+    // let cityData;
+    // if (allSpots && allSpots.city) cityData = allSpots.city;
     
     useEffect (() => {
-        if (type === 'city') dispatch(fetchSpotByCity(city.city));
+        if (type === 'city') {
+            dispatch(rerenderSpots());
+
+            dispatch(fetchSpotByCity(city.city));
+        };
+
 
         if (type === 'show-all') {
             dispatch(rerenderSpots());
         
             dispatch(fetchSpots());
         };
-    }, [dispatch, city]);
-
-    const allSpots = useSelector(state => state.spots);
-
-    let spotData;
-    if (allSpots && allSpots.spotAddresses) spotData = allSpots.spotAddresses;
+    }, [dispatch, type]);
     
     const spotsArr = [];
     for (let key in allSpots) {
@@ -36,8 +41,8 @@ const ShowAllSpots = ({ type }) => {
 
     document.body.style.overflowY = 'scroll';
 
-    if (!spotData && !Object.keys(allSpots).length) return <p className='no-content'>No results found</p>
-    if (spotData && Object.keys(allSpots).length) return (
+    if (!Object.keys(allSpots).length) return <p className='no-content'>No results found</p>
+    if (Object.keys(allSpots).length) return (
         <div id='all-spots'>
             {spotsArr.map((spot, i) => 
             <div className='spot-divs' key={i}>

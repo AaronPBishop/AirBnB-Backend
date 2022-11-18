@@ -1,9 +1,13 @@
 import { useState } from 'react';
+// import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+// import { setSpotsCity } from '../../store/spots.js';
 
 import './styles.css';
 
 const SearchBar = ({ clicked }) => {
+    // const dispatch = useDispatch();
     const history = useHistory();
     
     const [city, setCity] = useState('Anywhere');
@@ -63,6 +67,12 @@ const SearchBar = ({ clicked }) => {
             </div>
 
             <form
+            onSubmit={e => {
+                e.preventDefault();
+
+                // dispatch(setSpotsCity(city));
+                history.push(`/${city}`);
+            }}
             style={{
                 display: clicked === true ? 'flex' : 'none',
                 fontWeight: 'bold',
@@ -117,8 +127,7 @@ const SearchBar = ({ clicked }) => {
                     color: 'white',
                     textAlign: 'center',
                     cursor: 'pointer'
-                }}
-                onClick={() => history.push(`/${city}`)}>
+                }}>
                   Search
                 </button>
             </form>
