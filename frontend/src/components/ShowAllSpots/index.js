@@ -30,7 +30,7 @@ const ShowAllSpots = ({ type }) => {
         
             dispatch(fetchSpots());
         };
-    }, [dispatch, type]);
+    }, [dispatch, city, type]);
     
     const spotsArr = [];
     for (let key in allSpots) {
