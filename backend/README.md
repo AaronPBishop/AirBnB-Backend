@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-See file DB-Schema.md
+![Untitled - dbdiagram io — Mozilla Firefox 11_19_2022 12_17_37 PM](https://user-images.githubusercontent.com/95946808/202866414-a66733bd-65e0-4fd8-81d3-cc571749c0eb.png)
 
 ## API Documentation
 
