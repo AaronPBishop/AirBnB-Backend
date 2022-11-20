@@ -2,6 +2,13 @@ import { csrfFetch } from "./csrf";
 
 const initialState = {};
 
+export const populateReviews = (data, type) => {
+    return {
+        type: 'POPULATE_REVIEWS',
+        payload: data
+    };
+}
+
 export const createReview = (review, reviewId) => {
     return {
         type: 'CREATE_REVIEW',
@@ -64,6 +71,7 @@ export const rerenderReviews = () => {
     };
 };
 
+
 export const fetchSpotReviews = (spotId) => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'GET'
@@ -72,7 +80,7 @@ export const fetchSpotReviews = (spotId) => async (dispatch) => {
     const fetchJSON = await fetchReq.json();
     const data = [fetchJSON];
     
-    data.forEach(review => review.Reviews.forEach((obj => dispatch(createReview(obj)))));    
+    dispatch(populateReviews(data));    
 };
 
 export const fetchUserReviews = () => async (dispatch) => {
@@ -83,7 +91,7 @@ export const fetchUserReviews = () => async (dispatch) => {
     const fetchJSON = await fetchReq.json();
     const data = [fetchJSON];
     
-    data.forEach(review => review.Reviews.forEach((obj => dispatch(createReview(obj)))));    
+    dispatch(populateReviews(data));   
 };
 
 export const createSpotReview = (review, spotId) => async (dispatch) => {
@@ -153,9 +161,14 @@ const reviewsReducer = (state = initialState, action) => {
     const currentState = { ...state };
 
     switch (action.type) {
+        case 'POPULATE_REVIEWS': {
+            action.payload.forEach(review => review.Reviews.forEach((obj => currentState[obj.id] = obj)));
+            
+            return currentState;
+        };
+
         case 'CREATE_REVIEW': {
-            if (!action.payload2) currentState[action.payload.id] = action.payload
-            else currentState[action.payload2] = action.payload;
+            currentState[action.payload2] = action.payload;
             
             return currentState;
         };

@@ -40,14 +40,23 @@ const ManageSpots = () => {
                 <div id='preview-image-container'>
                     {
                         spot.previewImage !== null ? 
-                        <img src={spot.previewImage} id='preview-image'></img> : 
+                        <img 
+                        src={spot.previewImage} 
+                        onClick={() => {
+                            dispatch(setCurrSpotId(spot.id));
+                            history.push(`/spots/${spot.id}`);
+                        }}
+                        style={{cursor: 'pointer'}}
+                        id='preview-image'></img> : 
                         <p><i>No Image</i></p>
                     }
                 </div>
 
                 <div id='manage-spot-details'>
-                    <p id='spot-name'><b>{spot.name}</b></p>
-                    <NavLink to={`/spots/${spot.id}`} className='navlinks'>{spot.city}</NavLink>
+                    <NavLink to={`/spots/${spot.id}`} className='navlinks' onClick={() => dispatch(setCurrSpotId(spot.id))}>
+                        <p style={{fontWeight: 'bold', color: 'black'}} id='spot-details-name'>{spot.name}</p>
+                    </NavLink>
+                    <p>{spot.city}</p>
                 </div>
 
                 <div id='manage-buttons-container'>

@@ -2,6 +2,14 @@ import { csrfFetch } from "./csrf";
 
 const initialState = {};
 
+export const populateSpots = (data, type) => {
+    return {
+        type: 'POPULATE_SPOTS',
+        payload: data,
+        payload2: type
+    };
+};
+
 export const createSpotData = (spot) => {
     return {
         type: 'CREATE_SPOT_DATA',
@@ -74,8 +82,8 @@ export const fetchSpots = () => async (dispatch) => {
 
     const fetchJSON = await fetchReq.json();
     const data = [fetchJSON];
-    
-    data.forEach(spot => spot.Spots.forEach((obj => dispatch(createSpotData(obj)))));    
+      
+    dispatch(populateSpots(data, 'all'));
 };
 
 export const fetchSpotById = (spotId) => async (dispatch) => {
@@ -97,7 +105,7 @@ export const fetchSpotByCity = (city) => async (dispatch) => {
     const fetchJSON = await fetchReq.json();
     const data = [fetchJSON];
     
-    data.forEach(spot => spot.forEach((obj => dispatch(createSpotData(obj)))));
+    dispatch(populateSpots(data, 'city'));
 };
 
 export const fetchUserSpots = () => async (dispatch) => {
@@ -107,7 +115,8 @@ export const fetchUserSpots = () => async (dispatch) => {
     const fetchJSON = await fetchReq.json();
 
     const data = [fetchJSON];
-    data.forEach(spot => spot.Spots.forEach((obj => dispatch(createSpotData(obj)))));    
+    
+    dispatch(populateSpots(data, 'all'));
 };
 
 export const sendSpotData = (spot) => async (dispatch) => {
@@ -162,8 +171,10 @@ const spotsReducer = (state = initialState, action) => {
     const currentState = { ...state };
 
     switch (action.type) {
-        case 'CREATE_SPOT_DATA': {
-            currentState[action.payload.id] = action.payload;
+        case 'POPULATE_SPOTS': {
+            if (action.payload2 === 'all') action.payload.forEach(spot => spot.Spots.forEach((obj => currentState[obj.id] = obj)));  
+            
+            if (action.payload2 === 'city') action.payload.forEach(spot => spot.forEach((obj => currentState[obj.id] = obj)));
 
             currentState['spotAddresses'] = [];
             const spotAddresses = currentState.spotAddresses;
@@ -180,6 +191,12 @@ const spotsReducer = (state = initialState, action) => {
                 
                 if (flattenedAddress.length) currentState.spotAddresses[spotAddresses.length] = flattenedAddress.join('');
             };
+
+            return currentState;
+        };
+
+        case 'CREATE_SPOT_DATA': {
+            currentState[action.payload.id] = action.payload;
 
             return currentState;
         };
@@ -230,9 +247,6 @@ const spotsReducer = (state = initialState, action) => {
         };
 
         case 'RERENDER_SPOTS': {
-            let city;
-            if (currentState.city) city = currentState.city;
-
             for (let key in currentState) if (key !== 'city') delete currentState[key];
 
             return currentState;
