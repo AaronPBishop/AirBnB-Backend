@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState} from 'react';
-
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ProfileButton from './ProfileButton';
 import LoginFormPage from '../LoginFormPage';
@@ -10,13 +9,22 @@ import SignupFormPage from '../SignupFormPage'
 
 import './styles.css';
 import SearchBar from './SearchBar';
+import { fetchSpots } from '../../store/spots';
 
 const Navigation = ({ isLoaded }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
 
   const [clickedLogin, setClickedLogin] = useState(false);
   const [clickedSignUp, setClickedSignUp] = useState(false);
   const [clickedSearch, setClickedSearch] = useState(false);
+
+  const spots = useSelector(state => state.spots);
+
+  useEffect(() => {
+      setClickedSearch(false);
+  }, [spots]);
 
   useEffect(() => {
     setClickedLogin(false);
@@ -113,7 +121,15 @@ const Navigation = ({ isLoaded }) => {
   return (
     <div id='navigation'>
         <div onClick={() => setClickedSearch(false)}>
-          <NavLink to="/" id='home-navlink' className='navlinks'>b-bnb</NavLink>
+          <div 
+          id='home-navlink' 
+          className='navlinks'
+          onClick={async () => {
+            await history.push('/');
+            await dispatch(fetchSpots());
+          }}>
+            bbnb
+          </div>
         </div>
 
         { 

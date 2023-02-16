@@ -12,7 +12,8 @@
     position: relative;
     top: 7vh;
     left: 5vh;
-    text-decoration: none;
+
+    width: 6vw;
     color: #FF385C;
 
     font-size: 25px;
@@ -20,6 +21,8 @@
 
     letter-spacing: -2px;
     z-index: 600;
+
+    cursor: pointer;
 }
 
 #profile-button {

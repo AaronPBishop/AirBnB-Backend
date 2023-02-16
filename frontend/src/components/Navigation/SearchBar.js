@@ -1,16 +1,22 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { setSpotsCity } from '../../store/spots.js';
+import { fetchSpotByCity, rerenderSpots, setSpotsCity } from '../../store/spots.js';
 
 import './styles.css';
 
 const SearchBar = ({ clicked }) => {
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const spots = useSelector(state => state.spots);
     
     const [city, setCity] = useState('Anywhere');
+
+    useEffect(() => {
+        setCity('Anywhere');
+    }, [spots]);
 
     return (
         <div>
@@ -29,10 +35,7 @@ const SearchBar = ({ clicked }) => {
                 maxHeight: '5vh',
                 cursor: 'pointer',
                 borderRadius: '48px'
-            }}
-            >
-
-                
+            }}>  
                 <p 
                 style={{
                     fontSize: '14px', 
@@ -67,12 +70,6 @@ const SearchBar = ({ clicked }) => {
             </div>
 
             <form
-            onSubmit={e => {
-                e.preventDefault();
-
-                dispatch(setSpotsCity(city));
-                history.push(`/${city}`);
-            }}
             style={{
                 display: clicked === true ? 'flex' : 'none',
                 fontWeight: 'bold',
@@ -106,13 +103,19 @@ const SearchBar = ({ clicked }) => {
                         cursor: 'pointer',
                         borderRadius: '48px',
                         textAlign: 'center'
-                    }}
-                    >
+                    }}>
                     </input>
                 </label>
 
                 <button 
                 id='final-search-icon'
+                onClick={async e => {
+                    e.preventDefault(e);
+
+                    await history.push(`/${city}`);
+                    await dispatch(rerenderSpots());
+                    await dispatch(fetchSpotByCity(city));
+                }}
                 style={{
                     fontFamily: 'Montserrat',
                     fontWeight: 'bold',
@@ -132,7 +135,7 @@ const SearchBar = ({ clicked }) => {
                 </button>
             </form>
         </div>
-    )
+    );
 };
 
 export default SearchBar;

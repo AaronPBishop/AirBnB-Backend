@@ -67,13 +67,6 @@ export const rerenderSpots = () => {
     };
 };
 
-export const setSpotsCity = (city) => {
-    return {
-        type: 'SET_CITY',
-        payload: city
-    };
-};
-
 
 export const fetchSpots = () => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots`, {
@@ -167,6 +160,7 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
     dispatch(deleteSpot(spotId));
 };
 
+
 const spotsReducer = (state = initialState, action) => {
     const currentState = { ...state };
 
@@ -247,7 +241,7 @@ const spotsReducer = (state = initialState, action) => {
         };
 
         case 'RERENDER_SPOTS': {
-            for (let key in currentState) if (key !== 'city') delete currentState[key];
+            for (let key in currentState) delete currentState[key];
 
             return currentState;
         };
