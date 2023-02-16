@@ -1,6 +1,8 @@
 import { csrfFetch } from "./csrf";
 
-const initialState = {};
+const initialState = {
+    spots: []
+};
 
 export const populateSpots = (data, type) => {
     return {
@@ -166,16 +168,14 @@ const spotsReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'POPULATE_SPOTS': {
-            if (action.payload2 === 'all') action.payload.forEach(spot => spot.Spots.forEach((obj => currentState[obj.id] = obj)));  
-            
-            if (action.payload2 === 'city') action.payload.forEach(spot => spot.forEach((obj => currentState[obj.id] = obj)));
+            if (action.payload2 === 'all') currentState.spots = action.payload[0].Spots;
+            if (action.payload2 === 'city') currentState.spots = action.payload[0];
 
             currentState['spotAddresses'] = [];
             const spotAddresses = currentState.spotAddresses;
             
-            for (let key in currentState) {
-                const currSpot = currentState[key];
-                const currAddress = currSpot.address;
+            for (let spot of currentState.spots) {
+                const currAddress = spot.address;
                 
                 let splitAddress;
                 if (currAddress !== undefined) splitAddress = currAddress.split('');
