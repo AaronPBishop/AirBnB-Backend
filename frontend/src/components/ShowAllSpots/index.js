@@ -12,24 +12,15 @@ const ShowAllSpots = ({ type }) => {
     const dispatch = useDispatch();
 
     const allSpots = useSelector(state => state.spots);
-
-    let cityData;
-    if (allSpots && allSpots.city) cityData = allSpots.city;
     
     useEffect (() => {
-        if (type === 'city') {
-            dispatch(rerenderSpots());
-
-            dispatch(fetchSpotByCity(cityData));
-        };
-
+        if (type === 'city') return;
 
         if (type === 'show-all') {
             dispatch(rerenderSpots());
-        
             dispatch(fetchSpots());
         };
-    }, [dispatch, type, cityData]);
+    }, []);
     
     const spotsArr = [];
     for (let key in allSpots) {
