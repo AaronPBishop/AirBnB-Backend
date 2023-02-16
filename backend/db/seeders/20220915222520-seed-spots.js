@@ -1,8 +1,14 @@
 'use strict';
 
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+};
+
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('Spots', [
+    options.tableName = 'Spots';
+    return queryInterface.bulkInsert(options, [
       {
         ownerId: 1,
         address: '4848 Mountain Ridge Rd.',
@@ -46,6 +52,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Spots', {}, {});
+    options.tableName = 'Spots';
+    await queryInterface.bulkDelete(options, {}, {});
   }
 };
