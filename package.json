@@ -1,5 +1,5 @@
 {
-  "name": "airbnb-backend",
+  "name": "bishop-bnb",
   "version": "1.0.0",
   "description": "See file DB-Schema.md",
   "main": "index.js",
@@ -18,15 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AaronPBishop/AirBnB-Backend.git"
+    "url": "git+https://github.com/AaronPBishop/Bishop-BnB.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AaronPBishop/AirBnB-Backend/issues"
+    "url": "https://github.com/AaronPBishop/Bishop-BnB/issues"
   },
-  "homepage": "https://github.com/AaronPBishop/AirBnB-Backend#readme",
+  "homepage": "https://github.com/AaronPBishop/Bishop-BnB#readme",
   "dependencies": {
     "js-cookie": "^3.0.1"
   }

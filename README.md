@@ -1,4 +1,4 @@
-## _Model-BnB_ is a full-stack Airbnb-like application that was built using React and Redux. 
+## _Bishop-BnB_ is a full-stack Airbnb-like application that was built using React and Redux. 
 The Backend API was constructed using Sequelize and Express to employ RESTful routes, following the SCRUM development methodology.
 
 Certain components utilize conditional rendering in a clever fashion in order to handle certain unwanted actions, such as creating a booking for a spot that the user owns, creating more than one review per spot, attempting to book a stay for dates that are already booked, etc.

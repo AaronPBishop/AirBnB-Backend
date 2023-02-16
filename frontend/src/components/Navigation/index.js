@@ -113,7 +113,7 @@ const Navigation = ({ isLoaded }) => {
   return (
     <div id='navigation'>
         <div onClick={() => setClickedSearch(false)}>
-          <NavLink to="/" id='home-navlink' className='navlinks'>airbnb</NavLink>
+          <NavLink to="/" id='home-navlink' className='navlinks'>b-bnb</NavLink>
         </div>
 
         { 
