@@ -2,7 +2,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { fetchUserSpots, deleteSpotThunk, setCurrSpotId, rerenderSpots } from '../../store/spots.js';
+import { fetchUserSpots, deleteSpotThunk, setCurrSpotId } from '../../store/spots.js';
 
 import './styles.css';
 
@@ -11,8 +11,6 @@ const ManageSpots = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(rerenderSpots());
-        
         dispatch(fetchUserSpots());
     }, [dispatch]);
     

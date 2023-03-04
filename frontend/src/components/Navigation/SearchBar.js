@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { fetchSpotByCity, rerenderSpots, setSpotsCity } from '../../store/spots.js';
+import { fetchSpotByCity } from '../../store/spots.js';
 
 import './styles.css';
 
@@ -113,7 +113,6 @@ const SearchBar = ({ clicked }) => {
                     e.preventDefault(e);
 
                     await history.push(`/${city}`);
-                    await dispatch(rerenderSpots());
                     await dispatch(fetchSpotByCity(city));
                 }}
                 style={{

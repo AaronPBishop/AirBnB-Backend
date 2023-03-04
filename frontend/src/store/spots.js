@@ -63,12 +63,6 @@ export const feedImgFormData = (url) => {
     };
 };
 
-export const rerenderSpots = () => {
-    return {
-        type: 'RERENDER_SPOTS'
-    };
-};
-
 
 export const fetchSpots = () => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots`, {
@@ -168,10 +162,12 @@ const spotsReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'POPULATE_SPOTS': {
+            currentState.spots = [];
+            currentState['spotAddresses'] = [];
+
             if (action.payload2 === 'all') currentState.spots = action.payload[0].Spots;
             if (action.payload2 === 'city') currentState.spots = action.payload[0];
 
-            currentState['spotAddresses'] = [];
             const spotAddresses = currentState.spotAddresses;
             
             for (let spot of currentState.spots) {
@@ -236,12 +232,6 @@ const spotsReducer = (state = initialState, action) => {
 
         case 'FEED_IMG_FORM_DATA': {
             currentState['imgFormData'] = {url: action.payload};
-
-            return currentState;
-        };
-
-        case 'RERENDER_SPOTS': {
-            for (let key in currentState) delete currentState[key];
 
             return currentState;
         };

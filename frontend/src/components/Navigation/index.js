@@ -11,7 +11,7 @@ import './styles.css';
 import SearchBar from './SearchBar';
 import { fetchSpots } from '../../store/spots';
 
-const Navigation = ({ isLoaded }) => {
+const Navigation = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
@@ -131,26 +131,22 @@ const Navigation = ({ isLoaded }) => {
             bbnb
           </div>
         </div>
-
-        { 
-          isLoaded && 
           
-          <div>
-              <div 
-              onClick={() => setClickedSearch(false)}
-              style={{display: 'flex', justifyContent: 'flex-end'}}>
-                {sessionLinks}
-              </div>
+        <div>
+            <div 
+            onClick={() => setClickedSearch(false)}
+            style={{display: 'flex', justifyContent: 'flex-end'}}>
+              {sessionLinks}
+            </div>
 
-              <div 
-              onClick={() => setClickedSearch(true)}
-              style={{
-                display: 'flex', justifyContent: 'center', position: 'relative', bottom: '2.4vh'
-              }}>
-                <SearchBar clicked={clickedSearch} />
-              </div>
-          </div>
-        }
+            <div 
+            onClick={() => setClickedSearch(true)}
+            style={{
+              display: 'flex', justifyContent: 'center', position: 'relative', bottom: '2.4vh'
+            }}>
+              <SearchBar clicked={clickedSearch} />
+            </div>
+        </div>
     </div>
   );
 };

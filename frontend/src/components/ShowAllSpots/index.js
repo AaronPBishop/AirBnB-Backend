@@ -3,7 +3,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { fetchSpots, rerenderSpots, setCurrSpotId } from '../../store/spots.js';
+import { fetchSpots, setCurrSpotId } from '../../store/spots.js';
 
 import './styles.css';
 
@@ -14,10 +14,7 @@ const ShowAllSpots = ({ type }) => {
     const allSpots = useSelector(state => state.spots);
     
     useEffect (() => {
-        if (type === 'show-all') {
-            dispatch(rerenderSpots());
-            dispatch(fetchSpots());
-        };
+        if (type === 'show-all') dispatch(fetchSpots());
     }, [dispatch]);
 
     document.body.style.overflowY = 'scroll';
