@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import * as sessionActions from "./store/session";
 
@@ -14,10 +14,18 @@ import ManageAccount from "./components/ManageAccount/index.js";
 
 const App = () => {
   const dispatch = useDispatch();
+
+  const [totalSpots, setTotalSpots] = useState([]);
+
+  const allSpots = useSelector(state => state.spots.spots);
   
   useEffect(() => {
     dispatch(sessionActions.restoreUser());
   }, []);
+
+  useEffect(() => {
+    setTotalSpots([allSpots.length]);
+  }, [allSpots]);
 
   return (
     <div>
@@ -26,7 +34,7 @@ const App = () => {
         <Switch>
 
           <Route exact path='/'>
-            <ShowAllSpots />
+            <ShowAllSpots totalSpots={totalSpots[0]} />
           </Route>
 
           <Route path='/create-spot'>
@@ -39,10 +47,6 @@ const App = () => {
 
           <Route path='/manage-account'>
             <ManageAccount />
-          </Route>
-
-          <Route exact path='/:city'>
-            <ShowAllSpots />
           </Route>
 
           <Route path='/manage-photos/spots/:spotId'>
