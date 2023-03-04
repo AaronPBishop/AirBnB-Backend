@@ -26,7 +26,7 @@ const App = () => {
         <Switch>
 
           <Route exact path='/'>
-            <ShowAllSpots type='show-all' />
+            <ShowAllSpots />
           </Route>
 
           <Route path='/create-spot'>
@@ -42,7 +42,7 @@ const App = () => {
           </Route>
 
           <Route exact path='/:city'>
-            <ShowAllSpots type='city' />
+            <ShowAllSpots />
           </Route>
 
           <Route path='/manage-photos/spots/:spotId'>

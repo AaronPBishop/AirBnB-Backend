@@ -1,30 +1,38 @@
 import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { fetchSpots, setCurrSpotId } from '../../store/spots.js';
 
 import './styles.css';
 
-const ShowAllSpots = ({ type }) => {
+const ShowAllSpots = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const allSpots = useSelector(state => state.spots);
+    const allSpots = useSelector(state => state.spots.spots);
+
+    const [randKey, setRandKey] = useState(null);
     
     useEffect (() => {
-        if (type === 'show-all') dispatch(fetchSpots());
-    }, [dispatch]);
+        dispatch(fetchSpots());
+    }, []);
+
+    useEffect(() => {
+        if (allSpots.length) {
+            const randNum = Math.floor(Math.random() * 999999999999999);
+            setRandKey(randNum);
+        };
+    }, [allSpots]);
 
     document.body.style.overflowY = 'scroll';
 
-    if (!allSpots.spots) return <p className='no-content'>Loading...</p>
-    if (allSpots.spots) return (
-        <div id={allSpots.spots.length > 0 && 'all-spots'}>
+    if (!allSpots) return <p className='no-content'>Loading...</p>
+    return (
+        <div id={allSpots.length && 'all-spots'} key={randKey} >
             {
-                allSpots.spots.length < 1 ? <p className='no-content'>No Results Found</p>
-                : allSpots.spots.length > 0 && allSpots.spots.map((spot, i) => (
+                allSpots.length ? allSpots.map((spot, i) => (
                     <div className='spot-divs' key={i}>
                         <div id='preview-image-container'>
                             {
@@ -52,6 +60,8 @@ const ShowAllSpots = ({ type }) => {
                         <p className='spot-details'><b>${spot.price}</b> night</p>
                     </div>
                 ))
+                :
+                <p className='no-content'>No Results Found</p>
             }
         </div>
     );
