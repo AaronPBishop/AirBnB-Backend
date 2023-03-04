@@ -23,11 +23,11 @@ const ShowAllSpots = ({ type }) => {
     document.body.style.overflowY = 'scroll';
 
     if (!allSpots.spots) return <p className='no-content'>Loading...</p>
-    if (allSpots.spots.length < 1) return <p className='no-content'>No Results Found</p>
     if (allSpots.spots) return (
-        <div id='all-spots'>
+        <div id={allSpots.spots.length > 0 && 'all-spots'}>
             {
-                allSpots.spots.map((spot, i) => (
+                allSpots.spots.length < 1 ? <p className='no-content'>No Results Found</p>
+                : allSpots.spots.length > 0 && allSpots.spots.map((spot, i) => (
                     <div className='spot-divs' key={i}>
                         <div id='preview-image-container'>
                             {
