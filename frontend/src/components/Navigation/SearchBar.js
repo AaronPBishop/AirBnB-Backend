@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { fetchSpotByCity } from '../../store/spots.js';
 
@@ -7,6 +8,7 @@ import './styles.css';
 
 const SearchBar = ({ clicked }) => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const spots = useSelector(state => state.spots);
     
@@ -110,6 +112,7 @@ const SearchBar = ({ clicked }) => {
                 onClick={async e => {
                     e.preventDefault(e);
 
+                    await history.push(`/`);
                     await dispatch(fetchSpotByCity(city));
                 }}
                 style={{

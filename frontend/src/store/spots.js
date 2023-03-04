@@ -162,25 +162,24 @@ const spotsReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'POPULATE_SPOTS': {
-            currentState.spots = [];
             currentState['spotAddresses'] = [];
 
             if (action.payload2 === 'all') currentState.spots = action.payload[0].Spots;
             if (action.payload2 === 'city') currentState.spots = action.payload[0];
 
-            const spotAddresses = currentState.spotAddresses;
+            // const spotAddresses = currentState.spotAddresses;
             
-            for (let spot of currentState.spots) {
-                const currAddress = spot.address;
+            // for (let spot of currentState.spots) {
+            //     const currAddress = spot.address;
                 
-                let splitAddress;
-                if (currAddress !== undefined) splitAddress = currAddress.split('');
+            //     let splitAddress;
+            //     if (currAddress !== undefined) splitAddress = currAddress.split('');
                 
-                const flattenedAddress = [];
-                if (splitAddress) splitAddress.map(char => char.match(/[A-Za-z0-9 ]/) && flattenedAddress.push(char.toLowerCase()));
+            //     const flattenedAddress = [];
+            //     if (splitAddress) splitAddress.map(char => char.match(/[A-Za-z0-9 ]/) && flattenedAddress.push(char.toLowerCase()));
                 
-                if (flattenedAddress.length) currentState.spotAddresses[spotAddresses.length] = flattenedAddress.join('');
-            };
+            //     if (flattenedAddress.length) currentState.spotAddresses[spotAddresses.length] = flattenedAddress.join('');
+            // };
 
             return currentState;
         };
