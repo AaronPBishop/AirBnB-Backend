@@ -49,7 +49,7 @@ const Reviews = ({ spotId, avgRating, type }) => {
 
             <div id='reviews-container'>
                 {reviewsArr.map((review, i) => {
-                    return <IndividualReviews review={review} i={i} type={type} />
+                    return <IndividualReviews review={review} i={i} type={type} key={i} />
                 })}
             </div>
         </div>

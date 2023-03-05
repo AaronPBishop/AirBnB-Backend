@@ -171,6 +171,7 @@ const CreateBookingForm = ({ spotId, price, type, bookingId }) => {
                 id='checkin-booking-calendar'
                 style={{display: clickedCheckIn ? 'flex' : 'none', visibility: showAllBookings === true ? 'hidden' : 'visible'}}>
                     <Calendar 
+                    days={31}
                     value={calendarCheckInDate} 
                     onChange={(e) => {
                         const year = e.getUTCFullYear();
@@ -190,6 +191,7 @@ const CreateBookingForm = ({ spotId, price, type, bookingId }) => {
                 id='checkout-booking-calendar'
                 style={{display: clickedCheckOut ? 'flex' : 'none', visibility: showAllBookings === true ? 'hidden' : 'visible'}}>
                     <Calendar 
+                    days={31}
                     value={calendarCheckOutDate} 
                     onChange={(e) => {
                         const year = e.getUTCFullYear();
@@ -207,31 +209,32 @@ const CreateBookingForm = ({ spotId, price, type, bookingId }) => {
             <div 
             id={'bookings-errors'}
             style={{display: showAllBookings === true ? 'flex' : 'none', justifyContent: bookingsArr.length < 3 && 'center', marginTop: '-38vh', overflowX: 'auto', maxHeight: '20vh'}}>
-                {bookingsArr.map((booking, i) => {
-                return (
-                    <div 
-                    key={i}
-                    style={{
-                        display: 'flex', 
-                        justifyContent: 'center',
-                        minWidth: '6vw',
-                        maxWidth: '6vw',
-                        listStyle: 'none', 
-                        fontWeight: 'bold', 
-                        flexWrap: 'wrap',
-                        backgroundColor: '#6f019c',
-                        border: 'none',
-                        borderRadius: '8px',
-                        color: 'white',
-                        margin: '6px',
-                        padding: '6px'
-                    }}>
-                        <li>{booking.startDate}</li>
-                        <p style={{fontWeight: '400', fontStyle: 'italic'}}>thru</p>
-                        <li>{booking.endDate}</li>
-                    </div>
-                    )
-                })}
+                {
+                    bookingsArr.map((booking, i) => {
+                    return (
+                        <div 
+                        key={i}
+                        style={{
+                            display: 'flex', 
+                            justifyContent: 'center',
+                            minWidth: '6vw',
+                            maxWidth: '6vw',
+                            listStyle: 'none', 
+                            fontWeight: 'bold', 
+                            flexWrap: 'wrap',
+                            backgroundColor: '#6f019c',
+                            border: 'none',
+                            borderRadius: '8px',
+                            color: 'white',
+                            margin: '6px',
+                            padding: '6px'
+                        }}>
+                            <li>{booking.startDate}</li>
+                            <p style={{fontWeight: '400', fontStyle: 'italic'}}>thru</p>
+                            <li>{booking.endDate}</li>
+                        </div>
+                    )})
+                }
             </div>
 
             <div 
