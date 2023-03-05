@@ -9,19 +9,6 @@ export const populateSpots = (data) => {
     };
 };
 
-export const setSearchResults = (spots) => {
-    return {
-        type: 'SET_SEARCH_RESULTS',
-        payload: spots
-    };
-};
-
-export const clearSearchResults = () => {
-    return {
-        type: 'CLEAR_SEARCH_RESULTS'
-    };
-};
-
 export const createSpotData = (spot) => {
     return {
         type: 'CREATE_SPOT_DATA',
@@ -73,7 +60,6 @@ export const feedImgFormData = (url) => {
     };
 };
 
-
 export const fetchSpots = () => async (dispatch) => {
     const fetchReq = await csrfFetch(`/api/spots`, {
         method: 'GET'
@@ -96,13 +82,13 @@ export const fetchSpotById = (spotId) => async (dispatch) => {
 };
 
 export const fetchSpotByCity = (city) => async (dispatch) => {
-    const fetchReq = await csrfFetch(`/api/spots/cities/${city}`, {
+    const fetchReq = await csrfFetch(`/api/spots/cities/${city.toLowerCase()}`, {
         method: 'GET'
     });
     
     const fetchJSON = await fetchReq.json();
     
-    dispatch(setSearchResults(fetchJSON));
+    dispatch(populateSpots(fetchJSON));
 };
 
 export const fetchUserSpots = () => async (dispatch) => {
@@ -174,10 +160,6 @@ const spotsReducer = (state = initialState, action) => {
             for (let spot of action.payload.Spots) newState[spot.id] = spot;
 
             return newState;
-        };
-
-        case 'SET_SEARCH_RESULTS': {
-            return { ...currentState, searchResults: action.payload.Spots };
         };
 
         case 'CREATE_SPOT_DATA': {

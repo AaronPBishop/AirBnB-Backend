@@ -12,16 +12,13 @@ import ManageSpots from "./components/ManageSpots/index.js";
 import ManageImages from "./components/ManageImages/index.js";
 import ManageAccount from "./components/ManageAccount/index.js";
 
-import { fetchSpots } from './store/spots.js';
-
 const App = () => {
   const dispatch = useDispatch();
 
-  const allSpots = useSelector(state => Object.values(state.spots));
+  const currSpot = useSelector(state => state.spots.currSpot);
   
   useEffect(() => {
     dispatch(sessionActions.restoreUser());
-    dispatch(fetchSpots());
   }, []);
 
   return (
@@ -31,7 +28,7 @@ const App = () => {
         <Switch>
 
           <Route exact path='/'>
-            <ShowAllSpots spots={allSpots} />
+            <ShowAllSpots />
           </Route>
 
           <Route path='/create-spot'>

@@ -3,7 +3,7 @@ const express = require('express');
 const { Spot, Image, User, Review, Booking } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth.js');
 const { validateQueryParameters } = require('../../utils/validation')
-const { Op } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 
 const router = express.Router();
 
@@ -235,7 +235,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 // Get a spot based on City
 router.get('/cities/:spotCity/', async (req, res) => {
     const citySpots = await Spot.findAll({
-        where: {city: {[Op.like]: `%${req.params.spotCity.toLowerCase()}%`}},
+        where: Sequelize.where(Sequelize.fn('lower', Sequelize.col('city')), 'LIKE', `%${req.params.spotCity}%`),
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage']
     });
 
