@@ -18,17 +18,11 @@ const App = () => {
   const dispatch = useDispatch();
 
   const allSpots = useSelector(state => Object.values(state.spots));
-
-  const [totalSpots, setTotalSpots] = useState(0);
   
   useEffect(() => {
     dispatch(sessionActions.restoreUser());
     dispatch(fetchSpots());
   }, []);
-
-  useEffect(() => {
-    setTotalSpots(allSpots.length);
-  }, [allSpots]);
 
   return (
     <div>
@@ -37,7 +31,7 @@ const App = () => {
         <Switch>
 
           <Route exact path='/'>
-            <ShowAllSpots spots={allSpots} totalSpots={totalSpots} />
+            <ShowAllSpots spots={allSpots} />
           </Route>
 
           <Route path='/create-spot'>
