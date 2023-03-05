@@ -8,10 +8,10 @@ import Spot from './Spot.js';
 
 import './styles.css';
 
-const ShowAllSpots = ({ totalSpots }) => {
+const ShowAllSpots = () => {
     const dispatch = useDispatch();
 
-    const allSpots = useSelector(state => state.spots.spots);
+    const allSpots = useSelector(state => Object.values(state.spots));
     
     useEffect (() => {
         dispatch(fetchSpots());
@@ -19,11 +19,10 @@ const ShowAllSpots = ({ totalSpots }) => {
 
     document.body.style.overflowY = 'scroll';
 
-    if (!allSpots) return <p className='no-content'>Loading...</p>
     return (
-        <div id={totalSpots > 0 && 'all-spots'} >
+        <div id={allSpots.length && 'all-spots'}>
             {
-                totalSpots > 0 ? allSpots.map((spot, i) => <Spot id={spot.id} name={spot.name} city={spot.city} price={spot.price} previewImage={spot.previewImage} key={i} /> )
+                allSpots.length ? allSpots.map((spot, i) => <Spot id={spot.id} name={spot.name} city={spot.city} price={spot.price} previewImage={spot.previewImage} key={i} /> )
                 :
                 <p className='no-content'>No Results Found</p>
             }

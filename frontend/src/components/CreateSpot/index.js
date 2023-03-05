@@ -16,9 +16,27 @@ const CreateSpot = ({ type }) => {
     const spotId = useParams();
     
     const spotState = useSelector(state => state.spots);
+    const allSpots = useSelector(state => Object.values(state.spots));
 
-    let spotAddresses;
-    if (spotState && spotState.spotAddresses) spotAddresses = spotState.spotAddresses;
+    const [spotAddresses, setSpotAddresses] = useState([]);
+
+    useEffect(() => {
+        const addressesCopy = [ ...spotAddresses ];
+        for (let spot of allSpots) {
+            const currAddress = spot.address;
+            
+            let splitAddress;
+            if (currAddress !== undefined) splitAddress = currAddress.split('');
+            
+            const flattenedAddress = [];
+            if (splitAddress) splitAddress.map(char => char.match(/[A-Za-z0-9 ]/) && flattenedAddress.push(char.toLowerCase()));
+            
+            if (flattenedAddress.length) {
+                addressesCopy[addressesCopy.length] = flattenedAddress.join('')
+                setSpotAddresses(addressesCopy);
+            };
+        };
+    }, []);
 
     const prompts = ['Let\'s give your place a name', 'How would you best describe your place?', 'Where\'s your place located?', 'Set your price $', 'Now, let\'s give it a preview image (you can do this later)', 'Check out your listing!'];
     const buttonText = ['Next', 'Save your listing'];

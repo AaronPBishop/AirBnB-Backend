@@ -1,14 +1,11 @@
 import { csrfFetch } from "./csrf";
 
-const initialState = {
-    spots: []
-};
+const initialState = {};
 
-export const populateSpots = (data, type) => {
+export const populateSpots = (data) => {
     return {
         type: 'POPULATE_SPOTS',
-        payload: data,
-        payload2: type
+        payload: data
     };
 };
 
@@ -72,7 +69,7 @@ export const fetchSpots = () => async (dispatch) => {
     const fetchJSON = await fetchReq.json();
     const data = [fetchJSON];
       
-    dispatch(populateSpots(data, 'all'));
+    dispatch(populateSpots(data));
 };
 
 export const fetchSpotById = (spotId) => async (dispatch) => {
@@ -94,7 +91,7 @@ export const fetchSpotByCity = (city) => async (dispatch) => {
     const fetchJSON = await fetchReq.json();
     const data = [fetchJSON];
     
-    dispatch(populateSpots(data, 'city'));
+    dispatch(populateSpots(data));
 };
 
 export const fetchUserSpots = () => async (dispatch) => {
@@ -158,28 +155,13 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
 
 
 const spotsReducer = (state = initialState, action) => {
-    const currentState = { ...state };
+    let currentState = { ...state };
 
     switch (action.type) {
         case 'POPULATE_SPOTS': {
-            currentState['spotAddresses'] = [];
-
-            if (action.payload2 === 'all') currentState.spots = action.payload[0].Spots;
-            if (action.payload2 === 'city') currentState.spots = action.payload[0];
-
-            // const spotAddresses = currentState.spotAddresses;
+            currentState = {};
             
-            // for (let spot of currentState.spots) {
-            //     const currAddress = spot.address;
-                
-            //     let splitAddress;
-            //     if (currAddress !== undefined) splitAddress = currAddress.split('');
-                
-            //     const flattenedAddress = [];
-            //     if (splitAddress) splitAddress.map(char => char.match(/[A-Za-z0-9 ]/) && flattenedAddress.push(char.toLowerCase()));
-                
-            //     if (flattenedAddress.length) currentState.spotAddresses[spotAddresses.length] = flattenedAddress.join('');
-            // };
+            for (let spot of action.payload[0].Spots) currentState[spot.id] = spot;
 
             return currentState;
         };

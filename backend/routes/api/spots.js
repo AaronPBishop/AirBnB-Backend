@@ -251,7 +251,7 @@ router.get('/:spotCity/cities', async (req, res) => {
         spot.avgRating = Number(avgRating.toFixed(1));
     };
 
-    return res.status(200).json(citySpots);
+    return res.status(200).json({ Spots: citySpots });
 });
 
 

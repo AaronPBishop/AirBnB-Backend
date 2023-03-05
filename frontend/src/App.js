@@ -14,18 +14,10 @@ import ManageAccount from "./components/ManageAccount/index.js";
 
 const App = () => {
   const dispatch = useDispatch();
-
-  const [totalSpots, setTotalSpots] = useState([]);
-
-  const allSpots = useSelector(state => state.spots.spots);
   
   useEffect(() => {
     dispatch(sessionActions.restoreUser());
   }, []);
-
-  useEffect(() => {
-    setTotalSpots([allSpots.length]);
-  }, [allSpots]);
 
   return (
     <div>
@@ -34,7 +26,7 @@ const App = () => {
         <Switch>
 
           <Route exact path='/'>
-            <ShowAllSpots totalSpots={totalSpots[0]} />
+            <ShowAllSpots />
           </Route>
 
           <Route path='/create-spot'>
