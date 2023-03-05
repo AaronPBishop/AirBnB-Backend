@@ -155,15 +155,15 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
 
 
 const spotsReducer = (state = initialState, action) => {
-    let currentState = { ...state };
+    const currentState = { ...state };
 
     switch (action.type) {
         case 'POPULATE_SPOTS': {
-            currentState = {};
-            
-            for (let spot of action.payload[0].Spots) currentState[spot.id] = spot;
+            const newState = {};
 
-            return currentState;
+            for (let spot of action.payload[0].Spots) newState[spot.id] = spot;
+
+            return newState;
         };
 
         case 'CREATE_SPOT_DATA': {

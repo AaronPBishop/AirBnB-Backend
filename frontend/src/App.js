@@ -12,12 +12,23 @@ import ManageSpots from "./components/ManageSpots/index.js";
 import ManageImages from "./components/ManageImages/index.js";
 import ManageAccount from "./components/ManageAccount/index.js";
 
+import { fetchSpots } from './store/spots.js';
+
 const App = () => {
   const dispatch = useDispatch();
+
+  const allSpots = useSelector(state => Object.values(state.spots));
+
+  const [totalSpots, setTotalSpots] = useState(0);
   
   useEffect(() => {
     dispatch(sessionActions.restoreUser());
+    dispatch(fetchSpots());
   }, []);
+
+  useEffect(() => {
+    setTotalSpots(allSpots.length);
+  }, [allSpots]);
 
   return (
     <div>
@@ -26,7 +37,7 @@ const App = () => {
         <Switch>
 
           <Route exact path='/'>
-            <ShowAllSpots />
+            <ShowAllSpots spots={allSpots} totalSpots={totalSpots} />
           </Route>
 
           <Route path='/create-spot'>
