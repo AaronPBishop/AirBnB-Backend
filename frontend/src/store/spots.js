@@ -43,7 +43,7 @@ export const createSpotImage = (id, url, preview) => {
         payload1: id,
         payload2: url,
         payload3: preview
-    }
+    };
 };
 
 export const deleteSpotImage = (imgIndex) => {
@@ -67,9 +67,8 @@ export const fetchSpots = () => async (dispatch) => {
     });
 
     const fetchJSON = await fetchReq.json();
-    const data = [fetchJSON];
       
-    dispatch(populateSpots(data));
+    dispatch(populateSpots(fetchJSON));
 };
 
 export const fetchSpotById = (spotId) => async (dispatch) => {
@@ -84,14 +83,13 @@ export const fetchSpotById = (spotId) => async (dispatch) => {
 };
 
 export const fetchSpotByCity = (city) => async (dispatch) => {
-    const fetchReq = await csrfFetch(`/api/spots/${city}/cities`, {
+    const fetchReq = await csrfFetch(`/api/spots/cities/${city}`, {
         method: 'GET'
     });
     
     const fetchJSON = await fetchReq.json();
-    const data = [fetchJSON];
     
-    dispatch(populateSpots(data));
+    dispatch(populateSpots(fetchJSON));
 };
 
 export const fetchUserSpots = () => async (dispatch) => {
@@ -161,7 +159,7 @@ const spotsReducer = (state = initialState, action) => {
         case 'POPULATE_SPOTS': {
             const newState = {};
 
-            for (let spot of action.payload[0].Spots) newState[spot.id] = spot;
+            for (let spot of action.payload.Spots) newState[spot.id] = spot;
 
             return newState;
         };

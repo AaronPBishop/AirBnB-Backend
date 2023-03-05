@@ -107,19 +107,18 @@ const SearchBar = ({ clicked }) => {
                     </input>
                 </label>
 
-                <button 
+                <div 
                 id='final-search-icon'
-                onClick={async e => {
-                    e.preventDefault(e);
-
-                    await history.push(`/`);
-                    await dispatch(fetchSpotByCity(city));
+                onClick={() => {
+                    history.push(`/`);
+                    dispatch(fetchSpotByCity(city));
                 }}
                 style={{
                     fontFamily: 'Montserrat',
                     fontWeight: 'bold',
                     fontSize: '16px',
                     position: 'relative',
+                    lineHeight: '7vh',
                     top: '1.2vh',
                     left: '12vw',
                     border: 'none', 
@@ -131,7 +130,7 @@ const SearchBar = ({ clicked }) => {
                     cursor: 'pointer'
                 }}>
                   Search
-                </button>
+                </div>
             </form>
         </div>
     );

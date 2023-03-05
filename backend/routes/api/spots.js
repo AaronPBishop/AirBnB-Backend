@@ -233,7 +233,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
 
 // Get a spot based on City
-router.get('/:spotCity/cities', async (req, res) => {
+router.get('/cities/:spotCity/', async (req, res) => {
     const citySpots = await Spot.findAll({
         where: {city: {[Op.like]: `%${req.params.spotCity.toLowerCase()}%`}},
         attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 'avgRating', 'previewImage']
