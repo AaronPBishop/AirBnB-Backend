@@ -63,15 +63,14 @@ const Navigation = () => {
             border: '1px solid rgb(220, 220, 200)',
             borderRadius: '8px',
 
-            minWidth: '19vw',
-            maxWidth: '19vw',
+            width: '19vw',
             position: 'fixed',
 
             top: '15vh',
             zIndex: '200',
 
             boxShadow: '0px 2px 15px -5px rgb(65 65 65)'
-          }}>
+        }}>
 
           <LoginFormPage />
 

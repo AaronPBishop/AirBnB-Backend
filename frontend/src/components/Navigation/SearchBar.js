@@ -29,10 +29,8 @@ const SearchBar = ({ clicked }) => {
                 fontWeight: 'bold',
                 backgroundColor: 'white',
                 boxShadow: '0px 1px 10px -5px rgb(65, 65, 65)',
-                minWidth: '20vw',
-                maxWidth: '20vw',
-                minHeight: '5vh',
-                maxHeight: '5vh',
+                width: '20vw',
+                height: '5vh',
                 cursor: 'pointer',
                 borderRadius: '48px'
             }}>  
@@ -57,10 +55,10 @@ const SearchBar = ({ clicked }) => {
                 id='search-icon'
                 style={{
                     position: 'relative',
-                    top: '4px',
+                    top: '0.5vh',
                     right: '0.6vw',
                     border: 'none', 
-                    borderRadius: '24px',  
+                    borderRadius: '100vw',  
                     backgroundColor: '#FF385C',
                     width: '1.9vw',
                     height: '4vh',
