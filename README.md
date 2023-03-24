@@ -11,6 +11,7 @@ The application utilizes full CRUD functionality and features all of the main fu
 *  **Create/edit/delete images for a spot/review**
 *  **Create/edit/delete a booking**
 
+## Live Site: https://bishop-bnb.onrender.com (Average load time: 1 minute)
 
 ## Technologies used:
 * ![React Badge](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=000&style=flat)
